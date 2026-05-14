@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { FiArrowLeft, FiCheckCircle, FiClock, FiGithub } from "react-icons/fi";
 import Reveal from "../components/Reveal";
+import { TransitionLink } from "../components/PageTransition";
 
 type Status = "done" | "todo" | "partial";
 
@@ -304,13 +304,13 @@ export default function DispatcherPage() {
       {/* Top bar */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-ink-950/70 border-b border-white/5">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link
+          <TransitionLink
             to="/#projects"
             className="inline-flex items-center gap-2 text-slate-300 hover:text-mint-400 transition-colors"
           >
             <FiArrowLeft />
             <span className="text-sm">Back to portfolio</span>
-          </Link>
+          </TransitionLink>
           <a
             href="https://github.com/EldarSarajlic"
             target="_blank"
@@ -543,13 +543,13 @@ export default function DispatcherPage() {
               >
                 Get in touch
               </a>
-              <Link
+              <TransitionLink
                 to="/#projects"
                 className="inline-flex items-center gap-2 rounded-full border border-white/15 text-white px-6 py-3 font-medium hover:bg-white/5 transition-colors"
               >
                 <FiArrowLeft />
                 Back to portfolio
-              </Link>
+              </TransitionLink>
             </div>
           </Reveal>
         </div>

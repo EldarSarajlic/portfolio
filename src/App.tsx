@@ -15,7 +15,7 @@ export default function App() {
       <HexGrid />
       <div className="relative z-10">
         <Navbar />
-        <main className="flex flex-col gap-10 lg:gap-15">
+        <main className="flex flex-col gap-0.5 lg:gap-0.5">
           <Hero />
           <SectionWrapper className="-mt-10 lg:-mt-15"><About /></SectionWrapper>
           <SectionWrapper><Skills /></SectionWrapper>

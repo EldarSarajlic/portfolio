@@ -11,6 +11,9 @@ export default {
           700: "#15324c",
         },
         mint: {
+          100: "#d6f7e8",
+          200: "#a8efce",
+          300: "#7ce8be",
           400: "#5ee3b3",
           500: "#3dd2a5",
           600: "#2bb98e",
@@ -29,6 +32,7 @@ export default {
         shine: "shine 6s linear infinite",
         float: "float 6s ease-in-out infinite",
         "fade-up": "fadeUp 0.8s ease-out forwards",
+        marquee: "marquee 40s linear infinite",
       },
       keyframes: {
         shine: {
@@ -42,6 +46,10 @@ export default {
         fadeUp: {
           "0%": { opacity: 0, transform: "translateY(20px)" },
           "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
         },
       },
     },

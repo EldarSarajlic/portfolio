@@ -1,6 +1,6 @@
 import { FiArrowUpRight, FiGithub } from "react-icons/fi";
-import { Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
+import { TransitionLink } from "../components/PageTransition";
 
 type Project = {
   title: string;
@@ -58,9 +58,9 @@ function CardShell({ p, children }: { p: Project; children: React.ReactNode }) {
     "group block relative overflow-hidden rounded-3xl border border-white/10 card-matte p-8 md:p-10 hover:border-mint-500/40 transition-all duration-500";
   if (p.href.startsWith("/")) {
     return (
-      <Link to={p.href} className={cls}>
+      <TransitionLink to={p.href} className={cls}>
         {children}
-      </Link>
+      </TransitionLink>
     );
   }
   return (

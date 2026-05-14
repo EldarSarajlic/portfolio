@@ -84,5 +84,10 @@ body {
       linear-gradient(90deg, rgba(61, 210, 165, 0.06) 1px, transparent 1px);
     background-size: 48px 48px;
   }
+
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
 }
 
