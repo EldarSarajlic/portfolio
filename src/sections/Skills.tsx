@@ -98,12 +98,13 @@ export default function Skills() {
                 <h3 className="font-display text-white font-semibold tracking-tight mb-4 relative">
                   {g.title}
                 </h3>
-                <ul className="flex flex-wrap gap-2 relative">
+                <ul className="space-y-2 relative">
                   {g.items.map((it) => (
                     <li
                       key={it}
-                      className="text-sm rounded-full border border-white/10 tag-lift px-3 py-1 text-slate-300 hover:border-mint-500/50 hover:text-mint-400 transition-colors cursor-default"
+                      className="flex items-center gap-3 text-sm text-slate-400 cursor-default hover:text-slate-200 transition-colors"
                     >
+                      <span className="text-mint-400/40 text-xs leading-none shrink-0 group-hover:text-mint-400/80 transition-colors duration-500">›</span>
                       {it}
                     </li>
                   ))}

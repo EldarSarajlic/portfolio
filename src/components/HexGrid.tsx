@@ -1,25 +1,28 @@
 import { useEffect, useRef } from "react";
 
-/**
- * Canvas honeycomb backdrop that reacts to the cursor.
- *
- * Why canvas instead of DOM:
- *  - One <canvas> repaint per frame beats 200+ DOM nodes transitioning transform
- *    + background-color simultaneously.
- *  - Per-cell state is plain numbers — we lerp toward a target so we keep the
- *    "stepping on plates" elastic feel without CSS transitions.
- *  - rAF loop auto-pauses once every cell is at rest, so the page costs zero
- *    while the cursor isn't moving.
- */
-
-const HEX_SIZE = 32; // half-width (radius for flat-top hex)
+const HEX_SIZE = 32;
 const INFLUENCE = 220;
 const PUSH = 14;
 const SCALE_BOOST = 0.35;
-const OPACITY_BASE = 0.16; // visible at rest
-const OPACITY_BOOST = 0.5; // peak brightness near cursor
+const OPACITY_BASE = 0.16;
+const OPACITY_BOOST = 0.5;
 const LERP = 0.18;
 const REST_EPS = 0.05;
+
+// Precomputed once — avoids 12 trig calls per cell per frame.
+const HEX_COS = Array.from({ length: 6 }, (_, i) => Math.cos((Math.PI / 3) * i));
+const HEX_SIN = Array.from({ length: 6 }, (_, i) => Math.sin((Math.PI / 3) * i));
+
+// 128-level color lookup — eliminates string allocation per cell per frame.
+const COLOR_LEVELS = 128;
+const STROKE_COLORS = Array.from({ length: COLOR_LEVELS + 1 }, (_, i) => {
+  const o = ((i / COLOR_LEVELS) * 0.95).toFixed(3);
+  return `rgba(61,210,165,${o})`;
+});
+const FILL_COLORS = Array.from({ length: COLOR_LEVELS + 1 }, (_, i) => {
+  const o = ((i / COLOR_LEVELS) * 0.08).toFixed(3);
+  return `rgba(61,210,165,${o})`;
+});
 
 type Cell = {
   x: number;
@@ -28,6 +31,7 @@ type Cell = {
   ty: number;
   scale: number;
   opacity: number;
+  fade: number; // precomputed at build time, fixed until resize
 };
 
 export default function HexGrid() {
@@ -46,22 +50,29 @@ export default function HexGrid() {
     const reducedMotion =
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // DPR capped at 1 — decorative background, retina sharpness not needed.
+    // Avoids a 4× canvas texture on retina displays.
+    const dpr = 1;
     let vw = window.innerWidth;
     let vh = window.innerHeight;
 
     const buildCells = () => {
-      const size = HEX_SIZE;
-      const hexH = Math.sqrt(3) * size;
-      const horiz = 1.5 * size;
+      const hexH = Math.sqrt(3) * HEX_SIZE;
+      const horiz = 1.5 * HEX_SIZE;
       const cols = Math.ceil(vw / horiz) + 2;
       const rows = Math.ceil(vh / hexH) + 2;
+      // Precompute per-cell fade — cell positions are fixed, so this never
+      // needs to run inside the animation loop.
+      const diagHalf = Math.hypot(vw, vh) / 1.3;
+      const cx = vw / 2;
+      const cy = vh / 2;
       const out: Cell[] = [];
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
           const x = c * horiz;
           const y = r * hexH + (c % 2 ? hexH / 2 : 0);
-          out.push({ x, y, tx: 0, ty: 0, scale: 1, opacity: OPACITY_BASE });
+          const fade = 1 - Math.min(1, Math.hypot(x - cx, y - cy) / diagHalf);
+          out.push({ x, y, tx: 0, ty: 0, scale: 1, opacity: OPACITY_BASE, fade });
         }
       }
       cellsRef.current = out;
@@ -70,7 +81,6 @@ export default function HexGrid() {
     const resize = () => {
       vw = window.innerWidth;
       vh = window.innerHeight;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.floor(vw * dpr);
       canvas.height = Math.floor(vh * dpr);
       canvas.style.width = `${vw}px`;
@@ -79,22 +89,6 @@ export default function HexGrid() {
       buildCells();
       kick();
     };
-
-    // Reusable hexagon path so we don't recompute corners each cell.
-    const buildHexPath = (size: number) => {
-      const path = new Path2D();
-      for (let i = 0; i < 6; i++) {
-        const angle = (Math.PI / 3) * i; // flat-top: angles 0, 60, 120, ...
-        const px = size * Math.cos(angle);
-        const py = size * Math.sin(angle);
-        if (i === 0) path.moveTo(px, py);
-        else path.lineTo(px, py);
-      }
-      path.closePath();
-      return path;
-    };
-
-    const hexPath = buildHexPath(HEX_SIZE);
 
     const r2 = INFLUENCE * INFLUENCE;
 
@@ -107,14 +101,11 @@ export default function HexGrid() {
       let stillMoving = false;
 
       ctx.clearRect(0, 0, vw, vh);
-
-      // Subtle radial fade so we don't visually compete with content edges.
-      // (Drawing is per-frame anyway — cheaper than a separate masked DOM layer.)
+      ctx.lineWidth = 1;
 
       for (let i = 0; i < cells.length; i++) {
         const cell = cells[i];
 
-        // Compute target
         const dx = cell.x - mx;
         const dy = cell.y - my;
         const d2 = dx * dx + dy * dy;
@@ -135,7 +126,6 @@ export default function HexGrid() {
           topacity = OPACITY_BASE + strength * OPACITY_BOOST;
         }
 
-        // Lerp current -> target
         if (reducedMotion) {
           cell.tx = ttx;
           cell.ty = tty;
@@ -148,11 +138,6 @@ export default function HexGrid() {
           cell.opacity += (topacity - cell.opacity) * LERP;
         }
 
-        // Soft circular fade — gentle falloff toward the corners.
-        const distFromCenter = Math.hypot(cell.x - vw / 2, cell.y - vh / 2);
-        const fade = 1 - Math.min(1, distFromCenter / (Math.hypot(vw, vh) / 1.3));
-        const drawOpacity = cell.opacity * (0.5 + fade * 0.5);
-
         if (
           Math.abs(cell.tx - ttx) > REST_EPS ||
           Math.abs(cell.ty - tty) > REST_EPS ||
@@ -162,16 +147,27 @@ export default function HexGrid() {
           stillMoving = true;
         }
 
-        // Draw
-        ctx.save();
-        ctx.translate(cell.x + cell.tx, cell.y + cell.ty);
-        ctx.scale(cell.scale, cell.scale);
-        ctx.strokeStyle = `rgba(61, 210, 165, ${drawOpacity * 0.95})`;
-        ctx.lineWidth = 1;
-        ctx.fillStyle = `rgba(61, 210, 165, ${drawOpacity * 0.08})`;
-        ctx.fill(hexPath);
-        ctx.stroke(hexPath);
-        ctx.restore();
+        const drawOpacity = cell.opacity * (0.5 + cell.fade * 0.5);
+        const colorIdx = Math.max(0, Math.min(COLOR_LEVELS, Math.round(drawOpacity * COLOR_LEVELS)));
+
+        // Draw with absolute coordinates — no save/restore/translate/scale per cell.
+        const ox = cell.x + cell.tx;
+        const oy = cell.y + cell.ty;
+        const s = HEX_SIZE * cell.scale;
+
+        ctx.beginPath();
+        ctx.moveTo(ox + s * HEX_COS[0], oy + s * HEX_SIN[0]);
+        ctx.lineTo(ox + s * HEX_COS[1], oy + s * HEX_SIN[1]);
+        ctx.lineTo(ox + s * HEX_COS[2], oy + s * HEX_SIN[2]);
+        ctx.lineTo(ox + s * HEX_COS[3], oy + s * HEX_SIN[3]);
+        ctx.lineTo(ox + s * HEX_COS[4], oy + s * HEX_SIN[4]);
+        ctx.lineTo(ox + s * HEX_COS[5], oy + s * HEX_SIN[5]);
+        ctx.closePath();
+
+        ctx.fillStyle = FILL_COLORS[colorIdx];
+        ctx.fill();
+        ctx.strokeStyle = STROKE_COLORS[colorIdx];
+        ctx.stroke();
       }
 
       if (stillMoving) {
@@ -222,12 +218,7 @@ export default function HexGrid() {
       kick();
     };
 
-    const onResize = () => {
-      resize();
-    };
-
     resize();
-    // Initial paint at rest
     runningRef.current = true;
     rafRef.current = requestAnimationFrame(step);
 
@@ -237,7 +228,7 @@ export default function HexGrid() {
     window.addEventListener("touchmove", onTouchMove, { passive: true });
     window.addEventListener("touchend", onTouchEnd);
     window.addEventListener("touchcancel", onTouchEnd);
-    window.addEventListener("resize", onResize);
+    window.addEventListener("resize", resize);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
@@ -246,7 +237,7 @@ export default function HexGrid() {
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("touchcancel", onTouchEnd);
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener("resize", resize);
       cancelAnimationFrame(rafRef.current);
     };
   }, []);
@@ -255,6 +246,7 @@ export default function HexGrid() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
+      style={{ willChange: "transform" }}
       className="fixed inset-0 pointer-events-none z-0"
     />
   );

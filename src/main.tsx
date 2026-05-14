@@ -7,6 +7,14 @@ import DispatcherPage from "./pages/DispatcherPage.tsx";
 import PlaywrightPage from "./pages/PlaywrightPage.tsx";
 import { PageTransitionProvider } from "./components/PageTransition.tsx";
 
+// On a hard reload the browser would auto-scroll to the hash anchor after
+// React renders. Strip the hash right now (synchronously, before React mounts)
+// so the browser has nothing to scroll to. App.tsx will scroll to top instead.
+const navEntry = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
+if (navEntry?.type === "reload" && window.location.hash) {
+  history.replaceState(history.state, "", window.location.pathname + window.location.search);
+}
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>

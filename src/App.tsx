@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "./sections/Navbar";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
@@ -10,6 +12,25 @@ import HexGrid from "./components/HexGrid";
 import SectionWrapper from "./components/SectionWrapper";
 
 export default function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!location.hash) {
+      window.scrollTo(0, 0);
+      return;
+    }
+    const id = location.hash.slice(1);
+    // Scroll instantly while the hex transition overlay still covers the page,
+    // so the view is already in position when the overlay fades out.
+    // Runs on mount only — navbar hash-clicks are left to the browser's native
+    // smooth scroll (scroll-behavior: smooth in CSS).
+    const timer = setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "instant" });
+    }, 50);
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className="relative bg-ink-950 text-slate-300 min-h-screen">
       <HexGrid />

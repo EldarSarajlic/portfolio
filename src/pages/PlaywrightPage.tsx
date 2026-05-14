@@ -144,13 +144,11 @@ const techRail = [
 function TechMarquee() {
   return (
     <div className="relative overflow-hidden mask-fade-x py-3">
-      <div className="flex gap-3 animate-marquee whitespace-nowrap">
+      <div className="flex items-center gap-10 animate-marquee whitespace-nowrap">
         {[...techRail, ...techRail].map((t, i) => (
-          <span
-            key={`${t}-${i}`}
-            className="text-xs rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-slate-400"
-          >
-            {t}
+          <span key={`${t}-${i}`} className="flex items-center gap-10">
+            <span className="text-xs font-mono text-slate-500 tracking-wide">{t}</span>
+            <span className="h-3 w-px bg-white/15 shrink-0" />
           </span>
         ))}
       </div>
@@ -205,25 +203,28 @@ function ChapterTitle({
 
 function TypewriterLine({ text, index, start }: { text: string; index: number; start: boolean }) {
   const reduce = useReducedMotion();
-  const [out, setOut] = useState(reduce ? text : "");
+  const [animOut, setAnimOut] = useState("");
 
   useEffect(() => {
-    if (reduce || !start) {
-      setOut(text);
-      return;
-    }
-    let i = 0;
-    setOut("");
+    if (reduce || !start) return;
+    let interval: number | undefined;
     const baseDelay = index * 240;
     const timer = window.setTimeout(() => {
-      const interval = window.setInterval(() => {
+      let i = 0;
+      setAnimOut("");
+      interval = window.setInterval(() => {
         i += 1;
-        setOut(text.slice(0, i));
+        setAnimOut(text.slice(0, i));
         if (i >= text.length) window.clearInterval(interval);
       }, 16);
     }, baseDelay);
-    return () => window.clearTimeout(timer);
+    return () => {
+      window.clearTimeout(timer);
+      window.clearInterval(interval);
+    };
   }, [text, index, start, reduce]);
+
+  const out = reduce ? text : animOut;
 
   return (
     <li className="flex items-baseline gap-3 font-mono text-[13px]">
@@ -276,18 +277,11 @@ function JiraTicket() {
 
   const Front = (
     <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.04] to-white/[0.01] overflow-hidden shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]">
-      <div className="flex items-center justify-between gap-4 px-5 py-3 border-b border-white/5 bg-white/[0.03]">
-        <div className="flex items-center gap-3">
-          <span className="inline-flex items-center gap-1.5 rounded-md bg-blue-500/15 border border-blue-400/30 px-2 py-0.5 text-[11px] font-mono text-blue-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-blue-400" />
-            MSTRL-{ticketId}
-          </span>
-          <span className="text-[11px] text-slate-500 uppercase tracking-widest">
-            Manual test pass
-          </span>
-        </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-widest text-amber-300">
-          <FiLock className="text-[10px]" />
+      <div className="flex items-center justify-between px-5 py-3 border-b border-white/5 bg-white/[0.03]">
+        <span className="text-[11px] text-slate-500 uppercase tracking-widest">
+          Manual test pass
+        </span>
+        <span className="text-[11px] text-amber-300/70 uppercase tracking-widest">
           Private
         </span>
       </div>
@@ -491,7 +485,7 @@ function LocatorTile({ tool, i }: { tool: Tool; i: number }) {
         <div
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
-          className="relative rounded-2xl border border-white/10 bg-white/[0.02] p-5 overflow-hidden min-h-[170px]"
+          className="relative rounded-2xl border border-white/10 bg-white/[0.02] p-5 overflow-hidden h-[220px]"
         >
           <div
             className="text-mint-400 text-xl mb-3"
@@ -628,8 +622,35 @@ function ArchDiagram() {
 
           <line x1="225" y1="130" x2="295" y2="130" stroke="#3dd2a5" strokeWidth="1.5" markerEnd="url(#arrow)" />
 
+          {/* Flowing particles along the pipeline */}
+          {!reduce && (
+            <>
+              {[0, 0.33, 0.66].map((delay) => (
+                <circle key={delay} r="3.5" fill="#5ee3b3">
+                  <animateMotion
+                    dur="3.6s"
+                    repeatCount="indefinite"
+                    begin={`${delay * 3.6}s`}
+                    rotate="auto"
+                  >
+                    <mpath href="#flowPath" />
+                  </animateMotion>
+                  <animate
+                    attributeName="opacity"
+                    values="0;1;1;0"
+                    keyTimes="0;0.15;0.85;1"
+                    dur="3.6s"
+                    repeatCount="indefinite"
+                    begin={`${delay * 3.6}s`}
+                  />
+                </circle>
+              ))}
+            </>
+          )}
+
           {/* Node 2: auth-validator */}
           <g>
+            <rect x="310" y="60" width="200" height="140" rx="14" fill="#06121f" />
             <rect
               x="310"
               y="60"
@@ -680,32 +701,6 @@ function ArchDiagram() {
             </text>
           </g>
 
-          {/* Flowing particles along the pipeline */}
-          {!reduce && (
-            <>
-              {[0, 0.33, 0.66].map((delay) => (
-                <circle key={delay} r="3.5" fill="#5ee3b3">
-                  <animateMotion
-                    dur="3.6s"
-                    repeatCount="indefinite"
-                    begin={`${delay * 3.6}s`}
-                    rotate="auto"
-                  >
-                    <mpath href="#flowPath" />
-                  </animateMotion>
-                  <animate
-                    attributeName="opacity"
-                    values="0;1;1;0"
-                    keyTimes="0;0.15;0.85;1"
-                    dur="3.6s"
-                    repeatCount="indefinite"
-                    begin={`${delay * 3.6}s`}
-                  />
-                </circle>
-              ))}
-            </>
-          )}
-
           {/* Tail label */}
           <text x="450" y="245" textAnchor="middle" fill="#64748b" fontSize="11" fontFamily="Inter" fontStyle="italic">
             log in once · validate · reuse — the framework respects its own state
@@ -718,113 +713,180 @@ function ArchDiagram() {
 
 /* ───────────────────────── PR stepper (Ch 05) ───────────────────────── */
 
-const prStepper = [
-  { id: "T1", title: "Login", raw: "PR #4", refactor: "PR #10" },
-  { id: "T2", title: "Dashboard", raw: "PR #5", refactor: "PR #11" },
-  { id: "T3", title: "Admin Users", raw: "PR #6", refactor: "PR #12" },
-  { id: "T4", title: "Login API", raw: "PR #7", refactor: "—" },
-  { id: "T5", title: "Dashboard API", raw: "PR #8", refactor: "—" },
-  { id: "T6", title: "User Mgmt API", raw: "PR #9", refactor: "—" },
+type PRCard =
+  | { key: string; kind: "raw";      id: string; title: string; pr: string }
+  | { key: string; kind: "refactor"; id: string; title: string; pr: string }
+  | { key: string; kind: "api";      id: string; title: string; pr: string }
+  | { key: string; kind: "ai";       id: string; title: string; branch: string };
+
+const allCards: PRCard[] = [
+  { key: "t1-raw", kind: "raw",      id: "T1", title: "Login",           pr: "PR #4"  },
+  { key: "t2-raw", kind: "raw",      id: "T2", title: "Dashboard",        pr: "PR #5"  },
+  { key: "t3-raw", kind: "raw",      id: "T3", title: "Admin Users",      pr: "PR #6"  },
+  { key: "t4-api", kind: "api",      id: "T4", title: "Login API",        pr: "PR #7"  },
+  { key: "t5-api", kind: "api",      id: "T5", title: "Dashboard API",    pr: "PR #8"  },
+  { key: "t6-api", kind: "api",      id: "T6", title: "User Mgmt API",    pr: "PR #9"  },
+  { key: "t1-ref", kind: "refactor", id: "T1", title: "Login",           pr: "PR #10" },
+  { key: "t2-ref", kind: "refactor", id: "T2", title: "Dashboard",        pr: "PR #11" },
+  { key: "t3-ref", kind: "refactor", id: "T3", title: "Admin Users",      pr: "PR #12" },
+  { key: "t7-ai",  kind: "ai",       id: "T7", title: "PIM, AI-assisted", branch: "ai/pim-page-tests" },
 ];
 
 function PRStepper() {
   const [active, setActive] = useState(0);
-  const all = [
-    ...prStepper,
-    {
-      id: "PR #13",
-      title: "PIM, AI-assisted",
-      raw: "ai/pim-page-tests",
-      refactor: "(branch)",
-      ai: true as const,
-    },
-  ];
+
+  const prev = () => setActive((a) => Math.max(0, a - 1));
+  const next = () => setActive((a) => Math.min(allCards.length - 1, a + 1));
 
   return (
-    <div className="relative">
+    <div className="relative select-none">
       <div className="[perspective:1600px]">
-        <div className="relative h-[280px] md:h-[300px] flex items-center justify-center">
-          {all.map((s, i) => {
+        {/* side-fade masks so distant cards don't bleed */}
+        <div className="relative h-[280px] md:h-[300px] flex items-center justify-center overflow-hidden [mask-image:linear-gradient(to_right,transparent_0%,black_20%,black_80%,transparent_100%)]">
+          {allCards.map((s, i) => {
             const offset = i - active;
             const abs = Math.abs(offset);
-            const isActive = offset === 0;
-            const ai = "ai" in s && s.ai;
             return (
               <motion.button
-                key={s.id}
+                key={s.key}
                 onClick={() => setActive(i)}
-                onMouseEnter={() => setActive(i)}
                 animate={{
-                  x: offset * 80,
-                  z: -abs * 120,
-                  rotateY: offset * -14,
-                  opacity: abs > 3 ? 0 : 1 - abs * 0.18,
-                  scale: isActive ? 1 : 1 - abs * 0.04,
+                  x: offset * 240,
+                  z: -abs * 100,
+                  rotateY: offset * -8,
+                  opacity: abs === 0 ? 1 : abs === 1 ? 0.12 : 0,
+                  scale: abs === 0 ? 1 : 1 - abs * 0.06,
                 }}
-                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 style={{
                   transformStyle: "preserve-3d",
                   zIndex: 50 - abs,
+                  pointerEvents: abs > 1 ? "none" : "auto",
                 }}
                 className="absolute w-64 md:w-72 will-change-transform"
               >
-                <div
-                  className={`rounded-2xl border p-5 text-left bg-gradient-to-b shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] ${
-                    ai
-                      ? "border-amber-400/40 from-amber-400/[0.08] to-white/[0.01]"
-                      : isActive
-                      ? "border-mint-500/40 from-mint-500/[0.08] to-white/[0.02]"
-                      : "border-white/10 from-white/[0.04] to-white/[0.01]"
-                  }`}
-                >
-                  <div className="flex items-baseline justify-between">
-                    <span
-                      className={`font-mono text-xs tracking-widest ${
-                        ai ? "text-amber-300" : "text-mint-400"
-                      }`}
-                    >
-                      {s.id}
-                    </span>
-                    <span className="text-slate-500 text-[10px] uppercase tracking-widest">
-                      {ai ? "AI-assisted" : "Ticket"}
-                    </span>
-                  </div>
-                  <div className="text-slate-100 font-medium mt-2 text-lg">{s.title}</div>
-                  <div className="mt-5 space-y-2 text-xs">
-                    <div className="flex justify-between text-slate-400">
-                      <span>{ai ? "Branch" : "Raw spec"}</span>
-                      <span className="font-mono text-slate-300 tabular-nums">{s.raw}</span>
+                {s.kind === "raw" && (
+                  <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-5 text-left shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)]">
+                    <div className="flex items-baseline justify-between">
+                      <span className="font-mono text-xs tracking-widest text-slate-400">{s.id}</span>
+                      <span className="text-[10px] uppercase tracking-widest text-slate-500">Raw</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className={ai ? "text-amber-300" : "text-mint-400"}>
-                        {ai ? "Status" : "→ POM + fixture"}
-                      </span>
-                      <span
-                        className={`font-mono tabular-nums ${
-                          ai ? "text-amber-300" : "text-mint-400"
-                        }`}
-                      >
-                        {s.refactor}
-                      </span>
+                    <div className="text-slate-100 font-semibold mt-2 text-lg">{s.title}</div>
+                    <div className="mt-5 space-y-2 text-xs">
+                      <div className="flex justify-between text-slate-400">
+                        <span>Spec</span>
+                        <span className="font-mono text-slate-300">{s.pr}</span>
+                      </div>
+                      <div className="flex justify-between text-slate-500">
+                        <span>Structure</span>
+                        <span className="font-mono">No POM</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
+                {s.kind === "refactor" && (
+                  <div className="rounded-2xl border border-mint-500/40 bg-gradient-to-b from-mint-500/[0.09] to-mint-500/[0.02] p-5 text-left shadow-[0_24px_60px_-20px_rgba(61,210,165,0.3)]">
+                    <div className="flex items-baseline justify-between">
+                      <span className="font-mono text-xs tracking-widest text-mint-400">{s.id}</span>
+                      <span className="text-[10px] uppercase tracking-widest text-mint-400/60">Refactor</span>
+                    </div>
+                    <div className="text-slate-100 font-semibold mt-2 text-lg">{s.title}</div>
+                    <div className="mt-5 space-y-2 text-xs">
+                      <div className="flex justify-between">
+                        <span className="text-mint-400">POM + fixture</span>
+                        <span className="font-mono text-mint-300">{s.pr}</span>
+                      </div>
+                      <div className="flex justify-between text-slate-500">
+                        <span>Structure</span>
+                        <span className="font-mono text-slate-400">POM</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {s.kind === "api" && (
+                  <div className="rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.01] p-5 text-left shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)]">
+                    <div className="flex items-baseline justify-between">
+                      <span className="font-mono text-xs tracking-widest text-sky-400">{s.id}</span>
+                      <span className="text-[10px] uppercase tracking-widest text-slate-500">API</span>
+                    </div>
+                    <div className="text-slate-100 font-semibold mt-2 text-lg">{s.title}</div>
+                    <div className="mt-5 space-y-2 text-xs">
+                      <div className="flex justify-between text-slate-400">
+                        <span>Spec</span>
+                        <span className="font-mono text-slate-300">{s.pr}</span>
+                      </div>
+                      <div className="flex justify-between text-slate-500">
+                        <span>Context</span>
+                        <span className="font-mono">request ctx</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {s.kind === "ai" && (
+                  <div className="rounded-2xl border border-amber-400/40 bg-gradient-to-b from-amber-400/[0.08] to-white/[0.01] p-5 text-left shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)]">
+                    <div className="flex items-baseline justify-between">
+                      <span className="font-mono text-xs tracking-widest text-amber-300">{s.id}</span>
+                      <span className="text-[10px] uppercase tracking-widest text-amber-300/60">AI-assisted</span>
+                    </div>
+                    <div className="text-slate-100 font-semibold mt-2 text-lg">{s.title}</div>
+                    <div className="mt-5 space-y-2 text-xs">
+                      <div className="flex justify-between text-slate-400">
+                        <span>Branch</span>
+                        <span className="font-mono text-slate-300">{s.branch}</span>
+                      </div>
+                      <div className="flex justify-between text-amber-300">
+                        <span>Status</span>
+                        <span className="font-mono">(branch)</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </motion.button>
             );
           })}
         </div>
       </div>
-      <div className="mt-6 flex items-center justify-center gap-2">
-        {all.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setActive(i)}
-            aria-label={`Show PR ${i + 1}`}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              active === i ? "w-8 bg-mint-400" : "w-1.5 bg-slate-700 hover:bg-slate-500"
-            }`}
-          />
-        ))}
+
+      {/* controls row */}
+      <div className="mt-6 flex items-center justify-center gap-4">
+        <button
+          onClick={prev}
+          disabled={active === 0}
+          aria-label="Previous"
+          className="h-7 w-7 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center text-slate-500 hover:text-slate-200 hover:border-white/20 transition-colors disabled:opacity-25 disabled:cursor-not-allowed"
+        >
+          ‹
+        </button>
+
+        <div className="flex items-center gap-2">
+          {allCards.map((c, i) => (
+            <button
+              key={c.key}
+              onClick={() => setActive(i)}
+              aria-label={`Show card ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                active === i
+                  ? c.kind === "refactor"
+                    ? "w-8 bg-mint-400"
+                    : c.kind === "ai"
+                    ? "w-8 bg-amber-400"
+                    : c.kind === "api"
+                    ? "w-8 bg-sky-400"
+                    : "w-8 bg-slate-400"
+                  : "w-1.5 bg-slate-700 hover:bg-slate-500"
+              }`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={next}
+          disabled={active === allCards.length - 1}
+          aria-label="Next"
+          className="h-7 w-7 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center text-slate-500 hover:text-slate-200 hover:border-white/20 transition-colors disabled:opacity-25 disabled:cursor-not-allowed"
+        >
+          ›
+        </button>
       </div>
     </div>
   );
@@ -1242,7 +1304,7 @@ export default function PlaywrightPage() {
           <div className="grid lg:grid-cols-12 gap-10 items-start">
             <div className="lg:col-span-7">
               <Reveal>
-                <div className="inline-flex items-center gap-2 rounded-full border border-mint-500/30 bg-mint-500/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-mint-400 mb-8">
+                <div className="text-mint-400 text-xs uppercase tracking-[0.3em] mb-8">
                   QA Automation Internship · HTEC
                 </div>
               </Reveal>
@@ -1338,7 +1400,7 @@ export default function PlaywrightPage() {
             </p>
           </Reveal>
           <Reveal delay={0.3}>
-            <div className="mt-10 flex flex-wrap justify-center gap-2">
+            <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3">
               {["Agile / Scrum", "Manual QA", "Test case design", "Defect reporting"].map(
                 (t, i) => (
                   <motion.span
@@ -1347,7 +1409,7 @@ export default function PlaywrightPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-10%" }}
                     transition={{ duration: 0.3, delay: i * 0.05 }}
-                    className="text-xs rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-slate-400"
+                    className="text-xs text-slate-500 border-b border-mint-400/50 pb-px"
                   >
                     {t}
                   </motion.span>
@@ -1518,12 +1580,9 @@ export default function PlaywrightPage() {
           </div>
 
           <Reveal delay={0.18}>
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-6 flex flex-wrap gap-x-8 gap-y-2">
               {["Raw Playwright", "No POM", "No fixtures", "Selector-by-selector"].map((t) => (
-                <span
-                  key={t}
-                  className="text-xs rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-slate-400"
-                >
+                <span key={t} className="text-xs text-slate-500 border-b border-mint-400/50 pb-px">
                   {t}
                 </span>
               ))}
@@ -1541,11 +1600,7 @@ export default function PlaywrightPage() {
         <div className="relative max-w-6xl mx-auto">
           <div className="max-w-3xl mb-14">
             <Reveal>
-              <div className="inline-flex items-center gap-2 rounded-full border border-mint-500/40 bg-mint-500/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.3em] text-mint-300 mb-4">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint-400 opacity-75" />
-                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-mint-400" />
-                </span>
+              <div className="inline-flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.3em] text-mint-300 mb-4">
                 Climax
               </div>
               <h2 className="font-display text-4xl md:text-6xl text-white font-bold tracking-tight leading-[1.02]">
@@ -1708,7 +1763,7 @@ export default function PlaywrightPage() {
             </Reveal>
             <Reveal delay={0.2}>
               <div className="mt-4">
-                <span className="inline-flex items-center gap-2 rounded-full border border-slate-500/30 bg-slate-500/10 px-3 py-1 text-xs text-slate-300">
+                <span className="inline-flex items-center gap-2 text-xs text-slate-500 font-mono">
                   <FiCpu className="text-[11px]" />
                   Studied · not implemented in repo
                 </span>
@@ -1769,7 +1824,7 @@ export default function PlaywrightPage() {
             </Reveal>
             <Reveal delay={0.2}>
               <div className="mt-4">
-                <span className="inline-flex items-center gap-2 rounded-full border border-mint-500/30 bg-mint-500/10 px-3 py-1 text-xs text-mint-400">
+                <span className="inline-flex items-center gap-2 text-xs text-mint-400/60 font-mono">
                   <FiBookOpen className="text-[11px]" />
                   Self-driven · Udemy
                 </span>
@@ -1852,7 +1907,7 @@ export default function PlaywrightPage() {
               },
               {
                 h: "Mentor PR review changed how I read code.",
-                d: "Thirteen rounds of structured feedback compressed years of reading-other-people's-code into one summer. The PR history is the actual curriculum.",
+                d: "Thirteen rounds of structured feedback compressed years of reading-other-people's-code into one internship. The PR history is the actual curriculum.",
               },
               {
                 h: "The least glamorous decision turned out to be the proudest one.",
@@ -1898,28 +1953,38 @@ export default function PlaywrightPage() {
                 Happy to walk through any spec, the POM / fixture split, the
                 session-reuse strategy, or the API-test approach.
               </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-4">
+              <div className="mt-8 flex flex-wrap justify-center items-center gap-x-10 gap-y-5">
                 <a
                   href="https://github.com/EldarSarajlic/htec-playwright-automation"
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 text-white px-6 py-3 font-medium hover:bg-white/5 transition-colors"
+                  className="group flex items-center gap-2 text-slate-300 hover:text-white transition-colors text-sm"
                 >
-                  <FiGithub />
-                  Read the repo
+                  <FiGithub className="text-mint-400 shrink-0" />
+                  <span className="relative after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-mint-400 after:scale-x-0 after:origin-left after:transition-transform after:duration-300 group-hover:after:scale-x-100">
+                    Read the repo
+                  </span>
+                  <FiArrowUpRight className="text-mint-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
+                <span className="h-4 w-px bg-white/10 hidden sm:block" aria-hidden />
                 <a
                   href="mailto:eldarsarajlic525@gmail.com"
-                  className="inline-flex items-center gap-2 rounded-full bg-mint-500 text-ink-950 px-6 py-3 font-semibold hover:bg-mint-400 transition-colors glow-mint"
+                  className="group flex items-center gap-2 text-slate-200 hover:text-white transition-colors text-sm"
                 >
-                  Get in touch
+                  <span className="relative after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-mint-400 after:scale-x-0 after:origin-left after:transition-transform after:duration-300 group-hover:after:scale-x-100">
+                    Get in touch
+                  </span>
+                  <FiArrowUpRight className="text-mint-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
+                <span className="h-4 w-px bg-white/10 hidden sm:block" aria-hidden />
                 <Link
                   to="/#projects"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 text-white px-6 py-3 font-medium hover:bg-white/5 transition-colors"
+                  className="group flex items-center gap-2 text-slate-500 hover:text-slate-300 transition-colors text-sm"
                 >
-                  <FiArrowLeft />
-                  Back to portfolio
+                  <FiArrowLeft className="transition-transform group-hover:-translate-x-0.5" />
+                  <span className="relative after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-slate-500 after:scale-x-0 after:origin-left after:transition-transform after:duration-300 group-hover:after:scale-x-100">
+                    Back to portfolio
+                  </span>
                 </Link>
               </div>
             </div>

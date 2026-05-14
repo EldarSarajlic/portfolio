@@ -138,16 +138,9 @@ export default function Projects() {
                     <p className="mt-5 text-slate-300 leading-relaxed">
                       {p.description}
                     </p>
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {p.stack.map((s) => (
-                        <span
-                          key={s}
-                          className="text-xs rounded-full border border-white/10 tag-lift px-3 py-1 text-slate-400"
-                        >
-                          {s}
-                        </span>
-                      ))}
-                    </div>
+                    <p className="mt-6 font-mono text-[11px] text-slate-500 tracking-wide leading-relaxed">
+                      {p.stack.join("  ·  ")}
+                    </p>
                   </div>
                   <div className="md:col-span-5">
                     <div className="rounded-2xl border border-white/5 card-matte-inner p-5 h-full">

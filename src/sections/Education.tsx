@@ -41,17 +41,14 @@ export default function Education() {
                     Faculty of Information Technologies, University "Džemal
                     Bijedić" in Mostar
                   </div>
-                  <div className="mt-4 flex flex-wrap gap-3">
-                    <span className="rounded-full border border-white/10 tag-lift text-slate-300 px-3 py-1 text-sm">
-                      Programming I & II · C++
-                    </span>
-                    <span className="rounded-full border border-white/10 tag-lift text-slate-300 px-3 py-1 text-sm">
-                      Software Development I · Angular / .NET
-                    </span>
-                    <span className="rounded-full border border-white/10 tag-lift text-slate-300 px-3 py-1 text-sm">
-                      Databases 2 · SQL
-                    </span>
-                  </div>
+                  <ul className="mt-4 space-y-1.5">
+                    {["Programming I & II · C++", "Software Development I · Angular / .NET", "Databases 2 · SQL"].map((c) => (
+                      <li key={c} className="flex items-center gap-3 text-sm text-slate-400">
+                        <span className="h-px w-4 bg-mint-400/40 shrink-0" />
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             </div>
