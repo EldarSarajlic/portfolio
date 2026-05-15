@@ -14,6 +14,41 @@ html {
   }
 }
 
+/* ─── Mobile / touch optimisations ───────────────────────────────────────── */
+@media (pointer: coarse) {
+  /* Lenis is disabled on touch, but the browser's native smooth-scroll is
+     still active and causes bounce/jank during fast swipes */
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Snap reveal transitions so the page feels snappy on low-end phones */
+  .reveal-visible {
+    transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Strip the SVG feTurbulence noise from section/card backgrounds.
+     The filter can't be GPU-composited so it repaints on every scroll frame.
+     Keep the gradients — they're sufficient for the visual effect. */
+  .section-matte {
+    background-image: linear-gradient(168deg, #081624 0%, #06121f 50%, #07141f 100%);
+  }
+  .card-matte {
+    background-image: linear-gradient(145deg, rgba(9,20,33,0.80) 0%, rgba(6,18,31,0.90) 100%);
+  }
+  .card-matte-inner {
+    background-image: linear-gradient(145deg, rgba(10,22,35,0.65) 0%, rgba(7,16,27,0.75) 100%);
+  }
+
+  /* Remove the radial-gradient mask from the hex pattern — mask compositing
+     is expensive on low-end GPUs during scroll */
+  .hex-pattern {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
 body {
   margin: 0;
   font-family: 'Inter', system-ui, sans-serif;

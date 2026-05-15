@@ -61,7 +61,7 @@ export default function Hero() {
             </a>
           </Magnetic>
 
-          <div className="ml-auto flex items-center gap-3 text-slate-400">
+          <div className="sm:ml-auto flex items-center gap-3 text-slate-400">
             <a
               href="https://github.com/EldarSarajlic"
               target="_blank"

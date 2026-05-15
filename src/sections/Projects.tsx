@@ -100,28 +100,12 @@ export default function Projects() {
                           </span>
                           {p.status && (
                             <span
-                              className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-widest ${
+                              className={`text-[10px] font-medium uppercase tracking-widest ${
                                 p.status.tone === "amber"
-                                  ? "border-amber-400/40 bg-amber-400/10 text-amber-300"
-                                  : "border-mint-500/40 bg-mint-500/10 text-mint-400"
+                                  ? "text-amber-300"
+                                  : "text-mint-400"
                               }`}
                             >
-                              <span className="relative flex h-1.5 w-1.5">
-                                <span
-                                  className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${
-                                    p.status.tone === "amber"
-                                      ? "bg-amber-300"
-                                      : "bg-mint-400"
-                                  }`}
-                                />
-                                <span
-                                  className={`relative inline-flex h-1.5 w-1.5 rounded-full ${
-                                    p.status.tone === "amber"
-                                      ? "bg-amber-300"
-                                      : "bg-mint-400"
-                                  }`}
-                                />
-                              </span>
                               {p.status.label}
                             </span>
                           )}
@@ -130,7 +114,7 @@ export default function Projects() {
                           {p.title}
                         </h3>
                       </div>
-                      <div className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-slate-400 group-hover:bg-mint-500 group-hover:text-ink-950 group-hover:border-mint-500 transition-all duration-500 whitespace-nowrap shrink-0">
+                      <div className="hidden sm:inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-slate-400 group-hover:bg-mint-500 group-hover:text-ink-950 group-hover:border-mint-500 transition-all duration-500 whitespace-nowrap shrink-0">
                         View case study
                         <FiArrowUpRight className="text-base group-hover:rotate-45 transition-transform duration-500" />
                       </div>

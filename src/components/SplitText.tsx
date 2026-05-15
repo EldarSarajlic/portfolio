@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 type Props = {
   text: string;
@@ -7,8 +7,34 @@ type Props = {
   stagger?: number;
 };
 
+// Evaluated once at module load — stable across re-renders, no hook needed.
+const isTouch =
+  typeof window !== "undefined" &&
+  window.matchMedia("(pointer: coarse)").matches;
+
 export default function SplitText({ text, className = "", delay = 0, stagger = 0.04 }: Props) {
+  const prefersReduced = useReducedMotion();
   const words = text.split(" ");
+
+  // On touch/mobile: animate at word level (avoids spawning 50+ motion.span nodes)
+  if (isTouch || prefersReduced) {
+    return (
+      <span className={className} aria-label={text}>
+        {words.map((word, wi) => (
+          <motion.span
+            key={wi}
+            className="inline-block whitespace-nowrap mr-[0.25em]"
+            initial={{ y: "0.5em", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: delay + wi * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {word}
+          </motion.span>
+        ))}
+      </span>
+    );
+  }
+
   return (
     <span className={className} aria-label={text}>
       {words.map((word, wi) => (

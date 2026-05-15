@@ -43,6 +43,10 @@ export default function HexBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Skip the heavy SVG overlay on touch devices — mouse proximity math
+    // is pointless there and ~900 DOM nodes are wasted paint budget.
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
     const container = containerRef.current;
     if (!container) return;
     const section = container.closest("section") as HTMLElement | null;

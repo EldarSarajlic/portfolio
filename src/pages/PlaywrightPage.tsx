@@ -226,11 +226,11 @@ function TypewriterLine({ text, index, start }: { text: string; index: number; s
   const out = reduce ? text : animOut;
 
   return (
-    <li className="flex items-baseline gap-3 font-mono text-[13px]">
+    <li className="flex items-baseline gap-3 font-mono text-[11px] sm:text-[13px]">
       <span className="text-slate-600 tabular-nums w-6 shrink-0">
         {String(index + 1).padStart(2, "0")}
       </span>
-      <span className="text-slate-300">
+      <span className="text-slate-300 min-w-0">
         {out}
         {start && out.length < text.length && (
           <span className="inline-block w-1.5 h-3.5 bg-mint-400 ml-0.5 align-middle animate-pulse" />
@@ -1531,7 +1531,7 @@ export default function PlaywrightPage() {
                     Raw — no POM
                   </span>
                 </div>
-                <pre className="p-5 text-[12.5px] leading-relaxed text-slate-300 overflow-x-auto font-mono">
+                <pre className="p-5 text-[10px] sm:text-[12.5px] leading-relaxed text-slate-300 overflow-x-auto font-mono">
                   <code>
                     <span className="text-slate-500">// before fixtures, before POM</span>
                     {"\n"}

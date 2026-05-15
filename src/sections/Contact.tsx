@@ -34,7 +34,8 @@ export default function Contact() {
                 href="mailto:eldarsarajlic525@gmail.com"
                 className="group inline-flex items-center gap-3 rounded-full bg-mint-500 text-ink-950 px-7 py-4 font-semibold hover:bg-mint-400 transition-colors glow-mint"
               >
-                eldarsarajlic525@gmail.com
+                <span className="hidden sm:inline">eldarsarajlic525@gmail.com</span>
+                <span className="sm:hidden">Send me an email</span>
                 <FiArrowUpRight className="text-xl group-hover:rotate-45 transition-transform" />
               </a>
             </Magnetic>
