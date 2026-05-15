@@ -14,16 +14,20 @@ export default function Navbar() {
   const lenis = useLenis();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => setScrolled(window.scrollY > 20));
+    };
     onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
   }, []);
 
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled ? "py-3 bg-ink-950/70 backdrop-blur-xl border-b border-mint-500/10" : "py-6 bg-transparent"
+        scrolled ? "py-3 bg-ink-950/95 border-b border-mint-500/10" : "py-6 bg-transparent"
       }`}
     >
       <nav className="max-w-6xl mx-auto px-6 flex items-center justify-center">
