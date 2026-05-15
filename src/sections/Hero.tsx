@@ -9,13 +9,15 @@ const isTouch =
   typeof window !== "undefined" &&
   window.matchMedia("(pointer: coarse)").matches;
 
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 const lineVariant = {
   hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
   show: (i: number) => ({
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { delay: 0.1 + i * 0.18, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    transition: { delay: 0.1 + i * 0.18, duration: 0.55, ease: EASE },
   }),
 };
 
