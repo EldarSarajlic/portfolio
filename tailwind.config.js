@@ -21,7 +21,7 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['"Space Grotesk"', 'Inter', 'sans-serif'],
+        display: ['"Space Grotesk"', '"Space Grotesk Fallback"', 'Inter', 'sans-serif'],
         signature: ['"Caveat"', 'cursive'],
       },
       backgroundImage: {
