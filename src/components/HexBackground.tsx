@@ -96,20 +96,23 @@ export default function HexBackground() {
     // ── Mouse handlers ───────────────────────────────────────────────────────
     const glowEl = container.querySelector<HTMLDivElement>(".hex-glow");
 
-    const onMove = (e: MouseEvent) => {
-      const rect = section.getBoundingClientRect();
-      const mx   = e.clientX - rect.left;
-      const my   = e.clientY - rect.top;
+    let rafPending = false;
+    let pendingMx  = -9999;
+    let pendingMy  = -9999;
 
-      // Spotlight radial glow
+    const processMove = () => {
+      rafPending = false;
+      const mx = pendingMx;
+      const my = pendingMy;
+
       if (glowEl) {
+        const rect = section.getBoundingClientRect();
         const gx = (mx / rect.width)  * 100;
         const gy = (my / rect.height) * 100;
         glowEl.style.background =
           `radial-gradient(circle 300px at ${gx}% ${gy}%, rgba(61,210,165,0.07) 0%, transparent 70%)`;
       }
 
-      // Per-cell proximity → push + scale + fade-in
       for (const cell of cells) {
         const dx = cell.x - mx;
         const dy = cell.y - my;
@@ -127,7 +130,6 @@ export default function HexBackground() {
           cell.el.style.opacity   = opacity;
           cell.active = true;
         } else if (cell.active) {
-          // Reset only previously-active cells — skips the silent majority
           cell.el.style.transform = `translate(${cell.x}px,${cell.y}px) scale(1)`;
           cell.el.style.opacity   = "0";
           cell.active = false;
@@ -135,7 +137,20 @@ export default function HexBackground() {
       }
     };
 
+    const onMove = (e: MouseEvent) => {
+      const rect = section.getBoundingClientRect();
+      pendingMx = e.clientX - rect.left;
+      pendingMy = e.clientY - rect.top;
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(processMove);
+      }
+    };
+
     const onLeave = () => {
+      rafPending = false;
+      pendingMx  = -9999;
+      pendingMy  = -9999;
       if (glowEl) glowEl.style.background = "";
       for (const cell of cells) {
         if (cell.active) {

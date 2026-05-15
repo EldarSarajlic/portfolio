@@ -1,6 +1,4 @@
-import { motion } from "framer-motion";
-import { useRef, type ReactNode } from "react";
-import { useInView } from "framer-motion";
+import { useEffect, useRef, type ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
@@ -9,18 +7,36 @@ type Props = {
   className?: string;
 };
 
-export default function Reveal({ children, delay = 0, y = 28, className = "" }: Props) {
+export default function Reveal({ children, delay = 0, className = "" }: Props) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.classList.remove("reveal-hidden");
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (delay) el.style.transitionDelay = `${delay}s`;
+          el.classList.replace("reveal-hidden", "reveal-visible");
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -80px 0px", threshold: 0 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [delay]);
+
   return (
-    <motion.div
-      ref={ref}
-      className={className}
-      initial={{ opacity: 0, y }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <div ref={ref} className={`reveal-hidden ${className}`}>
       {children}
-    </motion.div>
+    </div>
   );
 }
