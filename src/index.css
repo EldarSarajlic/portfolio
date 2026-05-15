@@ -77,11 +77,9 @@ body {
 @layer utilities {
   .text-gradient {
     background: linear-gradient(90deg, #5ee3b3 0%, #3dd2a5 50%, #5ee3b3 100%);
-    background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: shine 6s linear infinite;
   }
 
   .glow-mint {
