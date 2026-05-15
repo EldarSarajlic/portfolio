@@ -317,7 +317,8 @@ function JiraTicket() {
       </div>
 
       <div className="px-5 py-3 border-t border-white/5 bg-white/[0.02] flex items-center justify-between text-[11px] text-slate-500 italic">
-        <span>Hover to flip — see what got covered.</span>
+        <span className="[@media(hover:none)]:hidden">Hover to flip — see what got covered.</span>
+        <span className="hidden [@media(hover:none)]:inline">Tap to flip — see what got covered.</span>
         <span className="not-italic font-mono text-slate-600">↻</span>
       </div>
     </div>

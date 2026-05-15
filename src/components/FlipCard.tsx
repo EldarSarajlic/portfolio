@@ -19,6 +19,9 @@ export default function FlipCard({ front, back, className = "" }: Props) {
   const reduce = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [flipped, setFlipped] = useState(false);
+  const [isTouch] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(hover: none)").matches
+  );
 
   // Flip target
   const flipTarget = useMotionValue(0);
@@ -48,11 +51,11 @@ export default function FlipCard({ front, back, className = "" }: Props) {
     mouseY.set(-y * 8);
   };
 
-  const onEnter = () => setFlipped(true);
+  const onEnter = () => { if (!isTouch) setFlipped(true); };
   const onLeave = () => {
-    mouseY.set(0);
-    setFlipped(false);
+    if (!isTouch) { mouseY.set(0); setFlipped(false); }
   };
+  const onTap = () => { if (isTouch) setFlipped((f) => !f); };
 
   return (
     <div
@@ -60,7 +63,8 @@ export default function FlipCard({ front, back, className = "" }: Props) {
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       onMouseMove={onMove}
-      className={`[perspective:1400px] ${className}`}
+      onClick={onTap}
+      className={`[perspective:1400px] ${isTouch ? "cursor-pointer" : ""} ${className}`}
     >
       <motion.div
         style={{
