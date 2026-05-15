@@ -30,9 +30,9 @@ import {
  */
 
 const HEX_SIZE = 56;
-const RINGS = 5;
-const TOTAL_DURATION = 1.15; // seconds
-const NAVIGATE_AT = 0.6; // seconds (when the route swaps under the veil)
+const RINGS = 3;
+const TOTAL_DURATION = 0.75;
+const NAVIGATE_AT = 0.4;
 
 type Hex = { q: number; r: number; ring: number; x: number; y: number };
 
@@ -234,23 +234,16 @@ function OverlayBody() {
           ease: "easeInOut",
         }}
       />
-      {/* Soft mint radial glow that grows then dissipates */}
+      {/* Subtle mint radial glow — static position, just fades */}
       <motion.div
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle at center, rgba(94,227,179,0.45) 0%, rgba(61,210,165,0.18) 28%, transparent 62%)",
+            "radial-gradient(circle at center, rgba(94,227,179,0.25) 0%, transparent 55%)",
         }}
-        initial={{ opacity: 0, scale: 0.25 }}
-        animate={{
-          opacity: [0, 0.9, 1, 0],
-          scale: [0.25, 1.1, 2.4, 4],
-        }}
-        transition={{
-          duration: TOTAL_DURATION,
-          times: [0, 0.3, 0.7, 1],
-          ease: "easeOut",
-        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 0.7, 0] }}
+        transition={{ duration: TOTAL_DURATION, times: [0, 0.35, 1], ease: "easeOut" }}
       />
 
       {/* Hex container — origin is dead-center of viewport */}
@@ -305,22 +298,11 @@ function HexCell({ hex }: { hex: Hex }) {
       >
         <polygon
           points={HEX_POINTS}
-          fill="rgba(61,210,165,0.32)"
-          stroke="rgba(214,247,232,0.95)"
-          strokeWidth={2.5}
+          fill="rgba(61,210,165,0.28)"
+          stroke="rgba(214,247,232,0.9)"
+          strokeWidth={2}
           strokeLinejoin="round"
         />
-        {/* inner highlight ring */}
-        <polygon
-          points={HEX_POINTS}
-          fill="none"
-          stroke="rgba(168,239,206,0.7)"
-          strokeWidth={1.2}
-          strokeLinejoin="round"
-          transform="scale(0.6)"
-        />
-        {/* core dot */}
-        <circle r={HEX_SIZE * 0.12} fill="rgba(214,247,232,0.85)" />
       </motion.svg>
     );
   }
@@ -334,39 +316,27 @@ function HexCell({ hex }: { hex: Hex }) {
       height={box}
       viewBox={`${-half} ${-half} ${box} ${box}`}
       className="absolute"
-      style={{
-        left: -half,
-        top: -half,
-        filter: `drop-shadow(0 0 ${10 + (RINGS - ring) * 2}px rgba(94,227,179,${0.35 + (RINGS - ring) * 0.04}))`,
-      }}
+      style={{ left: -half, top: -half }}
       initial={{ x: 0, y: 0, scale: 0, opacity: 0 }}
       animate={{
         x: [0, x, x * expand],
         y: [0, y, y * expand],
-        scale: [0, 1, 1.18],
+        scale: [0, 1, 1.1],
         opacity: [0, ringOpacity, 0],
       }}
       transition={{
         duration: TOTAL_DURATION - delay,
         delay,
-        times: [0, 0.32, 1],
+        times: [0, 0.35, 1],
         ease: [0.22, 1, 0.36, 1],
       }}
     >
       <polygon
         points={HEX_POINTS}
-        fill="rgba(61,210,165,0.18)"
-        stroke="rgba(94,227,179,0.9)"
-        strokeWidth={1.6}
+        fill="rgba(61,210,165,0.15)"
+        stroke="rgba(94,227,179,0.8)"
+        strokeWidth={1.2}
         strokeLinejoin="round"
-      />
-      <polygon
-        points={HEX_POINTS}
-        fill="none"
-        stroke="rgba(214,247,232,0.35)"
-        strokeWidth={0.8}
-        strokeLinejoin="round"
-        transform="scale(0.62)"
       />
     </motion.svg>
   );

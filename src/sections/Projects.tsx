@@ -114,9 +114,9 @@ export default function Projects() {
                           {p.title}
                         </h3>
                       </div>
-                      <div className="hidden sm:inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-slate-400 group-hover:bg-mint-500 group-hover:text-ink-950 group-hover:border-mint-500 transition-all duration-500 whitespace-nowrap shrink-0">
+                      <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-sm text-slate-400 group-hover:bg-mint-500 group-hover:text-ink-950 group-hover:border-mint-500 transition-all duration-500 whitespace-nowrap shrink-0">
                         View case study
-                        <FiArrowUpRight className="text-base group-hover:rotate-45 transition-transform duration-500" />
+                        <FiArrowUpRight className="text-sm sm:text-base group-hover:rotate-45 transition-transform duration-500" />
                       </div>
                     </div>
                     <p className="mt-5 text-slate-300 leading-relaxed">
