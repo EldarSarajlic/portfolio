@@ -23,7 +23,7 @@ export default function SplitText({ text, className = "", delay = 0, stagger = 0
         {words.map((word, wi) => (
           <motion.span
             key={wi}
-            className="inline-block whitespace-nowrap mr-[0.25em]"
+            className="inline-block whitespace-nowrap mr-[0.15em]"
             initial={{ y: "0.5em", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: delay + wi * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -38,7 +38,7 @@ export default function SplitText({ text, className = "", delay = 0, stagger = 0
   return (
     <span className={className} aria-label={text}>
       {words.map((word, wi) => (
-        <span key={wi} className="inline-block whitespace-nowrap mr-[0.25em]">
+        <span key={wi} className="inline-block whitespace-nowrap mr-[0.15em]">
           {word.split("").map((char, ci) => (
             <motion.span
               key={ci}

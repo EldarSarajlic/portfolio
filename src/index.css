@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Metric-matched fallback for Space Grotesk — eliminates CLS from font swap.
-   size-adjust: 103% widens Arial glyphs to match SG's advance widths so
-   "and shaping communities." wraps on the same line as with SG. */
-@font-face {
-  font-family: 'Space Grotesk Fallback';
-  src: local('Arial');
-  size-adjust: 103%;
-}
 
 html {
   scroll-behavior: smooth;
