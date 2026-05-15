@@ -37,8 +37,10 @@ export default function Navbar() {
               <a
                 href={l.href}
                 onClick={(e) => {
-                  e.preventDefault();
-                  lenis?.scrollTo(l.href);
+                  if (lenis) {
+                    e.preventDefault();
+                    lenis.scrollTo(l.href);
+                  }
                 }}
                 className="px-2 py-1.5 sm:px-4 sm:py-2 rounded-full text-slate-300 hover:text-mint-400 hover:bg-white/5 transition-colors"
               >
