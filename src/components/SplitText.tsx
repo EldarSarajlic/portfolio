@@ -26,7 +26,7 @@ export default function SplitText({ text, className = "", delay = 0, stagger = 0
             className="inline-block whitespace-nowrap mr-[0.15em]"
             initial={{ y: "0.5em", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: delay + wi * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: delay * 0.3 + wi * 0.04, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
           >
             {word}
           </motion.span>

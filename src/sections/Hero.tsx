@@ -5,6 +5,10 @@ import Aurora from "../components/Aurora";
 import Magnetic from "../components/Magnetic";
 import HexBackground from "../components/HexBackground";
 
+const isTouch =
+  typeof window !== "undefined" &&
+  window.matchMedia("(pointer: coarse)").matches;
+
 export default function Hero() {
   return (
     <section id="top" className="relative min-h-screen flex items-center overflow-hidden">
@@ -27,7 +31,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.6, duration: 0.7 }}
+          transition={{ delay: isTouch ? 0.35 : 1.6, duration: isTouch ? 0.4 : 0.7 }}
           className="mt-10 flex flex-col sm:flex-row sm:items-center gap-6"
         >
           <div className="h-px w-12 bg-mint-500" />
@@ -40,7 +44,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.85, duration: 0.7 }}
+          transition={{ delay: isTouch ? 0.55 : 1.85, duration: isTouch ? 0.4 : 0.7 }}
           className="mt-10 flex flex-wrap items-center gap-4"
         >
           <Magnetic>
