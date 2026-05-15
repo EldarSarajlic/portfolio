@@ -14,7 +14,6 @@ import {
 import {
   FiArrowLeft,
   FiGithub,
-  FiLock,
   FiCpu,
   FiZap,
   FiBookOpen,
@@ -311,8 +310,8 @@ function JiraTicket() {
           <div className="text-[10px] uppercase tracking-[0.3em] text-slate-500 mb-2">
             Description
           </div>
-          First real client work — manual regression across the product. Built test
-          plan from the spec, executed by hand, logged outcomes per case in internal
+          First real work was manual regression across an old app where I built a test
+          plan from the spec, wrote test steps and expected outcomes, executed by hand, logged outcomes per case in internal
           Jira.
         </div>
       </div>
@@ -944,7 +943,7 @@ function ConversationMock() {
       >
         <div className="flex items-center gap-2 text-xs text-mint-300 mb-3">
           <FiCpu />
-          <span className="uppercase tracking-widest">LLM · same shape</span>
+          <span className="uppercase tracking-widest">LLM · learns human convention</span>
         </div>
         <pre className="font-mono text-[11.5px] leading-relaxed text-mint-100/90 whitespace-pre-wrap">
 {`test('admin disables a user', async ({ pages }) => {
@@ -1321,10 +1320,10 @@ export default function PlaywrightPage() {
 
               <Reveal delay={0.15}>
                 <p className="mt-8 text-slate-300 leading-relaxed text-lg">
-                  An eight-chapter story of an internship at HTEC — starting with zero
+                  An eight chapter story of an internship at HTEC, starting with zero
                   QA experience, learning to test by hand, then building a full
                   Playwright framework around OrangeHRM with the Page Object Model,
-                  custom fixtures, and cookie-based session reuse. What follows is the
+                  custom fixtures, and cookie based session reuse. What follows is the
                   actual route, chapter by chapter.
                 </p>
               </Reveal>
@@ -1390,12 +1389,12 @@ export default function PlaywrightPage() {
           <Reveal delay={0.1}>
             <p className="mt-8 text-slate-400 leading-relaxed">
               I walked into HTEC with zero QA background. The first weeks were quiet on
-              purpose — Scrum ceremonies, what a test case actually is, equivalence
+              purpose: Scrum ceremonies, what a test case actually is, equivalence
               partitioning, how a useful defect report reads.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-3 text-slate-500 italic text-sm">
+            <p className="mt-3 text-slate-500 italic text-sm text underline">
               The boring foundation everyone skips and then regrets.
             </p>
           </Reveal>
@@ -1437,7 +1436,7 @@ export default function PlaywrightPage() {
                   through.
                 </p>
                 <p className="mt-3 text-slate-500 text-sm italic">
-                  No GitHub link — this work lives in Jira.
+                  No GitHub link, this work lives in Jira.
                 </p>
               </Reveal>
             </div>
@@ -1499,8 +1498,8 @@ export default function PlaywrightPage() {
             <ChapterTitle kicker="OrangeHRM, raw" title="First real specs." />
             <Reveal delay={0.1}>
               <p className="mt-6 text-slate-300 leading-relaxed">
-                The practice site. Same discipline as Mistral — manual test cases
-                first, by hand, for login, the dashboard, and create-user. Then the
+                The practice site. Same discipline as the old Mistral project: manual test cases
+                first, by hand, for the login page, the dashboard, and finally creating a user as an admin. Then the
                 first automation pass: no Page Object Model, no fixtures, just specs
                 and selectors.
               </p>
@@ -1609,13 +1608,13 @@ export default function PlaywrightPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-6 text-slate-300 leading-relaxed text-lg">
-                Studied how OrangeHRM actually worked under the hood — cookies, auth
+                Studied how OrangeHRM actually worked under the hood: cookies, auth
                 headers, API shapes (Postman did the response analysis). Then rewrote
                 the suite as a proper framework: seven page objects under a shared
                 BasePage, a custom <span className="font-mono text-mint-300">pages</span>{" "}
-                fixture, cookie-based session reuse with a live API validator, a
-                two-project split for authed vs. unauthed specs, and dotenv-driven
-                config. Every module went through a two-step rhythm — raw spec first,
+                fixture, cookie based session reuse with a live API validator, a
+                two-project split for authenticated vs. unauthenticated specs, and dotenv-driven
+                config. Every module went through a two step rhythm — raw spec first,
                 then refactor onto the POM and fixture once the patterns settled.
               </p>
               <p className="mt-3 font-signature text-mint-300 text-xl">
@@ -1753,7 +1752,7 @@ export default function PlaywrightPage() {
             <Reveal delay={0.1}>
               <p className="mt-6 text-slate-300 leading-relaxed">
                 Stepped sideways to study DeepEval and the LLM-as-judge pattern. The
-                interesting part wasn't just scoring outputs — it was thinking about
+                interesting part wasn't just scoring outputs, it was thinking about
                 how a model, given a framework's conventions as context, could generate
                 test cases in the same shape I'd just written by hand.
               </p>
@@ -1782,7 +1781,7 @@ export default function PlaywrightPage() {
                 },
                 {
                   h: "Test generation from conventions",
-                  d: "Feed the model your POM, naming patterns, and existing specs — it produces new cases in the same shape, not generic ones.",
+                  d: "Feed the model your POM, naming patterns, and existing specs, it produces new cases in the same shape, not generic ones.",
                 },
                 {
                   h: "Why conventions matter more, not less",
@@ -1816,7 +1815,7 @@ export default function PlaywrightPage() {
             <ChapterTitle kicker="Beyond the curriculum" title="K6 + GitHub Actions." />
             <Reveal delay={0.1}>
               <p className="mt-6 text-slate-300 leading-relaxed">
-                On my own time, took Udemy courses to round out the toolkit — load
+                On my own time, took Udemy courses to round out the toolkit: load
                 testing with Grafana K6 and CI pipelines with GitHub Actions. Neither
                 was required; both are the next things I'd reach for after the
                 framework was shipped.
@@ -1911,7 +1910,7 @@ export default function PlaywrightPage() {
               },
               {
                 h: "The least glamorous decision turned out to be the proudest one.",
-                d: "Cookie-based session reuse with a live validator isn't a flashy feature, but it's the difference between a suite that runs fast and reliably and one that wastes the first minute every run silently re-authing.",
+                d: "Cookie based session reuse with a live validator isn't a flashy feature, but it's the difference between a suite that runs fast and reliably and one that wastes the first minute every run silently logging in again.",
               },
             ].map((b, i) => (
               <motion.div

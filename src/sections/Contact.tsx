@@ -2,10 +2,12 @@ import { FiArrowUpRight, FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import Reveal from "../components/Reveal";
 import Magnetic from "../components/Magnetic";
 import Aurora from "../components/Aurora";
+import HexBackground from "../components/HexBackground";
 
 export default function Contact() {
   return (
     <section id="contact" className="relative py-32 px-6 overflow-hidden">
+      <HexBackground />
       <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0,black_160px,black_calc(100%-160px),transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0,black_160px,black_calc(100%-160px),transparent_100%)]">
         <Aurora />
       </div>

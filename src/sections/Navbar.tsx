@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLenis } from "lenis/react";
 
 const links = [
   { href: "#about", label: "About" },
@@ -10,6 +11,7 @@ const links = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const lenis = useLenis();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -30,6 +32,10 @@ export default function Navbar() {
             <li key={l.href}>
               <a
                 href={l.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  lenis?.scrollTo(l.href);
+                }}
                 className="px-4 py-2 rounded-full text-slate-300 hover:text-mint-400 hover:bg-white/5 transition-colors"
               >
                 {l.label}

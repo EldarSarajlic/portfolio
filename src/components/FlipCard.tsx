@@ -71,7 +71,13 @@ export default function FlipCard({ front, back, className = "" }: Props) {
         }}
         className="relative w-full will-change-transform"
       >
-        <div style={{ backfaceVisibility: "hidden" }} className="relative">
+        {/* CSS grid trick: both ghosts share one cell → container = max(front, back) height */}
+        <div className="grid invisible pointer-events-none" aria-hidden="true">
+          <div className="[grid-area:1/1]">{front}</div>
+          <div className="[grid-area:1/1]">{back}</div>
+        </div>
+
+        <div style={{ backfaceVisibility: "hidden" }} className="absolute inset-0">
           {front}
         </div>
         <div

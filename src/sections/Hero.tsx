@@ -3,10 +3,12 @@ import { FiArrowDownRight, FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import SplitText from "../components/SplitText";
 import Aurora from "../components/Aurora";
 import Magnetic from "../components/Magnetic";
+import HexBackground from "../components/HexBackground";
 
 export default function Hero() {
   return (
     <section id="top" className="relative min-h-screen flex items-center overflow-hidden">
+      <HexBackground />
       <Aurora />
 
       <div className="relative max-w-6xl mx-auto w-full px-6 pt-32 pb-20">

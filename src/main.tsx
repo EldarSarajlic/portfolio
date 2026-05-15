@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ReactLenis } from "lenis/react";
 import "./index.css";
 import App from "./App.tsx";
 import DispatcherPage from "./pages/DispatcherPage.tsx";
@@ -17,15 +18,17 @@ if (navEntry?.type === "reload" && window.location.hash) {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <PageTransitionProvider>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/projects/truck-dispatcher" element={<DispatcherPage />} />
-          <Route path="/projects/playwright-htec" element={<PlaywrightPage />} />
-          <Route path="*" element={<App />} />
-        </Routes>
-      </PageTransitionProvider>
-    </BrowserRouter>
+    <ReactLenis root options={{ lerp: 0.07 }}>
+      <BrowserRouter>
+        <PageTransitionProvider>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/projects/truck-dispatcher" element={<DispatcherPage />} />
+            <Route path="/projects/playwright-htec" element={<PlaywrightPage />} />
+            <Route path="*" element={<App />} />
+          </Routes>
+        </PageTransitionProvider>
+      </BrowserRouter>
+    </ReactLenis>
   </StrictMode>
 );

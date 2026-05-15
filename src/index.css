@@ -8,6 +8,12 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   margin: 0;
   font-family: 'Inter', system-ui, sans-serif;
@@ -34,6 +40,20 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #3dd2a5;
+}
+
+/* ─── Hex background ──────────────────────────────────────────────────────── */
+/*                                                                             */
+/* Flat-top hex grid as a tiled SVG background-image.                         */
+/* Tile: 96 × 55.43px  (= 2×horiz × hexH, where HEX_SIZE = 32).              */
+/* 5 clipped polygons that assemble into a seamless hex grid when tiled.       */
+/* The radial mask fades the grid at section edges (matches the old canvas     */
+/* vignette).  No JS, no canvas, no RAF — pure GPU compositing.               */
+.hex-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='55.43'%3E%3Cpolygon points='32,0 16,27.7 -16,27.7 -32,0 -16,-27.7 16,-27.7' fill='none' stroke='%233DD2A5' stroke-opacity='0.13' stroke-width='1'/%3E%3Cpolygon points='80,27.7 64,55.4 32,55.4 16,27.7 32,0 64,0' fill='none' stroke='%233DD2A5' stroke-opacity='0.13' stroke-width='1'/%3E%3Cpolygon points='128,0 112,27.7 80,27.7 64,0 80,-27.7 112,-27.7' fill='none' stroke='%233DD2A5' stroke-opacity='0.13' stroke-width='1'/%3E%3Cpolygon points='32,55.4 16,83.1 -16,83.1 -32,55.4 -16,27.7 16,27.7' fill='none' stroke='%233DD2A5' stroke-opacity='0.13' stroke-width='1'/%3E%3Cpolygon points='128,55.4 112,83.1 80,83.1 64,55.4 80,27.7 112,27.7' fill='none' stroke='%233DD2A5' stroke-opacity='0.13' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 96px 55.43px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, black 15%, rgba(0,0,0,0.35) 55%, transparent 100%);
+          mask-image: radial-gradient(ellipse 90% 85% at 50% 50%, black 15%, rgba(0,0,0,0.35) 55%, transparent 100%);
 }
 
 /* Tag pills — unlayered so it wins over Tailwind's layer resets */
