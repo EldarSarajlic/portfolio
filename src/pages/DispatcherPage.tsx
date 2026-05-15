@@ -72,7 +72,7 @@ const groups: FeatureGroup[] = [
       { title: "Email + password login" },
       { title: "Logout (server-side cookie clear)" },
       { title: "Refresh-token rotation", detail: "httpOnly cookies, device fingerprint validated on every refresh" },
-      { title: "Invitation-based registration", detail: "Admin emails a hashed token (7-day expiry); single-use, user sets own password" },
+      { title: "Invitation based registration", detail: "Admin emails a hashed token (7-day expiry); single use, user sets own password" },
       { title: "Forgot / reset password", detail: "Tokens never exposed in URL" },
       { title: "Two-factor authentication (email codes)", detail: "Enable / disable / verify; password required to disable" },
       { title: "Google OAuth login", detail: "Tokens exchanged server-side, never in redirect URL" },
@@ -731,7 +731,7 @@ const roles: Role[] = [
   {
     icon: <FiBox />,
     name: "Client",
-    job: "Places the order, tracks it with a single-use code.",
+    job: "Places the order, tracks it with a single use code.",
     tag: "Self-service, no signup",
   },
 ];
@@ -908,7 +908,8 @@ function ClosedDoorFlip() {
       </div>
 
       <div className="px-5 py-3 border-t border-white/5 bg-white/[0.02] text-[11px] text-slate-500 italic flex items-center justify-between">
-        <span>Hover to see how the keys actually move.</span>
+        <span className="[@media(pointer:coarse)]:hidden">Hover to see how the keys actually move.</span>
+        <span className="hidden [@media(pointer:coarse)]:inline">Tap to see how the keys actually move.</span>
         <span className="not-italic font-mono text-slate-600">↻</span>
       </div>
     </div>
@@ -1003,7 +1004,7 @@ function TrackingCodeCard() {
 
           <div className="text-slate-400 text-sm leading-relaxed">
             A client doesn't need an account necessarily, they need one safe link to their
-            shipment. The admin / dispatcher hands them a single-use code that
+            shipment. The admin / dispatcher hands them a single use code that
             opens the live thread for their delivery.
           </div>
 
@@ -1802,7 +1803,7 @@ export default function DispatcherPage() {
                     </li>
                     <li className="flex items-center gap-2">
                       <span className="h-1 w-1 rounded-full bg-mint-400" />
-                      Survives shift changes — the next dispatcher inherits it
+                      Survives shift changes. The next dispatcher inherits it
                     </li>
                   </ul>
                 </div>
@@ -2018,7 +2019,7 @@ export default function DispatcherPage() {
           <Reveal delay={0.18}>
             <div className="mt-12 rounded-3xl border border-white/10 bg-white/[0.02] overflow-hidden">
               <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between">
-                <span className="text-mint-400 text-xs uppercase tracking-[0.3em]"><span className="underline">Current</span> Database schema</span>
+                <span className="text-mint-400 text-xs uppercase tracking-[0.3em]">Current Database schema</span>
                 <span className="text-[10px] uppercase tracking-widest text-slate-500">22 entities · EF Core 8</span>
               </div>
               <div className="p-4">
@@ -2047,14 +2048,14 @@ export default function DispatcherPage() {
                     I designed the Clean Architecture split (API · Application ·
                     Domain · Infrastructure · Shared · Tests), wired up MediatR
                     with FluentValidation behaviors, and authored every domain
-                    entity except a handful of vehicle-side migrations done
+                    entity except a handful of vehicle side migrations done
                     collaboratively. On the frontend I built the auth flows
                     end-to-end (login, 2FA, OAuth, invitation acceptance,
                     password reset), the settings page, the admin dashboard
                     shell, and the dispatcher shipment surface.
                   </p>
                   <p>
-                    The work in 2026 has been heavily security-focused —
+                    The work in 2026 has been heavily security focused:
                     migrating tokens from request bodies into httpOnly cookies,
                     binding refresh tokens to a device fingerprint, hashing
                     invitation tokens, and adding rate limiting to every
@@ -2186,7 +2187,7 @@ export default function DispatcherPage() {
               <p className="mt-4 text-slate-400 max-w-xl mx-auto">
                 Happy to demo the app, walk through the architecture, or talk
                 about the trade offs, CQRS, the Order ↔ Shipment split, the
-                cookie based auth migration, or the per-shipment thread design.
+                cookie based auth migration, or the per shipment thread design.
               </p>
               <div className="mt-8 flex flex-wrap justify-center items-center gap-x-10 gap-y-5">
                 <a

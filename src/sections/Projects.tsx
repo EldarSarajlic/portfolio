@@ -18,7 +18,7 @@ const projects: Project[] = [
     title: "Truck Dispatcher",
     subtitle: "Logistics Management Platform",
     description:
-      "Full-stack logistics platform for trucking companies, replacing paper workflows with a digital pipeline from client ordering through dispatch to delivery. Built around four user roles (Admin · Dispatcher · Driver · Client), Clean Architecture + CQRS backend, and an Angular 21 frontend with role-based modules.",
+      "Full-stack logistics platform for trucking companies, replacing paper workflows with a digital pipeline from client ordering through dispatch to delivery. Built around four user roles (Admin · Dispatcher · Driver · Client), Clean Architecture + CQRS backend, and an Angular 21 frontend with role based modules.",
     stack: [
       ".NET 8",
       "Angular 21",

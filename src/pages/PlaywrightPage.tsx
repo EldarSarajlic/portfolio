@@ -248,7 +248,7 @@ const manualCases = [
   "Dashboard · sidebar items render in order",
   "Dashboard · all widgets visible",
   "Admin · create user with timestamped name",
-  "Admin · find the just-created user via filters",
+  "Admin · find the newly created user via filters",
 ];
 
 function ManualCasesTypewriter() {
@@ -317,8 +317,8 @@ function JiraTicket() {
       </div>
 
       <div className="px-5 py-3 border-t border-white/5 bg-white/[0.02] flex items-center justify-between text-[11px] text-slate-500 italic">
-        <span className="[@media(hover:none)]:hidden">Hover to flip — see what got covered.</span>
-        <span className="hidden [@media(hover:none)]:inline">Tap to flip — see what got covered.</span>
+        <span className="[@media(pointer:coarse)]:hidden">Hover to flip — see what got covered.</span>
+        <span className="hidden [@media(pointer:coarse)]:inline">Tap to flip — see what got covered.</span>
         <span className="not-italic font-mono text-slate-600">↻</span>
       </div>
     </div>
@@ -1464,8 +1464,8 @@ export default function PlaywrightPage() {
                 widget the real world throws at you, one labbed spec at a time.
               </p>
               <p className="mt-3 text-slate-500 text-sm italic">
-                <span className="[@media(hover:none)]:hidden">Hover</span>
-                <span className="hidden [@media(hover:none)]:inline">Tap</span>
+                <span className="[@media(pointer:coarse)]:hidden">Hover</span>
+                <span className="hidden [@media(pointer:coarse)]:inline">Tap</span>
                 {" "}any tile to see the locator I'd actually reach for.
               </p>
             </Reveal>
@@ -1513,14 +1513,14 @@ export default function PlaywrightPage() {
           </div>
 
           <div className="grid lg:grid-cols-5 gap-6">
-            <Reveal className="lg:col-span-2" delay={0.05}>
+            <Reveal className="lg:col-span-2 min-w-0" delay={0.05}>
               <TiltCard max={6} lift={6}>
                 <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 h-full">
                   <ManualCasesTypewriter />
                 </div>
               </TiltCard>
             </Reveal>
-            <Reveal className="lg:col-span-3" delay={0.12}>
+            <Reveal className="lg:col-span-3 min-w-0" delay={0.12}>
               <TiltCard max={9} lift={16} spotlight>
               <div className="rounded-2xl border border-white/10 bg-[#0a1622] overflow-hidden h-full shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)]">
                 <div className="flex items-center justify-between px-5 py-3 border-b border-white/5 bg-white/[0.02]">
@@ -1617,7 +1617,7 @@ export default function PlaywrightPage() {
                 BasePage, a custom <span className="font-mono text-mint-300">pages</span>{" "}
                 fixture, cookie based session reuse with a live API validator, a
                 two-project split for authenticated vs. unauthenticated specs, and dotenv-driven
-                config. Every module went through a two step rhythm — raw spec first,
+                config. Every module went through a two step rhythm: raw spec first,
                 then refactor onto the POM and fixture once the patterns settled.
               </p>
               <p className="mt-3 font-signature text-mint-300 text-xl">
@@ -1696,7 +1696,7 @@ export default function PlaywrightPage() {
                   <span className="text-xs uppercase tracking-[0.25em]">API testing</span>
                 </div>
                 <p className="text-sm text-slate-300 leading-relaxed">
-                  Pure <span className="font-mono text-slate-400">request</span> context —
+                  Pure <span className="font-mono text-slate-400">request</span> context,
                   no browser, no UI. Login, Dashboard, and User Management endpoints
                   validated against the real OrangeHRM API; the Restful-Booker lab specs
                   sit alongside as the course-driven intro to API testing.
@@ -1953,7 +1953,7 @@ export default function PlaywrightPage() {
               </h3>
               <p className="mt-4 text-slate-400 max-w-xl mx-auto">
                 Happy to walk through any spec, the POM / fixture split, the
-                session-reuse strategy, or the API-test approach.
+                session reuse strategy, or the API test approach.
               </p>
               <div className="mt-8 flex flex-wrap justify-center items-center gap-x-10 gap-y-5">
                 <a

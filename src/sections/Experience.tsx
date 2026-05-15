@@ -40,7 +40,7 @@ const items: Item[] = [
     website: "https://bhfuturesfoundation.org",
     bullets: [
       "Led the evaluation process for the scholarship program by conducting 50+ structured interviews with junior and senior scholars, generating standardized feedback reports used to drive strategic improvements for the future of the scholarship program.",
-      "Successfully organized the Mostar Ideathon — GreenTech as Team Lead, managing logistics and engagement for 40+ attendees and facilitating the development of 2 successful student innovation projects.",
+      "Successfully organized the Mostar GreenTech Ideathon as Team Lead, managing logistics and engagement for 40+ attendees and facilitating the development of 2 successful student innovation projects.",
       "Engaged in high-level professional development at the Future Leaders Summit 2025 and Adriatics Summit 2026, leveraging expert feedback to refine technical hard skills and leadership soft skills.",
     ],
   },
@@ -53,7 +53,7 @@ const items: Item[] = [
     initials: "HF",
     website: "https://fondacijahastor.ba",
     bullets: [
-      "Mentored 20+ scholars monthly across a 4-year tenure, logging 10+ volunteer hours/month at consistent quality.",
+      "Mentored 20+ scholars monthly across a 4 year tenure, logging 10+ volunteer hours/month at consistent quality.",
       "Guided scholars in identifying and designing volunteer activities rooted in local community needs.",
       "Developed coaching, coordination and structured program-management skills through continuous hands-on work.",
     ],

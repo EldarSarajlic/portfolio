@@ -79,7 +79,7 @@ export default function Skills() {
               <span className="text-gradient">across the test pyramid</span>.
             </h2>
             <p className="mt-6 text-slate-400 leading-relaxed">
-              QA across the front of the test pyramid — manual, API, automation, and performance, backed by production-grade .NET and Angular development
+              QA across the front of the test pyramid: manual, API, automation, and performance, backed by production grade .NET and Angular development
             </p>
           </div>
         </Reveal>

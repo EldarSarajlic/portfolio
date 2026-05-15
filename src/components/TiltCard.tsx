@@ -84,7 +84,7 @@ export default function TiltCard({
   };
 
   return (
-    <div className="[perspective:1100px]" style={style}>
+    <div className="[perspective:1100px] w-full" style={style}>
       <motion.div
         ref={ref}
         onMouseMove={onMove}

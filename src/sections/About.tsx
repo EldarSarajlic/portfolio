@@ -11,7 +11,7 @@ export default function About() {
             </div>
             <h2 className="font-display text-4xl md:text-5xl text-white font-bold tracking-tight">
               A structured,{" "}
-              <span className="text-gradient">ownership-driven</span>{" "}
+              <span className="text-gradient">ownership driven</span>{" "}
               engineer.
             </h2>
           </div>
@@ -50,7 +50,7 @@ export default function About() {
 
   <Reveal delay={0.25}>
     <p>
-      I take an ownership-driven approach to engineering, whether I’m
+      I take an ownership driven approach to engineering, whether I’m
       designing end-to-end test suites or supporting others in their growth.
       My goal is to combine strong engineering standards with a collaborative
       mindset to build better software and stronger teams.

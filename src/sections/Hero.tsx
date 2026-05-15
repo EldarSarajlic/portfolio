@@ -9,6 +9,16 @@ const isTouch =
   typeof window !== "undefined" &&
   window.matchMedia("(pointer: coarse)").matches;
 
+const lineVariant = {
+  hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { delay: 0.1 + i * 0.18, duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
 export default function Hero() {
   return (
     <section id="top" className="relative min-h-screen flex items-center overflow-hidden">
@@ -17,21 +27,56 @@ export default function Hero() {
 
       <div className="relative max-w-6xl mx-auto w-full px-6 pt-32 pb-20">
         <h1 className="font-display text-white text-5xl sm:text-6xl md:text-7xl lg:text-[88px] leading-[1.02] tracking-tight font-bold">
-          <SplitText text="Building" />{" "}
-          <span className="text-gradient">
-            <SplitText text="quality software," delay={0.05} />
-          </span>
-          <br />
-          <SplitText text="teaching code," delay={0.4} />
-          <br />
-          <SplitText text="and shaping" delay={0.7} />{" "}
-          <SplitText text="communities." delay={0.95} />
+          {isTouch ? (
+            <>
+              <motion.span
+                className="block"
+                custom={0}
+                initial="hidden"
+                animate="show"
+                variants={lineVariant}
+              >
+                Building{" "}
+                <span className="text-gradient">quality software,</span>
+              </motion.span>
+              <motion.span
+                className="block"
+                custom={1}
+                initial="hidden"
+                animate="show"
+                variants={lineVariant}
+              >
+                teaching code,
+              </motion.span>
+              <motion.span
+                className="block"
+                custom={2}
+                initial="hidden"
+                animate="show"
+                variants={lineVariant}
+              >
+                and shaping communities.
+              </motion.span>
+            </>
+          ) : (
+            <>
+              <SplitText text="Building" />{" "}
+              <span className="text-gradient">
+                <SplitText text="quality software," delay={0.05} />
+              </span>
+              <br />
+              <SplitText text="teaching code," delay={0.4} />
+              <br />
+              <SplitText text="and shaping" delay={0.7} />{" "}
+              <SplitText text="communities." delay={0.95} />
+            </>
+          )}
         </h1>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: isTouch ? 0.35 : 1.6, duration: isTouch ? 0.4 : 0.7 }}
+          transition={{ delay: isTouch ? 0.65 : 1.6, duration: isTouch ? 0.4 : 0.7 }}
           className="mt-10 flex flex-col sm:flex-row sm:items-center gap-6"
         >
           <div className="h-px w-12 bg-mint-500" />
@@ -44,7 +89,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: isTouch ? 0.55 : 1.85, duration: isTouch ? 0.4 : 0.7 }}
+          transition={{ delay: isTouch ? 0.85 : 1.85, duration: isTouch ? 0.4 : 0.7 }}
           className="mt-10 flex flex-wrap items-center gap-4"
         >
           <Magnetic>

@@ -8,62 +8,66 @@ type Props = {
 };
 
 /**
- * 3D flip card. The hover listeners live on the OUTER (non-rotating) wrapper so
- * the card can tilt freely without its rotating bounds re-triggering enter/leave
- * at the cursor's edge — that's the classic flicker bug.
- *
- * Both rotateX (mouse) and rotateY (flip) are driven by MotionValues so there's
- * a single transform source of truth (no `animate`-vs-`style` conflict).
+ * 3D flip card. Hover (mouse) flips on enter/leave; tap (touch/pen) toggles on click.
+ * Pointer events + pointerType filtering prevent synthesized mouse events on mobile
+ * from causing the card to flip and immediately flip back.
  */
 export default function FlipCard({ front, back, className = "" }: Props) {
   const reduce = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [flipped, setFlipped] = useState(false);
+  const lastPointerType = useRef<string>("mouse");
+
   const [isTouch] = useState(
-    () => typeof window !== "undefined" && window.matchMedia("(hover: none)").matches
+    () => typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches
   );
 
-  // Flip target
   const flipTarget = useMotionValue(0);
-  const rotateY = useSpring(flipTarget, {
-    stiffness: 80,
-    damping: 18,
-    mass: 0.9,
-  });
+  const rotateY = useSpring(flipTarget, { stiffness: 80, damping: 18, mass: 0.9 });
 
-  // Mouse-Y tilt
   const mouseY = useMotionValue(0);
-  const rotateX = useSpring(mouseY, {
-    stiffness: 200,
-    damping: 24,
-    mass: 0.4,
-  });
+  const rotateX = useSpring(mouseY, { stiffness: 200, damping: 24, mass: 0.4 });
 
   useEffect(() => {
     flipTarget.set(flipped ? 180 : 0);
   }, [flipped, flipTarget]);
 
-  const onMove = (e: React.MouseEvent) => {
-    if (reduce) return;
+  const onPointerEnter = (e: React.PointerEvent) => {
+    if (e.pointerType !== "mouse" || reduce) return;
+    setFlipped(true);
+  };
+
+  const onPointerLeave = (e: React.PointerEvent) => {
+    if (e.pointerType !== "mouse") return;
+    mouseY.set(0);
+    setFlipped(false);
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (e.pointerType !== "mouse" || reduce) return;
     const rect = wrapperRef.current?.getBoundingClientRect();
     if (!rect) return;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     mouseY.set(-y * 8);
   };
 
-  const onEnter = () => { if (!isTouch) setFlipped(true); };
-  const onLeave = () => {
-    if (!isTouch) { mouseY.set(0); setFlipped(false); }
+  // Track pointerType so onClick can distinguish mouse clicks from touch taps
+  const onPointerDown = (e: React.PointerEvent) => {
+    lastPointerType.current = e.pointerType;
   };
-  const onTap = () => { if (isTouch) setFlipped((f) => !f); };
+
+  const onClick = () => {
+    if (lastPointerType.current !== "mouse") setFlipped((f) => !f);
+  };
 
   return (
     <div
       ref={wrapperRef}
-      onMouseEnter={onEnter}
-      onMouseLeave={onLeave}
-      onMouseMove={onMove}
-      onClick={onTap}
+      onPointerEnter={onPointerEnter}
+      onPointerLeave={onPointerLeave}
+      onPointerMove={onPointerMove}
+      onPointerDown={onPointerDown}
+      onClick={onClick}
       className={`[perspective:1400px] ${isTouch ? "cursor-pointer" : ""} ${className}`}
     >
       <motion.div
@@ -85,10 +89,7 @@ export default function FlipCard({ front, back, className = "" }: Props) {
           {front}
         </div>
         <div
-          style={{
-            backfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
-          }}
+          style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           className="absolute inset-0"
         >
           {back}

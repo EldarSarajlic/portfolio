@@ -5,6 +5,8 @@ type Props = {
   className?: string;
   speed?: number;
   iterations?: number;
+  /** Milliseconds to wait before starting the scramble animation */
+  delay?: number;
 };
 
 const CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&?";
@@ -18,6 +20,7 @@ export default function DecryptedText({
   className = "",
   speed = 38,
   iterations = 14,
+  delay = 0,
 }: Props) {
   const [display, setDisplay] = useState(() =>
     text
@@ -30,30 +33,36 @@ export default function DecryptedText({
     const target = text.split("");
     const resolved = new Array(target.length).fill(false);
     let tick = 0;
+    let interval: number;
 
-    const interval = window.setInterval(() => {
-      tick += 1;
-      let resolvedThisTick = 0;
-      const next = target.map((char, i) => {
-        if (char === " ") {
-          resolved[i] = true;
-          return " ";
-        }
-        if (resolved[i]) return char;
-        const idealResolveTick = Math.floor((i / target.length) * iterations) + 2;
-        if (tick >= idealResolveTick && resolvedThisTick < 2) {
-          resolved[i] = true;
-          resolvedThisTick += 1;
-          return char;
-        }
-        return rand();
-      });
-      setDisplay(next.join(""));
-      if (resolved.every(Boolean)) window.clearInterval(interval);
-    }, speed);
+    const startInterval = () => {
+      interval = window.setInterval(() => {
+        tick += 1;
+        let resolvedThisTick = 0;
+        const next = target.map((char, i) => {
+          if (char === " ") { resolved[i] = true; return " "; }
+          if (resolved[i]) return char;
+          const idealResolveTick = Math.floor((i / target.length) * iterations) + 2;
+          if (tick >= idealResolveTick && resolvedThisTick < 2) {
+            resolved[i] = true;
+            resolvedThisTick += 1;
+            return char;
+          }
+          return rand();
+        });
+        setDisplay(next.join(""));
+        if (resolved.every(Boolean)) window.clearInterval(interval);
+      }, speed);
+    };
 
-    return () => window.clearInterval(interval);
-  }, [text, iterations, speed]);
+    const timer = delay > 0 ? window.setTimeout(startInterval, delay) : undefined;
+    if (!timer) startInterval();
+
+    return () => {
+      window.clearTimeout(timer);
+      window.clearInterval(interval);
+    };
+  }, [text, speed, iterations, delay]);
 
   return (
     <span className={className} aria-label={text}>
