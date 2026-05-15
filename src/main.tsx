@@ -1,12 +1,13 @@
-import { StrictMode } from "react";
+import { StrictMode, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ReactLenis } from "lenis/react";
 import "./index.css";
 import App from "./App.tsx";
-import DispatcherPage from "./pages/DispatcherPage.tsx";
-import PlaywrightPage from "./pages/PlaywrightPage.tsx";
 import { PageTransitionProvider } from "./components/PageTransition.tsx";
+
+const DispatcherPage = lazy(() => import("./pages/DispatcherPage.tsx"));
+const PlaywrightPage = lazy(() => import("./pages/PlaywrightPage.tsx"));
 
 const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
@@ -21,12 +22,14 @@ if (navEntry?.type === "reload" && window.location.hash) {
 const router = (
   <BrowserRouter>
     <PageTransitionProvider>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/projects/truck-dispatcher" element={<DispatcherPage />} />
-        <Route path="/projects/playwright-htec" element={<PlaywrightPage />} />
-        <Route path="*" element={<App />} />
-      </Routes>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/projects/truck-dispatcher" element={<DispatcherPage />} />
+          <Route path="/projects/playwright-htec" element={<PlaywrightPage />} />
+          <Route path="*" element={<App />} />
+        </Routes>
+      </Suspense>
     </PageTransitionProvider>
   </BrowserRouter>
 );

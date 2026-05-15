@@ -19,6 +19,8 @@ export default function OrgLogo({ src, fallback, name, className = "" }: Props) 
         <img
           src={src}
           alt={`${name} logo`}
+          width="144"
+          height="144"
           loading="lazy"
           onError={() => setFailed(true)}
           className="max-w-full max-h-full object-contain"

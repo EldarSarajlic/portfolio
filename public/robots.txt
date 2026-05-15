@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://eldarsarajlic.vercel.app/sitemap.xml

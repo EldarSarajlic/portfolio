@@ -25,6 +25,8 @@ export default function Education() {
                   <img
                     src="/logos/fit.png"
                     alt="Faculty of Information Technologies logo"
+                    width="112"
+                    height="112"
                     className="max-w-full max-h-full object-contain"
                   />
                 </div>
@@ -61,6 +63,8 @@ export default function Education() {
                   <img
                     src="/logos/udemy.svg"
                     alt="Udemy logo"
+                    width="112"
+                    height="112"
                     className="max-w-full max-h-full object-contain"
                   />
                 </div>
