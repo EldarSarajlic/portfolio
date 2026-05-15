@@ -1492,12 +1492,12 @@ export default function PlaywrightPage() {
       </section>
 
       {/* ═════════ Chapter 04 — OrangeHRM raw (typewriter + terminal) ═════════ */}
-      <section id="ch4" className="relative px-6 py-28 border-t border-white/5 overflow-hidden">
+      <section id="ch4" className="relative px-6 py-20 sm:py-28 border-t border-white/5 overflow-hidden">
         <div className="absolute -bottom-8 right-12 pointer-events-none">
           <ChapterNumeral num="04" />
         </div>
         <div className="relative max-w-6xl mx-auto">
-          <div className="max-w-3xl mb-12">
+          <div className="max-w-3xl mb-8 sm:mb-12">
             <ChapterTitle kicker="OrangeHRM, raw" title="First real specs." />
             <Reveal delay={0.1}>
               <p className="mt-6 text-slate-300 leading-relaxed">
