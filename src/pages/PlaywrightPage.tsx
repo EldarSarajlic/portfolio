@@ -1464,7 +1464,9 @@ export default function PlaywrightPage() {
                 widget the real world throws at you, one labbed spec at a time.
               </p>
               <p className="mt-3 text-slate-500 text-sm italic">
-                Hover any tile to see the locator I'd actually reach for.
+                <span className="[@media(hover:none)]:hidden">Hover</span>
+                <span className="hidden [@media(hover:none)]:inline">Tap</span>
+                {" "}any tile to see the locator I'd actually reach for.
               </p>
             </Reveal>
           </div>
