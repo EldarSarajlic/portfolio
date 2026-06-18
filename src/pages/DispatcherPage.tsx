@@ -14,7 +14,6 @@ import {
   FiArrowLeft,
   FiArrowUpRight,
   FiCheckCircle,
-  FiGithub,
   FiMessageSquare,
   FiPhone,
   FiMapPin,
@@ -30,6 +29,9 @@ import {
   FiDatabase,
   FiLayers,
   FiActivity,
+  FiCpu,
+  FiRadio,
+  FiMap,
   FiSend,
   FiFileText,
 } from "react-icons/fi";
@@ -38,6 +40,8 @@ import DecryptedText from "../components/DecryptedText";
 import Aurora from "../components/Aurora";
 import TiltCard from "../components/TiltCard";
 import FlipCard from "../components/FlipCard";
+import * as L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 /* ───────────────────────── Chapter metadata ───────────────────────── */
 
@@ -56,7 +60,8 @@ const chapters: Chapter[] = [
   { id: "ch5", num: "05", kicker: "Locked by design", title: "The closed door" },
   { id: "ch6", num: "06", kicker: "Lifecycle", title: "Order → Shipment → Dispatch" },
   { id: "ch7", num: "07", kicker: "Status", title: "The build" },
-  { id: "ch8", num: "08", kicker: "Epilogue", title: "What it taught me" },
+  { id: "ch8", num: "08", kicker: "Roadmap", title: "Live telematics" },
+  { id: "ch9", num: "09", kicker: "Epilogue", title: "What it taught me" },
 ];
 
 /* ───────────────────────── Feature breakdown data ───────────────────────── */
@@ -342,41 +347,6 @@ function ChapterRail({ active }: { active: string }) {
   );
 }
 
-/* ───────────────────────── Tech marquee ───────────────────────── */
-
-const techRail = [
-  ".NET 8 · ASP.NET Core",
-  "Clean Architecture",
-  "CQRS · MediatR",
-  "EF Core 8 Code-First",
-  "SQL Server 2022",
-  "FluentValidation",
-  "SignalR",
-  "JWT + Refresh (httpOnly)",
-  "Device fingerprint",
-  "Google OAuth",
-  "Angular 21",
-  "Angular Signals",
-  "Tailwind v4 · DaisyUI v5",
-  "Chart.js · Leaflet",
-  "ngx-translate (BS · EN)",
-];
-
-function TechMarquee() {
-  return (
-    <div className="relative overflow-hidden mask-fade-x py-3">
-      <div className="flex items-center gap-10 animate-marquee whitespace-nowrap">
-        {[...techRail, ...techRail].map((t, i) => (
-          <span key={`${t}-${i}`} className="flex items-center gap-10">
-            <span className="text-xs font-mono text-slate-500 tracking-wide">{t}</span>
-            <span className="h-3 w-px bg-white/15 shrink-0" />
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* ───────────────────────── Chapter numeral background ───────────────────────── */
 
 function ChapterNumeral({ num }: { num: string }) {
@@ -431,129 +401,84 @@ function Stat({ k, v }: { k: string | number; v: string }) {
   );
 }
 
-/* ───────────────────────── Kakanj pin (Ch 02) ───────────────────────── */
+/* ───────────────────────── Kakanj map (Ch 02) ───────────────────────── */
+
+const KAKANJ: [number, number] = [44.1361, 18.1186];
 
 function KakanjPin() {
-  const reduce = useReducedMotion();
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstance = useRef<L.Map | null>(null);
+
+  useEffect(() => {
+    const el = mapRef.current;
+    if (!el || mapInstance.current) return;
+
+    const map = L.map(el, {
+      center: KAKANJ,
+      zoom: 12,
+      zoomControl: false,
+      scrollWheelZoom: false,
+      dragging: true,
+    });
+    mapInstance.current = map;
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      attribution: "&copy; OpenStreetMap &copy; CARTO",
+      subdomains: "abcd",
+      maxZoom: 19,
+    }).addTo(map);
+
+    const pin = L.divIcon({
+      className: "kakanj-pin",
+      html:
+        '<svg width="28" height="38" viewBox="0 0 28 38" xmlns="http://www.w3.org/2000/svg">' +
+        '<path d="M14 0C6.27 0 0 6.06 0 13.53 0 23.6 14 38 14 38s14-14.4 14-24.47C28 6.06 21.73 0 14 0z" fill="#3dd2a5"/>' +
+        '<circle cx="14" cy="13.5" r="5" fill="#06121f"/>' +
+        "</svg>",
+      iconSize: [28, 38],
+      iconAnchor: [14, 38],
+      tooltipAnchor: [0, -38],
+    });
+
+    L.marker(KAKANJ, { icon: pin })
+      .addTo(map)
+      .bindTooltip("Kakanj", {
+        permanent: true,
+        direction: "top",
+        className: "kakanj-tooltip",
+      })
+      .openTooltip();
+
+    L.control.zoom({ position: "bottomright" }).addTo(map);
+
+    const settle = window.setTimeout(() => map.invalidateSize(), 200);
+
+    return () => {
+      window.clearTimeout(settle);
+      map.remove();
+      mapInstance.current = null;
+    };
+  }, []);
+
   return (
     <div className="relative rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-transparent p-6 md:p-10 overflow-hidden">
-      <div className="absolute inset-0 grid-pattern opacity-20 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
       <div className="relative flex items-center justify-between mb-5">
         <span className="text-mint-400 text-xs uppercase tracking-[0.3em]">
           The conversation
         </span>
-        <span className="text-[10px] font-mono text-slate-500 tracking-widest">
-          44.1361° N · 18.1186° E
+        <span className="text-[10px] font-mono text-slate-500 tracking-widest uppercase">
+          Kakanj · Bosnia
         </span>
       </div>
 
-      <div className="relative h-56 md:h-64">
-        <svg viewBox="0 0 600 240" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="kakanjGlow" cx="0.5" cy="0.5" r="0.5">
-              <stop offset="0%" stopColor="#5ee3b3" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#5ee3b3" stopOpacity="0" />
-            </radialGradient>
-            <linearGradient id="kakanjLine" x1="0" x2="1" y1="0" y2="0">
-              <stop offset="0%" stopColor="#3dd2a5" stopOpacity="0" />
-              <stop offset="50%" stopColor="#3dd2a5" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#3dd2a5" stopOpacity="0" />
-            </linearGradient>
-          </defs>
+      <div
+        ref={mapRef}
+        className="relative z-0 h-56 md:h-72 w-full rounded-2xl overflow-hidden border border-white/10"
+        role="img"
+        aria-label="Map of Kakanj, Bosnia, with a pin on the town"
+      />
 
-          {/* Stylized country outline (loose Bosnia silhouette) */}
-          <path
-            d="M 120 80 Q 160 60 220 70 Q 280 60 340 90 Q 400 100 430 130 Q 460 160 440 180 Q 400 210 340 200 Q 280 200 220 195 Q 170 195 140 170 Q 100 150 110 110 Z"
-            fill="rgba(255,255,255,0.02)"
-            stroke="rgba(255,255,255,0.1)"
-            strokeWidth="1"
-            strokeDasharray="4 6"
-          />
-
-          {/* East-west reference line */}
-          <line x1="60" y1="135" x2="540" y2="135" stroke="url(#kakanjLine)" strokeWidth="1" />
-
-          {/* Pulse ring */}
-          {!reduce && (
-            <>
-              <circle cx="300" cy="135" r="20" fill="url(#kakanjGlow)">
-                <animate attributeName="r" values="14;60;14" dur="3s" repeatCount="indefinite" />
-                <animate
-                  attributeName="opacity"
-                  values="0.7;0;0.7"
-                  dur="3s"
-                  repeatCount="indefinite"
-                />
-              </circle>
-              <circle cx="300" cy="135" r="20" fill="url(#kakanjGlow)">
-                <animate
-                  attributeName="r"
-                  values="14;60;14"
-                  dur="3s"
-                  begin="1.5s"
-                  repeatCount="indefinite"
-                />
-                <animate
-                  attributeName="opacity"
-                  values="0.7;0;0.7"
-                  dur="3s"
-                  begin="1.5s"
-                  repeatCount="indefinite"
-                />
-              </circle>
-            </>
-          )}
-
-          {/* Pin */}
-          <g transform="translate(300 135)">
-            <circle r="5" fill="#5ee3b3" />
-            <circle r="11" fill="none" stroke="#5ee3b3" strokeWidth="1.5" opacity="0.6" />
-          </g>
-
-          <text
-            x="320"
-            y="138"
-            fill="#e2e8f0"
-            fontSize="14"
-            fontFamily="Inter"
-            fontWeight="600"
-          >
-            Kakanj
-          </text>
-          <text
-            x="320"
-            y="156"
-            fill="#64748b"
-            fontSize="10"
-            fontFamily="ui-monospace"
-            letterSpacing="2"
-          >
-            HOMETOWN · 2025
-          </text>
-
-          {/* Other dots — fellow cities for scale */}
-          {[
-            { x: 200, y: 120, label: "Sarajevo" },
-            { x: 380, y: 95, label: "Tuzla" },
-            { x: 145, y: 170, label: "Mostar" },
-          ].map((c) => (
-            <g key={c.label}>
-              <circle cx={c.x} cy={c.y} r="2" fill="#64748b" />
-              <text
-                x={c.x + 6}
-                y={c.y + 3}
-                fill="#475569"
-                fontSize="9"
-                fontFamily="Inter"
-              >
-                {c.label}
-              </text>
-            </g>
-          ))}
-        </svg>
-      </div>
-
-      <div className="relative mt-2 text-xs text-slate-500 italic text-center">
+      <div className="relative mt-4 text-xs text-slate-500 italic text-center">
         I didn't sketch a wireframe. I drove home and asked.
       </div>
     </div>
@@ -630,7 +555,6 @@ const scattered: Msg[] = [
 ];
 
 function ScatteredMessages() {
-  const reduce = useReducedMotion();
   return (
     <div className="relative h-[420px] md:h-[480px] rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent overflow-hidden">
       <div className="absolute inset-0 grid-pattern opacity-15 [mask-image:radial-gradient(ellipse_at_center,black_25%,transparent_75%)]" />
@@ -691,9 +615,6 @@ function ScatteredMessages() {
               Nothing in one place.
             </div>
           </div>
-          {!reduce && (
-            <span className="absolute -inset-3 -z-10 rounded-3xl bg-amber-400/10 blur-2xl animate-pulse" />
-          )}
         </motion.div>
       </div>
     </div>
@@ -792,18 +713,12 @@ const threadMsgs: ThreadMsg[] = [
 ];
 
 function ThreadMock() {
-  const reduce = useReducedMotion();
   return (
     <div className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-transparent overflow-hidden shadow-[0_40px_80px_-25px_rgba(0,0,0,0.7)]">
       {/* Thread header */}
       <div className="px-5 py-4 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="relative flex h-2 w-2">
-            {!reduce && (
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint-400 opacity-75" />
-            )}
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-mint-400" />
-          </span>
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-mint-400" />
           <div>
             <div className="text-slate-100 font-medium text-sm">Shipment #SH-1042</div>
             <div className="text-[10px] uppercase tracking-widest text-slate-500 mt-0.5">
@@ -1140,10 +1055,10 @@ function LifecycleDiagram() {
             >
               ORDER
             </text>
-            <text x="140" y="126" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Inter">
+            <text x="140" y="126" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
               What the client wants
             </text>
-            <text x="140" y="148" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Inter">
+            <text x="140" y="148" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
               items · priority · delivery
             </text>
             <text
@@ -1157,7 +1072,7 @@ function LifecycleDiagram() {
             >
               owned by · CLIENT
             </text>
-            <text x="140" y="192" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Inter">
+            <text x="140" y="192" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Hanken Grotesk">
               dispatcher approves
             </text>
           </g>
@@ -1195,10 +1110,10 @@ function LifecycleDiagram() {
             >
               SHIPMENT
             </text>
-            <text x="430" y="108" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Inter">
+            <text x="430" y="108" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
               How it actually moves
             </text>
-            <text x="430" y="130" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Inter">
+            <text x="430" y="130" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
               weight · volume · route
             </text>
             <text
@@ -1212,10 +1127,10 @@ function LifecycleDiagram() {
             >
               owned by · DISPATCHER
             </text>
-            <text x="430" y="178" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Inter">
+            <text x="430" y="178" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Hanken Grotesk">
               opens the per shipment thread
             </text>
-            <text x="430" y="200" textAnchor="middle" fill="#fbbf24" fontSize="10" fontFamily="Inter" fontStyle="italic">
+            <text x="430" y="200" textAnchor="middle" fill="#fbbf24" fontSize="10" fontFamily="Hanken Grotesk" fontStyle="italic">
               client gets the tracking code here
             </text>
           </g>
@@ -1252,10 +1167,10 @@ function LifecycleDiagram() {
             >
               DISPATCH
             </text>
-            <text x="740" y="126" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Inter">
+            <text x="740" y="126" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
               Who actually does it
             </text>
-            <text x="740" y="148" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Inter">
+            <text x="740" y="148" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
               truck + trailer + driver
             </text>
             <text
@@ -1269,7 +1184,7 @@ function LifecycleDiagram() {
             >
               owned by · DISPATCHER
             </text>
-            <text x="740" y="192" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Inter">
+            <text x="740" y="192" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Hanken Grotesk">
               driver runs the delivery
             </text>
           </g>
@@ -1281,10 +1196,165 @@ function LifecycleDiagram() {
             textAnchor="middle"
             fill="#64748b"
             fontSize="11"
-            fontFamily="Inter"
+            fontFamily="Hanken Grotesk"
             fontStyle="italic"
           >
             three entities · three statuses · three owners — that's the point, not the cost
+          </text>
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ───────────────────────── Telematics signal-path diagram (Ch 08) ───────────────────────── */
+
+function TelematicsFlow() {
+  const reduce = useReducedMotion();
+  return (
+    <div className="relative rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.03] to-transparent p-6 md:p-10 overflow-hidden">
+      <div className="absolute inset-0 grid-pattern opacity-20 [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]" />
+      <div className="relative">
+        <div className="flex items-center gap-2 mb-6">
+          <span className="text-mint-400 text-xs uppercase tracking-[0.3em]">
+            Cab to dispatcher · one signal path
+          </span>
+          <span className="h-px flex-1 bg-gradient-to-r from-mint-500/40 to-transparent" />
+        </div>
+
+        <svg viewBox="0 0 1000 300" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker
+              id="tmArrow"
+              viewBox="0 0 10 10"
+              refX="9"
+              refY="5"
+              markerWidth="6"
+              markerHeight="6"
+              orient="auto-start-reverse"
+            >
+              <path d="M0,0 L10,5 L0,10 z" fill="#3dd2a5" />
+            </marker>
+            <linearGradient id="tmLane" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%" stopColor="#3dd2a5" stopOpacity="0" />
+              <stop offset="50%" stopColor="#3dd2a5" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#3dd2a5" stopOpacity="0" />
+            </linearGradient>
+            <path id="tmFlow" d="M 110 160 L 890 160" />
+          </defs>
+
+          <line x1="10" y1="160" x2="990" y2="160" stroke="url(#tmLane)" strokeWidth="1" />
+
+          {/* Flowing particles */}
+          {!reduce &&
+            [0, 0.4, 0.8].map((delay) => (
+              <circle key={delay} r="3.5" fill="#5ee3b3">
+                <animateMotion
+                  dur="5s"
+                  repeatCount="indefinite"
+                  begin={`${delay * 5}s`}
+                  rotate="auto"
+                >
+                  <mpath href="#tmFlow" />
+                </animateMotion>
+                <animate
+                  attributeName="opacity"
+                  values="0;1;1;0"
+                  keyTimes="0;0.15;0.85;1"
+                  dur="5s"
+                  repeatCount="indefinite"
+                  begin={`${delay * 5}s`}
+                />
+              </circle>
+            ))}
+
+          {/* Node 1 — Teltonika device */}
+          <g>
+            <rect x="10" y="95" width="195" height="130" rx="14" fill="rgba(61,210,165,0.05)" stroke="rgba(61,210,165,0.4)" />
+            <text x="107" y="124" textAnchor="middle" fill="#5ee3b3" fontSize="11" fontFamily="ui-monospace" letterSpacing="2">
+              TELTONIKA FMB
+            </text>
+            <text x="107" y="150" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
+              GPS unit in the cab
+            </text>
+            <text x="107" y="172" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
+              location · ignition · CAN
+            </text>
+            <text x="107" y="198" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Hanken Grotesk">
+              streams over GPRS / LTE
+            </text>
+          </g>
+
+          <line x1="208" y1="160" x2="268" y2="160" stroke="#3dd2a5" strokeWidth="1.5" markerEnd="url(#tmArrow)" />
+          <text x="238" y="148" textAnchor="middle" fill="#64748b" fontSize="9" fontFamily="ui-monospace" letterSpacing="1">
+            Codec 8E · TCP
+          </text>
+
+          {/* Node 2 — listener (emphasized) */}
+          <g>
+            <rect x="272" y="70" width="205" height="180" rx="14" fill="#06121f" />
+            <rect x="272" y="70" width="205" height="180" rx="14" fill="rgba(61,210,165,0.07)" stroke="rgba(61,210,165,0.55)" />
+            <text x="374" y="100" textAnchor="middle" fill="#5ee3b3" fontSize="11" fontFamily="ui-monospace" letterSpacing="2">
+              TCP LISTENER
+            </text>
+            <text x="374" y="128" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
+              Decodes the AVL stream
+            </text>
+            <text x="374" y="150" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
+              IMEI handshake → ACK
+            </text>
+            <text x="374" y="170" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
+              parse records · CRC-16
+            </text>
+            <text x="374" y="196" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Hanken Grotesk">
+              .NET background service
+            </text>
+            <text x="374" y="218" textAnchor="middle" fill="#fbbf24" fontSize="10" fontFamily="Hanken Grotesk" fontStyle="italic">
+              acks the record count
+            </text>
+          </g>
+
+          <line x1="480" y1="160" x2="540" y2="160" stroke="#3dd2a5" strokeWidth="1.5" markerEnd="url(#tmArrow)" />
+
+          {/* Node 3 — position store */}
+          <g>
+            <rect x="544" y="95" width="160" height="130" rx="14" fill="rgba(61,210,165,0.05)" stroke="rgba(61,210,165,0.4)" />
+            <text x="624" y="124" textAnchor="middle" fill="#5ee3b3" fontSize="11" fontFamily="ui-monospace" letterSpacing="2">
+              POSITION STORE
+            </text>
+            <text x="624" y="150" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
+              Pings persisted
+            </text>
+            <text x="624" y="172" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
+              per truck · per dispatch
+            </text>
+            <text x="624" y="198" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Hanken Grotesk">
+              history + last-known
+            </text>
+          </g>
+
+          <line x1="707" y1="160" x2="767" y2="160" stroke="#3dd2a5" strokeWidth="1.5" markerEnd="url(#tmArrow)" />
+
+          {/* Node 4 — dispatcher map */}
+          <g>
+            <rect x="770" y="95" width="220" height="130" rx="14" fill="rgba(61,210,165,0.05)" stroke="rgba(61,210,165,0.4)" />
+            <text x="880" y="124" textAnchor="middle" fill="#5ee3b3" fontSize="11" fontFamily="ui-monospace" letterSpacing="2">
+              DISPATCHER MAP
+            </text>
+            <text x="880" y="150" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
+              Live truck markers
+            </text>
+            <text x="880" y="172" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
+              Leaflet · real-time
+            </text>
+            <text x="880" y="198" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Hanken Grotesk">
+              ETA from real position
+            </text>
+          </g>
+
+          {/* Caption */}
+          <text x="500" y="285" textAnchor="middle" fill="#64748b" fontSize="11" fontFamily="Hanken Grotesk" fontStyle="italic">
+            self-reported status stays — this adds the hardware truth underneath it
           </text>
         </svg>
       </div>
@@ -1501,13 +1571,11 @@ export default function DispatcherPage() {
             <span className="text-sm">Back to portfolio</span>
           </Link>
           <a
-            href="https://github.com/EldarSarajlic/Truck_Dispatcher"
-            target="_blank"
-            rel="noreferrer"
+            href="mailto:eldarsarajlic525@gmail.com"
             className="inline-flex items-center gap-2 text-slate-300 hover:text-mint-400 transition-colors text-sm"
           >
-            <FiGithub />
-            GitHub
+            <FiMail />
+            Get in touch
           </a>
         </div>
       </header>
@@ -1563,12 +1631,6 @@ export default function DispatcherPage() {
               </div>
             </div>
           </div>
-
-          <Reveal delay={0.28}>
-            <div className="mt-12">
-              <TechMarquee />
-            </div>
-          </Reveal>
 
           <Reveal delay={0.35}>
             <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-2 max-w-4xl">
@@ -1760,7 +1822,7 @@ export default function DispatcherPage() {
                 client all talk inside. No app switching. No "Wait, did you send it on WhatsApp?" The admin sits behind it, owning the
                 keys to the system.
               </p>
-              <p className="mt-3 font-signature text-mint-300 text-xl">
+              <p className="mt-3 italic text-mint-300 text-xl">
                 The thread is the product.
               </p>
             </Reveal>
@@ -1881,7 +1943,7 @@ export default function DispatcherPage() {
                  has its own status lifecycle, and is handled by different roles in the system. Separating them resulted in a cleaner architecture, clearer responsibilities,
                   and a solution that is easier to maintain and scale over time.
               </p>
-              <p className="mt-3 font-signature text-mint-300 text-xl">
+              <p className="mt-3 italic text-mint-300 text-xl">
                 Different lifecycles deserve different homes.
               </p>
             </Reveal>
@@ -2110,10 +2172,145 @@ export default function DispatcherPage() {
         </div>
       </section>
 
-      {/* ═════════ Chapter 08 — Epilogue ═════════ */}
+      {/* ═════════ Chapter 08 — Live telematics (roadmap) ═════════ */}
       <section id="ch8" className="relative px-6 py-32 border-t border-white/5 overflow-hidden">
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 pointer-events-none">
+        <div className="absolute top-12 right-12 pointer-events-none">
           <ChapterNumeral num="08" />
+        </div>
+        <div className="relative max-w-6xl mx-auto">
+          <div className="max-w-3xl mb-14">
+            <ChapterTitle
+              kicker="Roadmap · in progress"
+              title="From self-reported to sensor-reported."
+            />
+            <Reveal delay={0.1}>
+              <p className="mt-6 text-slate-300 leading-relaxed text-lg">
+                Everything so far runs on what people type in: the driver moves a
+                dispatch from{" "}
+                <span className="font-mono text-mint-300">Scheduled</span> to{" "}
+                <span className="font-mono text-mint-300">InProgress</span>, and the
+                thread carries the rest. That's honest, but it's still someone tapping a
+                phone. The next chapter puts a sensor underneath it — real GPS hardware
+                on the truck, reporting where the load actually is.
+              </p>
+            </Reveal>
+            <Reveal delay={0.16}>
+              <p className="mt-4 text-slate-300 leading-relaxed">
+                The plan is to fit <span className="text-slate-100">Teltonika</span>{" "}
+                telematics units — the FMB family of vehicle GPS trackers from the
+                Lithuanian manufacturer — into the trucks and have them report straight
+                into the platform. No third-party fleet dashboard sitting in the middle:
+                the same app that owns the shipment owns its position.
+              </p>
+              <p className="mt-3 italic text-mint-300 text-xl">
+                The thread says what was agreed. The tracker says where it is.
+              </p>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.14}>
+            <TelematicsFlow />
+          </Reveal>
+
+          <div className="mt-10 grid lg:grid-cols-3 gap-4">
+            <Reveal delay={0.05}>
+              <TiltCard max={8} lift={10} spotlight>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 h-full">
+                  <div className="flex items-center gap-2 text-mint-400 mb-3">
+                    <FiCpu />
+                    <span className="text-xs uppercase tracking-[0.25em]">The device</span>
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    A Teltonika FMB tracker wired into the truck reads GPS position,
+                    ignition, and movement — and, where the vehicle exposes it, CAN-bus
+                    data like odometer and fuel. It's off-the-shelf hardware, configured
+                    once to send to our server instead of a vendor cloud.
+                  </p>
+                  <p className="mt-4 text-xs text-slate-500">
+                    Standard hardware ·{" "}
+                    <span className="text-slate-300">no custom firmware</span>
+                  </p>
+                </div>
+              </TiltCard>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <TiltCard max={10} lift={14} spotlight glowBorder>
+                <div className="rounded-2xl border border-mint-500/30 bg-mint-500/[0.04] p-6 h-full shadow-[0_30px_60px_-25px_rgba(61,210,165,0.4)]">
+                  <div className="flex items-center gap-2 text-mint-400 mb-3">
+                    <FiRadio />
+                    <span className="text-xs uppercase tracking-[0.25em]">The protocol</span>
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    Teltonika devices speak a compact binary AVL protocol —{" "}
+                    <span className="font-mono text-mint-300">Codec 8</span> and{" "}
+                    <span className="font-mono text-mint-300">Codec 8 Extended</span> —
+                    over TCP. The unit opens a socket, identifies itself by IMEI, and
+                    once the server accepts it, streams CRC-checked records. The server
+                    replies with the count it stored so the device can clear its buffer.
+                  </p>
+                  <p className="mt-4 text-xs text-slate-500">
+                    A dedicated listener parses the frames — the REST API never touches a
+                    raw socket.
+                  </p>
+                </div>
+              </TiltCard>
+            </Reveal>
+
+            <Reveal delay={0.15}>
+              <TiltCard max={8} lift={10} spotlight>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 h-full">
+                  <div className="flex items-center gap-2 text-mint-400 mb-3">
+                    <FiMap />
+                    <span className="text-xs uppercase tracking-[0.25em]">Into the thread</span>
+                  </div>
+                  <p className="text-sm text-slate-300 leading-relaxed">
+                    Parsed positions land on the dispatcher's live map and attach to the
+                    active dispatch. Arrival and ignition events can post into the same
+                    per-shipment thread automatically — so "where are you?" becomes a
+                    marker on a map instead of a phone call.
+                  </p>
+                  <p className="mt-4 text-xs text-slate-500">
+                    Built on the Leaflet map · feeds the existing live thread
+                  </p>
+                </div>
+              </TiltCard>
+            </Reveal>
+          </div>
+
+          <Reveal delay={0.2}>
+            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-2">
+              {[
+                "Teltonika FMB trackers",
+                "Codec 8 / 8E over TCP",
+                "IMEI handshake + ACK",
+                "Dedicated listener service",
+                "Live Leaflet map",
+                "Auto thread events",
+              ].map((t) => (
+                <span
+                  key={t}
+                  className="text-xs text-slate-500 border-b border-mint-400/50 pb-px"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.24}>
+            <p className="mt-8 max-w-3xl text-slate-500 text-sm italic">
+              Described at the architecture level on purpose — this is the direction of
+              the build, not a wiring guide for anyone else's fleet.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═════════ Chapter 09 — Epilogue ═════════ */}
+      <section id="ch9" className="relative px-6 py-32 border-t border-white/5 overflow-hidden">
+        <div className="absolute top-12 left-1/2 -translate-x-1/2 pointer-events-none">
+          <ChapterNumeral num="09" />
         </div>
         <div className="relative max-w-5xl mx-auto">
           <div className="text-center mb-16">
@@ -2126,7 +2323,7 @@ export default function DispatcherPage() {
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="mt-4 font-signature text-mint-300 text-2xl">
+              <p className="mt-4 italic text-mint-300 text-2xl">
                 Three things stayed with me.
               </p>
             </Reveal>
@@ -2190,19 +2387,6 @@ export default function DispatcherPage() {
                 cookie based auth migration, or the per shipment thread design.
               </p>
               <div className="mt-8 flex flex-wrap justify-center items-center gap-x-10 gap-y-5">
-                <a
-                  href="https://github.com/EldarSarajlic/Truck_Dispatcher"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group flex items-center gap-2 text-slate-300 hover:text-white transition-colors text-sm"
-                >
-                  <FiGithub className="text-mint-400 shrink-0" />
-                  <span className="relative after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-mint-400 after:scale-x-0 after:origin-left after:transition-transform after:duration-300 group-hover:after:scale-x-100">
-                    Read the repo
-                  </span>
-                  <FiArrowUpRight className="text-mint-400 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </a>
-                <span className="h-4 w-px bg-white/10 hidden sm:block" aria-hidden />
                 <a
                   href="mailto:eldarsarajlic525@gmail.com"
                   className="group flex items-center gap-2 text-slate-200 hover:text-white transition-colors text-sm"

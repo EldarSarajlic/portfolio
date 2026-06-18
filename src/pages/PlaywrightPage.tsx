@@ -119,42 +119,6 @@ function ChapterRail({ active }: { active: string }) {
   );
 }
 
-/* ───────────────────────── Marquee tech rail ───────────────────────── */
-
-const techRail = [
-  "Playwright 1.57",
-  "TypeScript",
-  "Node.js",
-  "Page Object Model",
-  "Custom fixtures",
-  "Storage state",
-  "Global setup",
-  "request context API",
-  "dotenv",
-  "HTML reporter",
-  "Trace on retry",
-  "Postman",
-  "DeepEval",
-  "Grafana K6",
-  "GitHub Actions",
-  "Jira",
-];
-
-function TechMarquee() {
-  return (
-    <div className="relative overflow-hidden mask-fade-x py-3">
-      <div className="flex items-center gap-10 animate-marquee whitespace-nowrap">
-        {[...techRail, ...techRail].map((t, i) => (
-          <span key={`${t}-${i}`} className="flex items-center gap-10">
-            <span className="text-xs font-mono text-slate-500 tracking-wide">{t}</span>
-            <span className="h-3 w-px bg-white/15 shrink-0" />
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* ───────────────────────── Big chapter number (parallax + spring entrance) ───────────────────────── */
 
 function ChapterNumeral({ num }: { num: string }) {
@@ -570,33 +534,11 @@ function ArchDiagram() {
               <stop offset="50%" stopColor="#3dd2a5" stopOpacity="0.6" />
               <stop offset="100%" stopColor="#3dd2a5" stopOpacity="0" />
             </linearGradient>
-            <radialGradient id="pulseGrad" cx="0.5" cy="0.5" r="0.5">
-              <stop offset="0%" stopColor="#5ee3b3" stopOpacity="0.7" />
-              <stop offset="100%" stopColor="#5ee3b3" stopOpacity="0" />
-            </radialGradient>
             <path id="flowPath" d="M 220 130 L 295 130 L 410 130 L 515 130 L 600 130" />
           </defs>
 
           {/* Lane line */}
           <line x1="60" y1="130" x2="840" y2="130" stroke="url(#lane)" strokeWidth="1" />
-
-          {/* Pulse behind auth-validator */}
-          {!reduce && (
-            <circle cx="410" cy="130" r="65" fill="url(#pulseGrad)">
-              <animate
-                attributeName="r"
-                values="55;75;55"
-                dur="2.4s"
-                repeatCount="indefinite"
-              />
-              <animate
-                attributeName="opacity"
-                values="0.55;0.15;0.55"
-                dur="2.4s"
-                repeatCount="indefinite"
-              />
-            </circle>
-          )}
 
           {/* Node 1: global-setup */}
           <g>
@@ -612,10 +554,10 @@ function ArchDiagram() {
             <text x="130" y="108" textAnchor="middle" fill="#5ee3b3" fontSize="11" fontFamily="ui-monospace" letterSpacing="2">
               GLOBAL-SETUP
             </text>
-            <text x="130" y="135" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Inter">
+            <text x="130" y="135" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
               Log in once
             </text>
-            <text x="130" y="155" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Inter">
+            <text x="130" y="155" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
               save storageState
             </text>
           </g>
@@ -663,16 +605,16 @@ function ArchDiagram() {
             <text x="410" y="88" textAnchor="middle" fill="#5ee3b3" fontSize="11" fontFamily="ui-monospace" letterSpacing="2">
               AUTH-VALIDATOR
             </text>
-            <text x="410" y="115" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Inter">
+            <text x="410" y="115" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
               Live API ping
             </text>
-            <text x="410" y="135" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Inter">
+            <text x="410" y="135" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
               cookie still good?
             </text>
             <text x="410" y="165" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="ui-monospace" letterSpacing="1">
               redirect → /auth/login = stale
             </text>
-            <text x="410" y="182" textAnchor="middle" fill="#fbbf24" fontSize="10" fontFamily="Inter" fontStyle="italic">
+            <text x="410" y="182" textAnchor="middle" fill="#fbbf24" fontSize="10" fontFamily="Hanken Grotesk" fontStyle="italic">
               re-login if expired
             </text>
           </g>
@@ -693,16 +635,16 @@ function ArchDiagram() {
             <text x="700" y="108" textAnchor="middle" fill="#5ee3b3" fontSize="11" fontFamily="ui-monospace" letterSpacing="2">
               PAGES FIXTURE
             </text>
-            <text x="700" y="135" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Inter">
+            <text x="700" y="135" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
               7 POMs, fresh per spec
             </text>
-            <text x="700" y="155" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Inter">
+            <text x="700" y="155" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
               test.extend(...)
             </text>
           </g>
 
           {/* Tail label */}
-          <text x="450" y="245" textAnchor="middle" fill="#64748b" fontSize="11" fontFamily="Inter" fontStyle="italic">
+          <text x="450" y="245" textAnchor="middle" fill="#64748b" fontSize="11" fontFamily="Hanken Grotesk" fontStyle="italic">
             log in once · validate · reuse — the framework respects its own state
           </text>
         </svg>
@@ -1032,11 +974,7 @@ function K6Sparkline() {
         transition={{ duration: reduce ? 0 : 1.2, ease: [0.22, 1, 0.36, 1] }}
       />
       {/* spike marker */}
-      <circle cx="400" cy="18" r="4" fill="#5ee3b3">
-        {!reduce && (
-          <animate attributeName="opacity" values="1;0.4;1" dur="1.6s" repeatCount="indefinite" />
-        )}
-      </circle>
+      <circle cx="400" cy="18" r="4" fill="#5ee3b3" />
       <text x="408" y="14" fontSize="10" fill="#5ee3b3" fontFamily="ui-monospace">
         peak VUs
       </text>
@@ -1171,10 +1109,7 @@ function HeroScene() {
           style={{ transform: "translateZ(20px)" }}
         >
           <div className="flex items-center gap-2 text-mint-300 text-[10px] uppercase tracking-[0.3em] mb-2">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-mint-400 opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-mint-400" />
-            </span>
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-mint-400" />
             auth-validator
           </div>
           <div className="text-slate-200 text-sm font-medium">cookie still good</div>
@@ -1347,12 +1282,6 @@ export default function PlaywrightPage() {
               </div>
             </div>
           </div>
-
-          <Reveal delay={0.28}>
-            <div className="mt-12">
-              <TechMarquee />
-            </div>
-          </Reveal>
 
           <Reveal delay={0.35}>
             <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-2 max-w-4xl">
@@ -1620,7 +1549,7 @@ export default function PlaywrightPage() {
                 config. Every module went through a two step rhythm: raw spec first,
                 then refactor onto the POM and fixture once the patterns settled.
               </p>
-              <p className="mt-3 font-signature text-mint-300 text-xl">
+              <p className="mt-3 italic text-mint-300 text-xl">
                 The 13 PRs are the curriculum.
               </p>
             </Reveal>
@@ -1879,7 +1808,7 @@ export default function PlaywrightPage() {
         </div>
       </section>
 
-      {/* ═════════ Chapter 08 — epilogue (handwritten accent) ═════════ */}
+      {/* ═════════ Chapter 08 — epilogue (italic accent) ═════════ */}
       <section id="ch8" className="relative px-6 py-32 border-t border-white/5 overflow-hidden">
         <div className="absolute top-12 left-1/2 -translate-x-1/2 pointer-events-none">
           <ChapterNumeral num="08" />
@@ -1895,7 +1824,7 @@ export default function PlaywrightPage() {
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="mt-4 font-signature text-mint-300 text-2xl">
+              <p className="mt-4 italic text-mint-300 text-2xl">
                 Three things stayed with me.
               </p>
             </Reveal>

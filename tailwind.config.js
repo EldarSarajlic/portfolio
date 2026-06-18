@@ -20,9 +20,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['"Space Grotesk"', 'Inter', 'sans-serif'],
-        signature: ['"Caveat"', 'cursive'],
+        sans: ['"Hanken Grotesk"', 'system-ui', 'sans-serif'],
+        display: ['"Bricolage Grotesque"', '"Hanken Grotesk"', 'sans-serif'],
       },
       backgroundImage: {
         grid: "linear-gradient(rgba(61,210,165,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(61,210,165,0.06) 1px, transparent 1px)",
@@ -32,7 +31,6 @@ export default {
         shine: "shine 6s linear infinite",
         float: "float 6s ease-in-out infinite",
         "fade-up": "fadeUp 0.8s ease-out forwards",
-        marquee: "marquee 40s linear infinite",
       },
       keyframes: {
         shine: {
@@ -46,10 +44,6 @@ export default {
         fadeUp: {
           "0%": { opacity: 0, transform: "translateY(20px)" },
           "100%": { opacity: 1, transform: "translateY(0)" },
-        },
-        marquee: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(-50%)" },
         },
       },
     },

@@ -90,7 +90,7 @@ export default function Contact() {
         <Reveal delay={0.3}>
           <div className="mt-24 pt-8 border-t border-white/5 text-sm text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
             <div>© {new Date().getFullYear()} Eldar Sarajlić · All rights reserved.</div>
-            <div className="font-signature text-mint-400 text-xl">— Building quality software.</div>
+            <div className="italic text-mint-400 text-base">— Building quality software.</div>
           </div>
         </Reveal>
       </div>

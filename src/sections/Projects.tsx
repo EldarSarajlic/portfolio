@@ -27,11 +27,13 @@ const projects: Project[] = [
       "MediatR (CQRS)",
       "SignalR",
       "Tailwind v4",
+      "Teltonika telematics",
     ],
     highlights: [
       "200+ commits · in development",
       "25 migrations · 22 domain entities",
       "JWT cookies + device fingerprint",
+      "Live GPS tracking (Teltonika) — roadmap",
       "Bosnian / English i18n",
     ],
     href: "/projects/truck-dispatcher",

@@ -83,7 +83,7 @@ export default function Hero() {
         >
           <div className="h-px w-12 bg-mint-500" />
           <p className="text-slate-400 max-w-xl text-base sm:text-lg">
-            <span className="font-signature text-2xl text-mint-400 mr-2">Eldar Sarajlić</span>
+            <span className="font-display font-semibold tracking-tight text-2xl text-mint-400 mr-2">Eldar Sarajlić</span>
             <span className="hidden sm:inline">·</span> Software Engineer | QA Automation
           </p>
         </motion.div>
