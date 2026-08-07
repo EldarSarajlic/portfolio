@@ -20,21 +20,21 @@ export default function About() {
         <div className="lg:col-span-8 space-y-8 text-lg text-slate-300 leading-relaxed">
   <Reveal delay={0.05}>
     <p>
-      I am a Software Engineering student specializing in{" "}
-      <span className="text-white font-medium">QA Automation</span>, with a
-      focus on building scalable{" "}
-      <span className="text-mint-400">Playwright</span> frameworks and
-      developing <span className="text-mint-400">Angular / .NET</span>{" "}
-      applications.
+      I am a <span className="text-white font-medium">Software Engineering
+      student</span> and software engineer. Rather than tie myself to a single
+      stack, I focus on building reliable systems end to end —{" "}
+      <span className="text-mint-400">backend engineering</span> first,{" "}
+      <span className="text-mint-400">QA automation</span> second.
     </p>
   </Reveal>
 
   <Reveal delay={0.1}>
     <p>
-      I care about writing maintainable, testable software and bridging the
-      gap between development and quality engineering. I enjoy building
-      systems that are not only functional, but reliable under real world
-      conditions.
+      My current interest is in{" "}
+      <span className="text-white font-medium">logistics and transport</span>:
+      implementing <span className="text-mint-400">AI solutions</span> that save
+      money and time for real-time operations — turning messy operational data
+      into decisions that move faster and cost less.
     </p>
   </Reveal>
 
@@ -50,10 +50,10 @@ export default function About() {
 
   <Reveal delay={0.25}>
     <p>
-      I take an ownership driven approach to engineering, whether I’m
-      designing end-to-end test suites or supporting others in their growth.
-      My goal is to combine strong engineering standards with a collaborative
-      mindset to build better software and stronger teams.
+      I take an ownership driven approach to engineering, whether I’m building
+      backend services, designing end-to-end test suites, or supporting others
+      in their growth. My goal is to combine strong engineering standards with a
+      collaborative mindset to build better software and stronger teams.
     </p>
   </Reveal>
 
@@ -61,9 +61,9 @@ export default function About() {
     <div className="grid sm:grid-cols-2 gap-4 pt-6">
       {[
         { label: "Location", value: "Kakanj, BiH" },
-        { label: "Education", value: "BSc Software Engineering" },
-        { label: "Currently", value: "Open to new opportunities" },
-        { label: "Focus", value: "QA Automation · Full-stack" },
+        { label: "Education", value: "BSc Software Engineering (student)" },
+        { label: "Currently", value: "Backend Engineer Intern" },
+        { label: "Focus", value: "Backend Engineering · AI for logistics" },
       ].map((item) => (
         <div
           key={item.label}

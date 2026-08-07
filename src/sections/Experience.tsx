@@ -14,6 +14,37 @@ type Item = {
 
 const items: Item[] = [
   {
+    role: "Backend Engineer Intern",
+    company: "Mulberry Systems",
+    location: "Kakanj, BiH · On-site",
+    date: "Aug 2026 — Present",
+    logo: "/logos/mulberry.svg",
+    initials: "MBS",
+    website: "https://www.mulberry-systems.com",
+    bullets: [
+      "Onboarding as a Python backend engineer, building foundations across FastAPI, PostgreSQL, REST API design, Git/GitHub and core networking concepts (HTTP/HTTPS, DNS, reverse proxies, Nginx).",
+      "Solving daily algorithmic problems in Python (LeetCode/HackerRank) to sharpen data structures and problem-solving fundamentals.",
+      "Studying backend depth topics: caching (Redis/Memcached), unit/integration/functional testing, CI/CD with GitHub Actions, Docker, database schema design & indexing, concurrency and clean-code design patterns.",
+      "Completing Anthropic's official curriculum (Claude, Claude Code, Agent Skills, MCP) to work with Claude and Claude agents as an agentic development collaborator.",
+      "Building a capstone project combining Python, FastAPI, PostgreSQL and Git; next phase moves to real client projects using Claude and Claude agents for AI development.",
+    ],
+  },
+  {
+    role: "Backend Engineer Intern",
+    company: "FlyRank",
+    location: "Remote",
+    date: "2026 — Present",
+    logo: "/logos/flyrank.svg",
+    initials: "FR",
+    website: "https://flyrank.ai",
+    bullets: [
+      "Backend engineering internship at FlyRank, an agentic AI platform that automates organic-search and AI-search (AEO/GEO) growth for DTC and B2B SaaS brands.",
+      "Working on backend services behind the platform's AI agents: content-generation pipelines, indexation and page-audit jobs, and integrations with search APIs such as Google Search Console.",
+      "Building and consuming REST APIs in Python with FastAPI (using FastAPI here as well, in place of a Next.js backend) and wiring LLM providers (ChatGPT, Perplexity, Claude, Google AI) into automated workflows.",
+      "Supporting the analytics layer that tracks organic traffic, AI citations and indexation across 30+ localized markets.",
+    ],
+  },
+  {
     role: "QA Automation Engineer Intern",
     company: "HTEC",
     location: "Mostar, BiH · On-site",
@@ -81,7 +112,7 @@ export default function Experience() {
 
           <div className="space-y-8">
             {items.map((it, i) => (
-              <Reveal key={it.role} delay={i * 0.08}>
+              <Reveal key={it.company} delay={i * 0.08}>
                 <div className="relative md:pl-24">
                   <div className="absolute left-8 top-10 -translate-x-1/2 w-3 h-3 rounded-full bg-mint-400 ring-4 ring-ink-950 z-10 hidden md:block" />
 

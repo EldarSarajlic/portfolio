@@ -2,6 +2,33 @@ import Reveal from "../components/Reveal";
 
 const groups = [
   {
+    title: "Backend & Architecture",
+    items: [
+      "Python",
+      "FastAPI",
+      "REST API Design",
+      "C# / .NET 8 / ASP.NET Core",
+      "EF Core 8",
+      "Clean Architecture",
+      "MediatR (CQRS)",
+      "JWT + Refresh Rotation",
+    ],
+  },
+  {
+    title: "Databases & Languages",
+    items: ["PostgreSQL", "SQL Server", "SQL", "Python", "C#", "TypeScript", "C++", "JavaScript"],
+  },
+  {
+    title: "AI-Assisted Development",
+    items: [
+      "Claude / Claude Code",
+      "Claude Agents & Agent Skills",
+      "Model Context Protocol (MCP)",
+      "LLM Integration (ChatGPT, Perplexity, Google AI)",
+      "Agentic Workflows",
+    ],
+  },
+  {
     title: "Test Automation",
     items: [
       "Playwright",
@@ -25,33 +52,6 @@ const groups = [
     ],
   },
   {
-    title: "Backend & Architecture",
-    items: [
-      "C#",
-      ".NET 8 / ASP.NET Core",
-      "EF Core 8",
-      "Clean Architecture",
-      "MediatR (CQRS)",
-      "FluentValidation",
-      "SignalR",
-      "JWT + Refresh Rotation",
-    ],
-  },
-  {
-    title: "Frontend",
-    items: [
-      "Angular 21",
-      "Signals & RxJS",
-      "Tailwind v4",
-      "DaisyUI v5",
-      "SCSS",
-    ],
-  },
-  {
-    title: "Databases & Languages",
-    items: ["SQL Server", "SQL", "TypeScript", "C#", "C++", "JavaScript"],
-  },
-  {
     title: "Methodologies & Workflow",
     items: [
       "Agile / Scrum",
@@ -59,8 +59,8 @@ const groups = [
       "OOP",
       "Git",
       "GitHub Actions",
-      "Azure DevOps",
-      "Continuous Testing",
+      "Docker",
+      "CI/CD",
     ],
   },
 ];
@@ -76,10 +76,12 @@ export default function Skills() {
             </div>
             <h2 className="font-display text-4xl md:text-5xl text-white font-bold tracking-tight">
               The stack I reach for{" "}
-              <span className="text-gradient">across the test pyramid</span>.
+              <span className="text-gradient">to ship reliable systems</span>.
             </h2>
             <p className="mt-6 text-slate-400 leading-relaxed">
-              QA across the front of the test pyramid: manual, API, automation, and performance, backed by production grade .NET and Angular development
+              Backend engineering first — Python, FastAPI and PostgreSQL, with AI-assisted
+              development using Claude and Claude agents — backed by a full QA automation toolkit
+              across the test pyramid.
             </p>
           </div>
         </Reveal>
