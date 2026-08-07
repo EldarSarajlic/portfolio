@@ -22,6 +22,7 @@ export default {
       fontFamily: {
         sans: ['"Hanken Grotesk"', 'system-ui', 'sans-serif'],
         display: ['"Bricolage Grotesque"', '"Hanken Grotesk"', 'sans-serif'],
+        hero: ['"Sora"', '"Hanken Grotesk"', 'sans-serif'],
       },
       backgroundImage: {
         grid: "linear-gradient(rgba(61,210,165,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(61,210,165,0.06) 1px, transparent 1px)",

@@ -28,7 +28,7 @@ export default function Hero() {
       <Aurora />
 
       <div className="relative max-w-6xl mx-auto w-full px-6 pt-32 pb-20">
-        <h1 className="font-display text-white text-5xl sm:text-6xl md:text-7xl lg:text-[88px] leading-[1.02] tracking-tight font-bold">
+        <h1 className="font-hero text-white text-5xl sm:text-6xl md:text-7xl lg:text-[88px] leading-[1.02] tracking-tight font-bold">
           {isTouch ? (
             <>
               <motion.span
