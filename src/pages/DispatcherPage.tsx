@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { TransitionLink as Link } from "../components/PageTransition";
 import {
   motion,
-  AnimatePresence,
   useScroll,
   useTransform,
   useSpring,
@@ -66,222 +65,75 @@ const chapters: Chapter[] = [
 
 /* ───────────────────────── Feature breakdown data ───────────────────────── */
 
-type Feature = { title: string; detail?: string };
-type FeatureGroup = { title: string; subtitle?: string; done: Feature[] };
+type FeatureGroup = { title: string; subtitle: string };
 
+// High-level map of what the platform covers. Kept deliberately brief —
+// enough to show the engineering surface, not a blueprint of the product.
 const groups: FeatureGroup[] = [
   {
     title: "Authentication & Identity",
-    subtitle: "Full auth surface — JWT in httpOnly cookies, device fingerprinting, 2FA, OAuth, invitations, rate limiting.",
-    done: [
-      { title: "Email + password login" },
-      { title: "Logout (server-side cookie clear)" },
-      { title: "Refresh-token rotation", detail: "httpOnly cookies, device fingerprint validated on every refresh" },
-      { title: "Invitation based registration", detail: "Admin emails a hashed token (7-day expiry); single use, user sets own password" },
-      { title: "Forgot / reset password", detail: "Tokens never exposed in URL" },
-      { title: "Two-factor authentication (email codes)", detail: "Enable / disable / verify; password required to disable" },
-      { title: "Google OAuth login", detail: "Tokens exchanged server-side, never in redirect URL" },
-      { title: "Email-change flow with confirmation token" },
-      { title: "Rate limiting on login / refresh / 2FA / forgot-password" },
-      { title: "Session restoration on page load", detail: "GET /api/auth/me reads cookies server-side" },
-      { title: "Role-based route guards (Admin · Dispatcher · Client · Driver)" },
-    ],
+    subtitle: "A complete, security-first auth surface: sign-in, multi-factor, third-party login, invite-based onboarding and role-based access.",
   },
   {
     title: "User Management",
-    subtitle: "User CRUD with photos, email change, and self-service profile editing.",
-    done: [
-      { title: "List users (paginated)" },
-      { title: "Get user by ID" },
-      { title: "Create user (via admin invitation flow)" },
-      { title: "Update user (admin)" },
-      { title: "Update own profile (UpdateMe)" },
-      { title: "Delete user" },
-      { title: "Upload profile photo (Cloudinary, drag & drop)" },
-      { title: "Request / confirm email change" },
-      { title: "Roles enum: Client · Driver · Dispatcher · Admin" },
-    ],
+    subtitle: "Account lifecycle and self-service profiles, including photo uploads and verified email changes.",
   },
   {
-    title: "Trucks",
-    subtitle: "Full CRUD for the truck fleet with an enable/disable lifecycle.",
-    done: [
-      { title: "Create / Read / Update / Delete trucks" },
-      { title: "Enable / Disable (separate commands)" },
-      { title: "Get truck by ID" },
-      { title: "List trucks (paginated)" },
-      { title: "Truck form modal (admin UI)" },
-    ],
-  },
-  {
-    title: "Trailers",
-    subtitle: "Full CRUD for trailers with a status change command.",
-    done: [
-      { title: "Create / Read / Update / Delete trailers" },
-      { title: "Change trailer status" },
-      { title: "Get trailer by ID" },
-      { title: "List trailers (paginated)" },
-      { title: "Trailer form modal (admin UI)" },
-    ],
+    title: "Fleet — Trucks & Trailers",
+    subtitle: "Managing the vehicle fleet with a clear enable / disable and status lifecycle.",
   },
   {
     title: "Vehicle Statuses",
-    subtitle: "Reference data CRUD for the status taxonomy shared by trucks and trailers.",
-    done: [
-      { title: "Create / Read / Update / Delete vehicle statuses" },
-      { title: "Get status by ID" },
-      { title: "List statuses" },
-      { title: "Table sorting by column (alphabetical)" },
-    ],
+    subtitle: "Shared reference data that keeps trucks and trailers on one status taxonomy.",
   },
   {
     title: "Inventory",
-    subtitle: "Product catalog managed by admins, stocked via SKU + quantity.",
-    done: [
-      { title: "Create / Update / Delete / List inventory items" },
-      { title: "Stock quantity field (migration 20260428)" },
-      { title: "Inventory photo FK via Cloudinary (migration 20260421)" },
-      { title: "Admin inventory page (table + actions)" },
-    ],
+    subtitle: "An admin-managed product catalogue with stock levels and imagery.",
   },
   {
     title: "Dashboard & Analytics",
-    subtitle: "Admin overview metrics and order analytics wired to live backend queries.",
-    done: [
-      { title: "Admin dashboard overview query + UI" },
-      { title: "Order stats — summary, charts, reports" },
-      { title: "GetOrdersDashboardSummary + GetOrdersDashboardCharts queries" },
-      { title: "Chart.js integration" },
-    ],
+    subtitle: "Operational overview metrics and order analytics wired to live backend queries.",
   },
   {
     title: "Shipments & Routes",
-    subtitle: "Shipment creation, listing, and domain models for the logistics thread.",
-    done: [
-      { title: "ShipmentEntity + RouteEntity domain models" },
-      { title: "Create / List / GetById shipment handlers" },
-      { title: "Shipment status field + weight / volume / pickup location" },
-      { title: "ShipmentController wired to Application layer" },
-    ],
+    subtitle: "The logistics core — turning an approved order into a moving shipment.",
   },
   {
     title: "Dispatches",
-    subtitle: "Domain shape for assigning a truck, trailer, and driver to a shipment.",
-    done: [
-      { title: "DispatchEntity — links Shipment + Truck + Driver + optional Trailer" },
-      { title: "Dispatch migration (20251112)" },
-    ],
+    subtitle: "Assigning the right truck, trailer and driver to each shipment.",
   },
   {
     title: "Locations",
-    subtitle: "Reference data for countries and cities used across forms.",
-    done: [
-      { title: "GetCountries query + CountryEntity" },
-      { title: "GetCitiesByCountry query + CityEntity" },
-      { title: "LocationController + ConnectedUserWithCity migration" },
-    ],
+    subtitle: "Country and city reference data used across the platform's forms.",
   },
   {
     title: "Real-time & Messaging",
-    subtitle: "Infrastructure in place for the per-shipment live thread.",
-    done: [
-      { title: "MessageEntity + Messages migration" },
-      { title: "NotificationEntity + Notifications migration" },
-      { title: "SignalR added to the .NET 8 stack" },
-    ],
+    subtitle: "The infrastructure behind the per-shipment live thread and notifications.",
   },
   {
-    title: "Service Companies & Maintenance",
-    subtitle: "Domain models for tracking truck maintenance and service providers.",
-    done: [
-      { title: "ServiceCompanyEntity + migration" },
-      { title: "TruckServiceAssignmentEntity + migration" },
-    ],
+    title: "Service & Maintenance",
+    subtitle: "Tracking vehicle maintenance and the service providers behind it.",
   },
   {
-    title: "Cross-cutting (i18n, settings, infra)",
-    subtitle: "Platform-level concerns: localization, theming, validation, state shape.",
-    done: [
-      { title: "ngx-translate — Bosnian + English" },
-      { title: "Settings page — profile, photo upload, email change, 2FA toggle" },
-      { title: "Theme toggle (dark / light)" },
-      { title: "Language toggle (BS / EN)" },
-      { title: "HTTP interceptors — auth, error logging, loading bar" },
-      { title: "FluentValidation across every command and query" },
-      { title: "Three-layer styling: Tailwind v4 + DaisyUI v5 + SCSS" },
-      { title: "Signal-based state for local components" },
-      { title: "Base classes for list / form / paged-list components" },
-      { title: "Idempotent seeders with rolling relative dates" },
-    ],
+    title: "Cross-cutting Platform",
+    subtitle: "Localisation, theming, validation and the shared UI foundations the app is built on.",
   },
 ];
 
 /* ───────────────────────── Progress mosaic card (Ch 07) ───────────────────────── */
 
 function GroupCard({ g, i }: { g: FeatureGroup; i: number }) {
-  const [open, setOpen] = useState(false);
-
   return (
     <Reveal delay={i * 0.03}>
-      <motion.article
-        layout
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent p-6 flex flex-col"
-      >
-        <header>
-          <div className="flex items-baseline justify-between gap-3 mb-2">
-            <h3 className="font-display text-lg text-white font-semibold tracking-tight leading-snug">
-              {g.title}
-            </h3>
-            <span className="inline-flex items-center gap-1 text-mint-400 text-[10px] uppercase tracking-widest shrink-0">
-              <FiCheckCircle className="text-[10px]" />
-              {g.done.length} shipped
-            </span>
-          </div>
-          {g.subtitle && (
-            <p className="mt-2 text-xs text-slate-500 leading-relaxed">{g.subtitle}</p>
-          )}
-        </header>
-
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="mt-4 self-start inline-flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-slate-400 hover:text-mint-300 transition-colors"
-        >
-          {open ? "Hide" : "See details"}
-          <span className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} aria-hidden>▾</span>
-        </button>
-
-        <AnimatePresence initial={false}>
-          {open && (
-            <motion.div
-              key="details"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="overflow-hidden"
-            >
-              <div className="mt-4 pt-4 border-t border-white/5">
-                <div className="text-mint-400 text-[10px] uppercase tracking-[0.25em] mb-2">Implemented</div>
-                <ul className="space-y-2 text-[13px] leading-relaxed">
-                  {g.done.map((f) => (
-                    <li key={f.title} className="flex items-start gap-2">
-                      <FiCheckCircle className="shrink-0 mt-0.5 text-mint-400 text-[11px]" />
-                      <div>
-                        <span className="text-slate-300">{f.title}</span>
-                        {f.detail && (
-                          <span className="block text-[11px] text-slate-500 mt-0.5 leading-relaxed">{f.detail}</span>
-                        )}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.article>
+      <article className="rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent p-6 flex flex-col h-full">
+        <div className="flex items-baseline gap-3 mb-2">
+          <FiCheckCircle className="shrink-0 text-mint-400 text-sm translate-y-0.5" />
+          <h3 className="font-display text-lg text-white font-semibold tracking-tight leading-snug">
+            {g.title}
+          </h3>
+        </div>
+        <p className="mt-1 text-sm text-slate-400 leading-relaxed">{g.subtitle}</p>
+      </article>
     </Reveal>
   );
 }
@@ -834,19 +686,19 @@ function ClosedDoorFlip() {
     {
       icon: <FiMail />,
       h: "Admin emails an invitation",
-      d: "Token is hashed in the database and single use; the link itself expires in 7 days.",
+      d: "Onboarding starts with a private, expiring invitation — never a public sign-up form.",
       tone: "mint" as const,
     },
     {
       icon: <FiShield />,
       h: "User accepts on a one-off page",
-      d: "Sets their own password. Token can't be reused or screenshot reused.",
+      d: "The invite opens a one-time page where the new user sets their own password.",
       tone: "mint" as const,
     },
     {
       icon: <FiHash />,
       h: "Clients get a tracking code instead",
-      d: "Per shipment, single use, expires when the shipment completes. No account, no friction.",
+      d: "Clients never create an account — they get a link scoped to a single shipment. No account, no friction.",
       tone: "amber" as const,
     },
   ];
@@ -1287,7 +1139,7 @@ function TelematicsFlow() {
 
           <line x1="208" y1="160" x2="268" y2="160" stroke="#3dd2a5" strokeWidth="1.5" markerEnd="url(#tmArrow)" />
           <text x="238" y="148" textAnchor="middle" fill="#64748b" fontSize="9" fontFamily="ui-monospace" letterSpacing="1">
-            Codec 8E · TCP
+            binary · TCP
           </text>
 
           {/* Node 2 — listener (emphasized) */}
@@ -1298,19 +1150,16 @@ function TelematicsFlow() {
               TCP LISTENER
             </text>
             <text x="374" y="128" textAnchor="middle" fill="#e2e8f0" fontSize="13" fontFamily="Hanken Grotesk">
-              Decodes the AVL stream
+              Decodes the stream
             </text>
             <text x="374" y="150" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
-              IMEI handshake → ACK
+              validates the device
             </text>
             <text x="374" y="170" textAnchor="middle" fill="#94a3b8" fontSize="11" fontFamily="Hanken Grotesk">
-              parse records · CRC-16
+              parses position records
             </text>
             <text x="374" y="196" textAnchor="middle" fill="#5ee3b3" fontSize="10" fontFamily="Hanken Grotesk">
               .NET background service
-            </text>
-            <text x="374" y="218" textAnchor="middle" fill="#fbbf24" fontSize="10" fontFamily="Hanken Grotesk" fontStyle="italic">
-              acks the record count
             </text>
           </g>
 
@@ -1554,8 +1403,6 @@ export default function DispatcherPage() {
     };
   }, []);
 
-  const doneTotal = groups.reduce((n, g) => n + g.done.length, 0);
-
   return (
     <div className="relative min-h-screen bg-ink-950 text-slate-300">
       <ScrollProgress />
@@ -1617,9 +1464,9 @@ export default function DispatcherPage() {
 
               <Reveal delay={0.22}>
                 <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm">
-                  <Stat k={doneTotal} v="features shipped" />
+                  <Stat k="60+" v="features shipped" />
                   <Stat k="200+" v="commits" />
-                  <Stat k="25" v="EF Core migrations" />
+                  <Stat k="12" v="feature areas" />
                   <Stat k="4" v="roles" />
                 </div>
               </Reveal>
@@ -1911,10 +1758,9 @@ export default function DispatcherPage() {
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-2">
               {[
                 "Invitation-only onboarding",
-                "Hashed token · 7-day expiry",
-                "Single-use accept",
-                "Client tracking via per-shipment code",
-                "Token consumed on first open",
+                "No public sign-up",
+                "Per-shipment client tracking",
+                "Access scoped by role",
               ].map((t) => (
                 <span
                   key={t}
@@ -1963,9 +1809,8 @@ export default function DispatcherPage() {
                   </div>
                   <p className="text-sm text-slate-300 leading-relaxed">
                     What the client wants. Items, priority, delivery details,
-                    multi currency totals. Lives or dies on{" "}
-                    <span className="font-mono text-mint-300">Pending →
-                    Approved → InProgress → Completed / Cancelled</span>.
+                    multi currency totals — running through its own
+                    approval-to-completion lifecycle.
                   </p>
                   <p className="mt-4 text-xs text-slate-500">
                     Owned by the <span className="text-slate-300">client</span>{" "}
@@ -2006,10 +1851,8 @@ export default function DispatcherPage() {
                   </div>
                   <p className="text-sm text-slate-300 leading-relaxed">
                     Who actually does it. Truck + (optional) trailer + driver,
-                    bolted to a shipment.{" "}
-                    <span className="font-mono text-mint-300">Scheduled →
-                    InProgress → Completed</span>. The driver runs through this
-                    lifecycle from the cab.
+                    bolted to a shipment, running through its own lifecycle
+                    that the driver drives from the cab.
                   </p>
                   <p className="mt-4 text-xs text-slate-500">
                     Owned by the{" "}
@@ -2042,9 +1885,9 @@ export default function DispatcherPage() {
             <ChapterTitle kicker="What's shipped" title="The build." />
             <Reveal delay={0.1}>
               <p className="mt-6 text-slate-300 leading-relaxed">
-                Thirteen feature areas, drawn directly from the repo: entities,
-                handlers, controllers, migrations, frontend modules. The auth
-                and identity surface is the most complete because it's the part
+                A dozen feature areas span the platform, from the fleet and
+                shipment core to dashboards and the live thread. The auth and
+                identity surface is the most complete, because it's the part
                 that breaks worst when it's wrong.
               </p>
             </Reveal>
@@ -2053,10 +1896,10 @@ export default function DispatcherPage() {
           <Reveal delay={0.15}>
             <div className="mb-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { k: doneTotal, v: "Features shipped" },
+                { k: "60+", v: "Features shipped" },
                 { k: groups.length, v: "Feature areas" },
-                { k: "25", v: "EF Core migrations" },
-                { k: "22", v: "Domain entities" },
+                { k: "200+", v: "Commits" },
+                { k: "4", v: "Roles" },
               ].map((s) => (
                 <div key={s.v} className="rounded-2xl border border-white/5 bg-white/[0.02] p-5">
                   <div className="font-display text-3xl text-white font-bold tabular-nums">{s.k}</div>
@@ -2077,24 +1920,6 @@ export default function DispatcherPage() {
               </div>
             ))}
           </div>
-
-          <Reveal delay={0.18}>
-            <div className="mt-12 rounded-3xl border border-white/10 bg-white/[0.02] overflow-hidden">
-              <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between">
-                <span className="text-mint-400 text-xs uppercase tracking-[0.3em]">Current Database schema</span>
-                <span className="text-[10px] uppercase tracking-widest text-slate-500">22 entities · EF Core 8</span>
-              </div>
-              <div className="p-4">
-                <a href="/schema_dark_mode.svg" target="_blank" rel="noreferrer" title="Open full size">
-                  <img
-                    src="/schema_dark_mode.svg"
-                    alt="Truck Dispatcher database schema"
-                    className="w-full rounded-xl hover:opacity-100 transition-opacity cursor-zoom-in"
-                  />
-                </a>
-              </div>
-            </div>
-          </Reveal>
 
           <Reveal delay={0.2}>
             <div className="mt-6 rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.02] to-transparent p-6 md:p-8">
@@ -2117,11 +1942,10 @@ export default function DispatcherPage() {
                     shell, and the dispatcher shipment surface.
                   </p>
                   <p>
-                    The work in 2026 has been heavily security focused:
-                    migrating tokens from request bodies into httpOnly cookies,
-                    binding refresh tokens to a device fingerprint, hashing
-                    invitation tokens, and adding rate limiting to every
-                    auth-adjacent endpoint.
+                    A large part of the recent work has been security
+                    hardening across the whole auth surface — the unglamorous
+                    work that decides whether you'd trust the system with a real
+                    company's operations.
                   </p>
                 </div>
               </div>
@@ -2150,8 +1974,8 @@ export default function DispatcherPage() {
                     <span className="text-xs uppercase tracking-[0.25em]">Data</span>
                   </div>
                   <p className="text-sm text-slate-300 leading-relaxed">
-                    EF Core 8 Code-First on SQL Server 2022. 25 migrations,
-                    rolling-date idempotent seeders, every domain entity hand-rolled.
+                    EF Core 8 Code-First on SQL Server 2022, with idempotent
+                    seeders and a hand-modelled domain layer.
                   </p>
                 </div>
               </TiltCard>
@@ -2186,12 +2010,10 @@ export default function DispatcherPage() {
             <Reveal delay={0.1}>
               <p className="mt-6 text-slate-300 leading-relaxed text-lg">
                 Everything so far runs on what people type in: the driver moves a
-                dispatch from{" "}
-                <span className="font-mono text-mint-300">Scheduled</span> to{" "}
-                <span className="font-mono text-mint-300">InProgress</span>, and the
-                thread carries the rest. That's honest, but it's still someone tapping a
-                phone. The next chapter puts a sensor underneath it — real GPS hardware
-                on the truck, reporting where the load actually is.
+                dispatch forward by hand, and the thread carries the rest. That's
+                honest, but it's still someone tapping a phone. The next chapter puts
+                a sensor underneath it — real GPS hardware on the truck, reporting
+                where the load actually is.
               </p>
             </Reveal>
             <Reveal delay={0.16}>
@@ -2242,15 +2064,12 @@ export default function DispatcherPage() {
                     <span className="text-xs uppercase tracking-[0.25em]">The protocol</span>
                   </div>
                   <p className="text-sm text-slate-300 leading-relaxed">
-                    Teltonika devices speak a compact binary AVL protocol —{" "}
-                    <span className="font-mono text-mint-300">Codec 8</span> and{" "}
-                    <span className="font-mono text-mint-300">Codec 8 Extended</span> —
-                    over TCP. The unit opens a socket, identifies itself by IMEI, and
-                    once the server accepts it, streams CRC-checked records. The server
-                    replies with the count it stored so the device can clear its buffer.
+                    Teltonika devices speak a compact binary protocol over TCP. A
+                    dedicated listener accepts the connection, validates the device,
+                    and ingests its position records straight into the platform.
                   </p>
                   <p className="mt-4 text-xs text-slate-500">
-                    A dedicated listener parses the frames — the REST API never touches a
+                    A dedicated listener handles the stream — the REST API never touches a
                     raw socket.
                   </p>
                 </div>
@@ -2282,8 +2101,7 @@ export default function DispatcherPage() {
             <div className="mt-10 flex flex-wrap gap-x-8 gap-y-2">
               {[
                 "Teltonika FMB trackers",
-                "Codec 8 / 8E over TCP",
-                "IMEI handshake + ACK",
+                "Binary telemetry over TCP",
                 "Dedicated listener service",
                 "Live Leaflet map",
                 "Auto thread events",
@@ -2341,7 +2159,7 @@ export default function DispatcherPage() {
               },
               {
                 h: "Auth is the part that gets dressed up last and matters most.",
-                d: "Migrating tokens out of request bodies, fingerprinting refresh tokens, hashing invitation tokens, and rate limiting every auth adjacent endpoint do not ship visible features. They are, however, the difference between software you would trust to run a real company’s logistics and software you would not.",
+                d: "Security hardening across the auth surface does not ship visible features. It is, however, the difference between software you would trust to run a real company’s logistics and software you would not.",
               },
             ].map((b, i) => (
               <motion.div
@@ -2383,8 +2201,8 @@ export default function DispatcherPage() {
               </h3>
               <p className="mt-4 text-slate-400 max-w-xl mx-auto">
                 Happy to demo the app, walk through the architecture, or talk
-                about the trade offs, CQRS, the Order ↔ Shipment split, the
-                cookie based auth migration, or the per shipment thread design.
+                about the trade offs — CQRS, the entity split, the auth
+                hardening, or the per shipment thread design.
               </p>
               <div className="mt-8 flex flex-wrap justify-center items-center gap-x-10 gap-y-5">
                 <a
