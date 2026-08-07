@@ -36,10 +36,43 @@ function ScrollReset() {
   return null;
 }
 
+// Lenis keeps smoothing for a beat after a wheel scroll and, during that window,
+// ignores native scroll events — so grabbing the scrollbar thumb right after
+// wheeling gets overridden and the thumb snaps back. When a click lands in the
+// scrollbar gutter (right of the content box), pause Lenis so the browser's own
+// scrollbar dragging takes over, then resume on release (Lenis re-syncs to the
+// native position, so there's no jump).
+function ScrollbarDragFix() {
+  const lenis = useLenis();
+  useEffect(() => {
+    if (!lenis) return;
+    let dragging = false;
+    const onDown = (e: MouseEvent) => {
+      if (e.clientX >= document.documentElement.clientWidth) {
+        dragging = true;
+        lenis.stop();
+      }
+    };
+    const onUp = () => {
+      if (!dragging) return;
+      dragging = false;
+      lenis.start();
+    };
+    window.addEventListener("mousedown", onDown);
+    window.addEventListener("mouseup", onUp);
+    return () => {
+      window.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, [lenis]);
+  return null;
+}
+
 const router = (
   <BrowserRouter>
     <PageTransitionProvider>
       <ScrollReset />
+      <ScrollbarDragFix />
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<App />} />
