@@ -28,7 +28,10 @@ export default function Hero() {
       <Aurora />
 
       <div className="relative max-w-6xl mx-auto w-full px-6 pt-32 pb-20">
-        <h1 className="font-hero text-white text-5xl sm:text-6xl lg:text-7xl xl:text-[80px] leading-[1.02] tracking-tight font-bold">
+        <h1
+          className="font-hero text-white leading-[1.02] tracking-tight font-bold"
+          style={{ fontSize: "clamp(2rem, 6.8vw, 80px)" }}
+        >
           {isTouch ? (
             <>
               <motion.span
