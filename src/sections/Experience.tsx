@@ -31,21 +31,6 @@ const items: Item[] = [
     ],
   },
   {
-    role: "Backend Engineer Intern",
-    company: "FlyRank",
-    location: "Remote",
-    date: "2026 — Present",
-    logo: "/logos/flyrank.svg",
-    initials: "FR",
-    website: "https://flyrank.ai",
-    bullets: [
-      "Backend engineering internship at FlyRank, an agentic AI platform that automates organic-search and AI-search (AEO/GEO) growth for DTC and B2B SaaS brands.",
-      "Working on backend services behind the platform's AI agents: content-generation pipelines, indexation and page-audit jobs, and integrations with search APIs such as Google Search Console.",
-      "Building and consuming REST APIs in Python with FastAPI (using FastAPI here as well, in place of a Next.js backend) and wiring LLM providers (ChatGPT, Perplexity, Claude, Google AI) into automated workflows.",
-      "Supporting the analytics layer that tracks organic traffic, AI citations and indexation across 30+ localized markets.",
-    ],
-  },
-  {
     role: "Human Potential Team Member · Junior Scholar",
     company: "BH Futures Foundation",
     location: "Sarajevo · Hybrid",
