@@ -1,59 +1,8 @@
 import { FiArrowUpRight, FiGithub } from "react-icons/fi";
 import Reveal from "../components/Reveal";
 import { TransitionLink } from "../components/PageTransition";
-
-type Project = {
-  title: string;
-  subtitle: string;
-  description: string;
-  stack: string[];
-  highlights: string[];
-  /** Either an external URL (https…) or an internal route ("/projects/…"). */
-  href: string;
-  status?: { label: string; tone: "amber" | "mint" };
-};
-
-const projects: Project[] = [
-  {
-    title: "Truck Dispatcher",
-    subtitle: "Logistics Management Platform",
-    description:
-      "Full-stack logistics platform for trucking companies, replacing paper workflows with a digital pipeline from client ordering through dispatch to delivery. Built around four user roles (Admin · Dispatcher · Driver · Client), Clean Architecture + CQRS backend, and an Angular 21 frontend with role based modules.",
-    stack: [
-      ".NET 8",
-      "Angular 21",
-      "SQL Server",
-      "EF Core",
-      "MediatR (CQRS)",
-      "SignalR",
-      "Tailwind v4",
-      "Teltonika telematics",
-    ],
-    highlights: [
-      "200+ commits · in development",
-      "25 migrations · 22 domain entities",
-      "JWT cookies + device fingerprint",
-      "Live GPS tracking (Teltonika) — roadmap",
-      "Bosnian / English i18n",
-    ],
-    href: "/projects/truck-dispatcher",
-    status: { label: "In development", tone: "amber" },
-  },
-  {
-    title: "Playwright E2E Framework",
-    subtitle: "QA Automation @ HTEC",
-    description:
-      "TypeScript test framework built from scratch against OrangeHRM, applying POM and custom fixtures across UI and API surfaces. Session reuse via storage state, 10 production-style spec files for Login / Dashboard / Admin / PIM, and 13 pull requests of mentor-reviewed work.",
-    stack: ["Playwright", "TypeScript", "POM", "Fixtures", "API Testing", "Storage State"],
-    highlights: [
-      "37 commits · 13 PRs",
-      "10 OrangeHRM spec files · ~47 test cases",
-      "Session reuse — skip login per run",
-      "UI + API + Course-lab archive",
-    ],
-    href: "/projects/playwright-htec",
-  },
-];
+import { projects } from "../content";
+import type { Project } from "../content/types";
 
 function CardShell({ p, children }: { p: Project; children: React.ReactNode }) {
   const cls =
@@ -100,7 +49,7 @@ export default function Projects() {
                           <span className="text-mint-400 text-xs uppercase tracking-[0.25em]">
                             {p.subtitle}
                           </span>
-                          {p.status && (
+                          {p.status?.label && (
                             <span
                               className={`text-[10px] font-medium uppercase tracking-widest ${
                                 p.status.tone === "amber"

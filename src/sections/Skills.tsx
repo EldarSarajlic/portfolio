@@ -1,69 +1,5 @@
 import Reveal from "../components/Reveal";
-
-const groups = [
-  {
-    title: "Backend & Architecture",
-    items: [
-      "Python",
-      "FastAPI",
-      "REST API Design",
-      "C# / .NET 8 / ASP.NET Core",
-      "EF Core 8",
-      "Clean Architecture",
-      "MediatR (CQRS)",
-      "JWT + Refresh Rotation",
-    ],
-  },
-  {
-    title: "Databases & Languages",
-    items: ["PostgreSQL", "SQL Server", "SQL", "Python", "C#", "TypeScript", "C++", "JavaScript"],
-  },
-  {
-    title: "AI-Assisted Development",
-    items: [
-      "Claude / Claude Code",
-      "Claude Agents & Agent Skills",
-      "Model Context Protocol (MCP)",
-      "LLM Integration (ChatGPT, Perplexity, Google AI)",
-      "Agentic Workflows",
-    ],
-  },
-  {
-    title: "Test Automation",
-    items: [
-      "Playwright",
-      "TypeScript",
-      "Page Object Model (POM)",
-      "Custom Fixtures",
-      "GitHub Actions CI",
-    ],
-  },
-  {
-    title: "Manual & API Testing",
-    items: [
-      "Test Case Design & Execution",
-      "Smoke Testing",
-      "Regression Testing",
-      "Positive / Negative / Edge-Case",
-      "REST API Testing (Postman)",
-      "Grafana k6 (load / API)",
-      "Bug Tracking & Defect Lifecycle (Jira)",
-      "Exploratory Testing",
-    ],
-  },
-  {
-    title: "Methodologies & Workflow",
-    items: [
-      "Agile / Scrum",
-      "SDLC / STLC",
-      "OOP",
-      "Git",
-      "GitHub Actions",
-      "Docker",
-      "CI/CD",
-    ],
-  },
-];
+import { skillGroups, skillsIntro } from "../content";
 
 export default function Skills() {
   return (
@@ -79,15 +15,13 @@ export default function Skills() {
               <span className="text-gradient">to ship reliable systems</span>.
             </h2>
             <p className="mt-6 text-slate-400 leading-relaxed">
-              Backend engineering first — Python, FastAPI and PostgreSQL, with AI-assisted
-              development using Claude and Claude agents — backed by a full QA automation toolkit
-              across the test pyramid.
+              {skillsIntro}
             </p>
           </div>
         </Reveal>
 
         <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {groups.map((g, i) => (
+          {skillGroups.map((g, i) => (
             <Reveal key={g.title} delay={i * 0.05}>
               <div className="group relative h-full rounded-3xl border border-white/5 card-matte p-6 hover:border-mint-500/40 transition-all duration-500">
                 <div

@@ -1,0 +1,204 @@
+# Pages CMS configuration — https://pagescms.org/docs
+#
+# This file lets you edit everything in src/content/*.json through a browser
+# form at https://app.pagescms.org (no code, no local setup). Saving in the CMS
+# commits to this GitHub repo, and Vercel redeploys the site automatically.
+#
+# Media (logos) live in public/logos and are served from /logos on the site.
+media:
+  input: public/logos
+  output: /logos
+  extensions: [svg, png, jpg, jpeg, webp]
+
+content:
+  # ── Identity & social links (used by the hero, contact section and footer) ──
+  - name: site
+    label: Site & Social
+    type: file
+    path: src/content/site.json
+    icon: user
+    fields:
+      - name: name
+        label: Full name
+        type: string
+      - name: role
+        label: Role / tagline
+        type: string
+      - name: email
+        label: Email
+        type: string
+      - name: social
+        label: Social links
+        type: object
+        fields:
+          - name: github
+            label: GitHub URL
+            type: string
+          - name: githubUser
+            label: GitHub handle (shown as text)
+            type: string
+          - name: linkedin
+            label: LinkedIn URL
+            type: string
+          - name: linkedinLabel
+            label: LinkedIn label (shown as text)
+            type: string
+
+  # ── About: the four quick-fact cards ──
+  - name: about
+    label: About · Quick facts
+    type: file
+    path: src/content/about.json
+    icon: info
+    fields:
+      - name: facts
+        label: Facts
+        type: object
+        list: true
+        fields:
+          - name: label
+            label: Label
+            type: string
+          - name: value
+            label: Value
+            type: string
+
+  # ── Skills: intro paragraph + grouped skill lists ──
+  - name: skills
+    label: Skills
+    type: file
+    path: src/content/skills.json
+    icon: list
+    fields:
+      - name: intro
+        label: Intro paragraph
+        type: text
+      - name: groups
+        label: Skill groups
+        type: object
+        list: true
+        fields:
+          - name: title
+            label: Group title
+            type: string
+          - name: items
+            label: Skills
+            type: string
+            list: true
+
+  # ── Experience: your roles / positions ──
+  - name: experience
+    label: Experience
+    type: file
+    path: src/content/experience.json
+    icon: briefcase
+    fields:
+      - name: items
+        label: Roles
+        type: object
+        list: true
+        fields:
+          - name: role
+            label: Role
+            type: string
+          - name: company
+            label: Company
+            type: string
+          - name: location
+            label: Location
+            type: string
+          - name: date
+            label: Date range
+            type: string
+          - name: website
+            label: Website URL
+            type: string
+          - name: logo
+            label: Logo path (e.g. /logos/htec.svg — upload the file in the Media tab first)
+            type: string
+          - name: initials
+            label: Logo fallback initials (shown if the logo image is missing)
+            type: string
+          - name: bullets
+            label: Bullet points
+            type: text
+            list: true
+
+  # ── Projects: the cards in "Selected work" ──
+  - name: projects
+    label: Projects
+    type: file
+    path: src/content/projects.json
+    icon: folder
+    fields:
+      - name: items
+        label: Projects
+        type: object
+        list: true
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: subtitle
+            label: Subtitle (small label above title)
+            type: string
+          - name: description
+            label: Description
+            type: text
+          - name: href
+            label: Link (internal route like /projects/truck-dispatcher, or a full https:// URL)
+            type: string
+          - name: stack
+            label: Tech stack
+            type: string
+            list: true
+          - name: highlights
+            label: Highlights
+            type: string
+            list: true
+          - name: status
+            label: Status badge (optional — leave label empty for no badge)
+            type: object
+            fields:
+              - name: label
+                label: Status label
+                type: string
+              - name: tone
+                label: Colour
+                type: select
+                options:
+                  values:
+                    - amber
+                    - mint
+
+  # ── Education: degrees, courses, certifications ──
+  - name: education
+    label: Education
+    type: file
+    path: src/content/education.json
+    icon: "graduation-cap"
+    fields:
+      - name: items
+        label: Entries
+        type: object
+        list: true
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: org
+            label: Organisation
+            type: string
+          - name: date
+            label: Date
+            type: string
+          - name: logo
+            label: Logo path (e.g. /logos/fit.png — upload the file in the Media tab first)
+            type: string
+          - name: logoAlt
+            label: Logo alt text
+            type: string
+          - name: courses
+            label: Courses (optional)
+            type: string
+            list: true

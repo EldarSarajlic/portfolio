@@ -1,4 +1,5 @@
 import Reveal from "../components/Reveal";
+import { aboutFacts } from "../content";
 
 export default function About() {
   return (
@@ -59,12 +60,7 @@ export default function About() {
 
   <Reveal delay={0.3}>
     <div className="grid sm:grid-cols-2 gap-4 pt-6">
-      {[
-        { label: "Location", value: "Kakanj, BiH" },
-        { label: "Education", value: "BSc Software Engineering (student)" },
-        { label: "Currently", value: "Backend Engineer Intern" },
-        { label: "Focus", value: "Backend Engineering · AI for logistics" },
-      ].map((item) => (
+      {aboutFacts.map((item) => (
         <div
           key={item.label}
           className="rounded-2xl border border-white/5 card-matte p-5 hover:border-mint-500/30 transition-colors"

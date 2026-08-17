@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "title": "BSc Information Technologies — Software Engineering",
+      "org": "Faculty of Information Technologies, University \"Džemal Bijedić\" in Mostar",
+      "date": "2023 — Present",
+      "logo": "/logos/fit.png",
+      "logoAlt": "Faculty of Information Technologies logo",
+      "courses": [
+        "Programming I & II · C++",
+        "Software Development I · Angular / .NET",
+        "Databases 2 · SQL"
+      ]
+    },
+    {
+      "title": "ASP.NET Core & Angular — Full Stack",
+      "org": "Udemy · Neil Cummings",
+      "date": "2025",
+      "logo": "/logos/udemy.svg",
+      "logoAlt": "Udemy logo",
+      "courses": []
+    }
+  ]
+}

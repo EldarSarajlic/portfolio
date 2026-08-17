@@ -1,0 +1,8 @@
+{
+  "facts": [
+    { "label": "Location", "value": "Kakanj, BiH" },
+    { "label": "Education", "value": "BSc Software Engineering (student)" },
+    { "label": "Currently", "value": "Backend Engineer Intern" },
+    { "label": "Focus", "value": "Backend Engineering · AI for logistics" }
+  ]
+}

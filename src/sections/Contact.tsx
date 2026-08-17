@@ -3,6 +3,7 @@ import Reveal from "../components/Reveal";
 import Magnetic from "../components/Magnetic";
 import Aurora from "../components/Aurora";
 import HexBackground from "../components/HexBackground";
+import { site } from "../content";
 
 export default function Contact() {
   return (
@@ -31,10 +32,10 @@ export default function Contact() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Magnetic>
               <a
-                href="mailto:eldarsarajlic525@gmail.com"
+                href={`mailto:${site.email}`}
                 className="group inline-flex items-center gap-3 rounded-full bg-mint-500 text-ink-950 px-7 py-4 font-semibold hover:bg-mint-400 transition-colors glow-mint"
               >
-                <span className="hidden sm:inline">eldarsarajlic525@gmail.com</span>
+                <span className="hidden sm:inline">{site.email}</span>
                 <span className="sm:hidden">Send me an email</span>
                 <FiArrowUpRight className="text-xl group-hover:rotate-45 transition-transform" />
               </a>
@@ -45,7 +46,7 @@ export default function Contact() {
         <Reveal delay={0.2}>
           <div className="mt-16 grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
             <a
-              href="mailto:eldarsarajlic525@gmail.com"
+              href={`mailto:${site.email}`}
               className="group rounded-2xl border border-white/10 card-matte p-5 text-left hover:border-mint-500/40 transition-colors"
             >
               <FiMail className="text-mint-400 text-xl" />
@@ -53,11 +54,11 @@ export default function Contact() {
                 Email
               </div>
               <div className="text-white text-sm mt-1 group-hover:text-mint-400 transition-colors break-all">
-                eldarsarajlic525@gmail.com
+                {site.email}
               </div>
             </a>
             <a
-              href="https://www.linkedin.com/in/eldar-sarajli%C4%87-3a695b304/"
+              href={site.social.linkedin}
               target="_blank"
               rel="noreferrer"
               className="group rounded-2xl border border-white/10 card-matte p-5 text-left hover:border-mint-500/40 transition-colors"
@@ -67,11 +68,11 @@ export default function Contact() {
                 LinkedIn
               </div>
               <div className="text-white text-sm mt-1 group-hover:text-mint-400 transition-colors">
-                eldar-sarajlić
+                {site.social.linkedinLabel}
               </div>
             </a>
             <a
-              href="https://github.com/EldarSarajlic"
+              href={site.social.github}
               target="_blank"
               rel="noreferrer"
               className="group rounded-2xl border border-white/10 card-matte p-5 text-left hover:border-mint-500/40 transition-colors"
@@ -81,7 +82,7 @@ export default function Contact() {
                 GitHub
               </div>
               <div className="text-white text-sm mt-1 group-hover:text-mint-400 transition-colors">
-                EldarSarajlic
+                {site.social.githubUser}
               </div>
             </a>
           </div>
@@ -89,7 +90,7 @@ export default function Contact() {
 
         <Reveal delay={0.3}>
           <div className="mt-24 pt-8 border-t border-white/5 text-sm text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <div>© {new Date().getFullYear()} Eldar Sarajlić · All rights reserved.</div>
+            <div>© {new Date().getFullYear()} {site.name} · All rights reserved.</div>
             <div className="italic text-mint-400 text-base">— Building quality software.</div>
           </div>
         </Reveal>

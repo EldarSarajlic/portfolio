@@ -4,6 +4,7 @@ import SplitText from "../components/SplitText";
 import Aurora from "../components/Aurora";
 import Magnetic from "../components/Magnetic";
 import HexBackground from "../components/HexBackground";
+import { site } from "../content";
 
 const isTouch =
   typeof window !== "undefined" &&
@@ -86,8 +87,8 @@ export default function Hero() {
         >
           <div className="h-px w-12 bg-mint-500" />
           <p className="text-slate-400 max-w-xl text-base sm:text-lg">
-            <span className="font-display font-semibold tracking-tight text-2xl text-mint-400 mr-2">Eldar Sarajlić</span>
-            <span className="hidden sm:inline">·</span> Software Engineer · Backend Engineering & QA Automation
+            <span className="font-display font-semibold tracking-tight text-2xl text-mint-400 mr-2">{site.name}</span>
+            <span className="hidden sm:inline">·</span> {site.role}
           </p>
         </motion.div>
 
@@ -117,7 +118,7 @@ export default function Hero() {
 
           <div className="sm:ml-auto flex items-center gap-3 text-slate-400">
             <a
-              href="https://github.com/EldarSarajlic"
+              href={site.social.github}
               target="_blank"
               rel="noreferrer"
               className="grid place-items-center w-10 h-10 rounded-full border bg-ink-950/90 border-white/10 hover:border-mint-500/50 hover:text-mint-400 transition-colors"
@@ -126,7 +127,7 @@ export default function Hero() {
               <FiGithub />
             </a>
             <a
-              href="https://www.linkedin.com/in/eldar-sarajli%C4%87-3a695b304/"
+              href={site.social.linkedin}
               target="_blank"
               rel="noreferrer"
               className="grid place-items-center w-10 h-10 rounded-full border bg-ink-950/90 border-white/10 hover:border-mint-500/50 hover:text-mint-400 transition-colors"
@@ -135,7 +136,7 @@ export default function Hero() {
               <FiLinkedin />
             </a>
             <a
-              href="mailto:eldarsarajlic525@gmail.com"
+              href={`mailto:${site.email}`}
               className="grid place-items-center w-10 h-10 rounded-full border bg-ink-950/90 border-white/10 hover:border-mint-500/50 hover:text-mint-400 transition-colors"
               aria-label="Email"
             >

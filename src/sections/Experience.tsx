@@ -1,81 +1,6 @@
 import Reveal from "../components/Reveal";
 import OrgLogo from "../components/OrgLogo";
-
-type Item = {
-  role: string;
-  company: string;
-  location: string;
-  date: string;
-  logo: string;
-  initials: string;
-  website: string;
-  bullets: string[];
-};
-
-const items: Item[] = [
-  {
-    role: "Backend Engineer Intern",
-    company: "Mulberry Systems",
-    location: "Sarajevo, BiH · Hybrid / Remote",
-    date: "Aug 2026 — Present",
-    logo: "/logos/mulberry.svg",
-    initials: "MBS",
-    website: "https://www.mulberry-systems.com",
-    bullets: [
-      "Training as a Python backend engineer at an AI-native development agency, building a REST-API foundation with FastAPI, PostgreSQL and the UV package manager on top of core web internals (HTTP/HTTPS, DNS, reverse proxies, Nginx).",
-      "Solving a LeetCode problem every day in Python and committing each solution as a documented Jupyter notebook, building data-structures and problem-solving consistency independently (no AI assistance).",
-      "Working toward a capstone Survey Management API — a clean, spec-driven service combining Python, FastAPI, PostgreSQL and Git — as the end-to-end proof of the onboarding roadmap.",
-      "Studying backend depth alongside delivery: caching (Redis / Memcached, functools.lru_cache), unit / integration / functional testing, CI/CD with GitHub Actions, Docker, schema design & indexing, concurrency and clean-code design patterns.",
-      "Completing Anthropic's official curriculum (Claude 101, Claude Code, Agent Skills, MCP) — including building custom Python MCP servers that connect Claude to PostgreSQL and local APIs — to use Claude and Claude agents as agentic collaborators.",
-      "Next phase moves onto real client projects, building AI features with Claude and Claude agents rather than passive code generation.",
-    ],
-  },
-  {
-    role: "Human Potential Team Member · Junior Scholar",
-    company: "BH Futures Foundation",
-    location: "Sarajevo · Hybrid",
-    date: "Sep 2025 — Present",
-    logo: "/logos/bhff.png",
-    initials: "BHFF",
-    website: "https://bhfuturesfoundation.org",
-    bullets: [
-      "Led the evaluation process for the scholarship program by conducting 50+ structured interviews with junior and senior scholars, generating standardized feedback reports used to drive strategic improvements for the future of the scholarship program.",
-      "Successfully organized the Mostar GreenTech Ideathon as Team Lead, managing logistics and engagement for 40+ attendees and facilitating the development of 2 successful student innovation projects.",
-      "Engaged in high-level professional development at the Future Leaders Summit 2025 and Adriatics Summit 2026, leveraging expert feedback to refine technical hard skills and leadership soft skills.",
-    ],
-  },
-  {
-    role: "Mentor Coordinator",
-    company: "Hastor Foundation",
-    location: "Sarajevo · Remote",
-    date: "Oct 2021 — Present",
-    logo: "/logos/hastor.png",
-    initials: "HF",
-    website: "https://fondacijahastor.ba",
-    bullets: [
-      "Mentored 20+ scholars monthly across a 4 year tenure, logging 10+ volunteer hours/month at consistent quality.",
-      "Guided scholars in identifying and designing volunteer activities rooted in local community needs.",
-      "Developed coaching, coordination and structured program-management skills through continuous hands-on work.",
-    ],
-  },
-  {
-    role: "QA Automation Engineer Intern",
-    company: "HTEC",
-    location: "Mostar, BiH · On-site",
-    date: "Oct 2025 — Apr 2026",
-    logo: "/logos/htec.svg",
-    initials: "HTEC",
-    website: "https://htec.com",
-    bullets: [
-      "Designed 50+ manual test cases across 20+ Agile user stories, covering positive, negative and edge-case paths; tracked defects in Jira.",
-      "Built a Playwright/TypeScript framework from scratch over 30+ commits and 10+ PRs using POM and custom fixtures, with clear separation of pages, helpers, and constants.",
-      "Integrated the test suite into CI with GitHub Actions, enabling automated runs on every pull request.",
-      "Implemented global authentication with cookie based session reuse, reducing setup time for each run by ~20 seconds.",
-      "Conducted performance/load testing with Grafana k6 to validate API response times under load.",
-      "Self-directed research into LLM-as-Judge and the DeepEval framework for AI-assisted test quality assessment.",
-    ],
-  },
-];
+import { experience } from "../content";
 
 export default function Experience() {
   return (
@@ -97,7 +22,7 @@ export default function Experience() {
           <div className="absolute left-8 top-4 bottom-4 w-px bg-gradient-to-b from-mint-500/0 via-mint-500/40 to-mint-500/0 hidden md:block" />
 
           <div className="space-y-8">
-            {items.map((it, i) => (
+            {experience.map((it, i) => (
               <Reveal key={it.company} delay={i * 0.08}>
                 <div className="relative md:pl-24">
                   <div className="absolute left-8 top-10 -translate-x-1/2 w-3 h-3 rounded-full bg-mint-400 ring-4 ring-ink-950 z-10 hidden md:block" />
