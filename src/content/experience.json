@@ -5,16 +5,16 @@
       "company": "Mulberry Systems",
       "location": "Sarajevo, BiH · Hybrid / Remote",
       "date": "Aug 2026 — Present",
+      "website": "https://www.mulberry-systems.com",
       "logo": "/logos/mulberry.svg",
       "initials": "MBS",
-      "website": "https://www.mulberry-systems.com",
       "bullets": [
         "Training as a Python backend engineer at an AI-native development agency, building a REST-API foundation with FastAPI, PostgreSQL and the UV package manager on top of core web internals (HTTP/HTTPS, DNS, reverse proxies, Nginx).",
-        "Solving a LeetCode problem every day in Python and committing each solution as a documented Jupyter notebook, building data-structures and problem-solving consistency independently (no AI assistance).",
-        "Working toward a capstone Survey Management API — a clean, spec-driven service combining Python, FastAPI, PostgreSQL and Git — as the end-to-end proof of the onboarding roadmap.",
-        "Studying backend depth alongside delivery: caching (Redis / Memcached, functools.lru_cache), unit / integration / functional testing, CI/CD with GitHub Actions, Docker, schema design & indexing, concurrency and clean-code design patterns.",
-        "Completing Anthropic's official curriculum (Claude 101, Claude Code, Agent Skills, MCP) — including building custom Python MCP servers that connect Claude to PostgreSQL and local APIs — to use Claude and Claude agents as agentic collaborators.",
-        "Next phase moves onto real client projects, building AI features with Claude and Claude agents rather than passive code generation."
+        "Caching, proven with load tests — added a Redis cache to the Survey API's list endpoint and measured it with a Locust before/after load-test harness: peak throughput +39% (207 → 287 req/s), tail latency under load down from 920 ms to 200 ms (p95), and database CPU dropped to ~10%.",
+        "Choosing the right message broker for the job — designed a fleet-telemetry system as event-driven microservices and chose Apache Kafka over RabbitMQ: a high-volume, replayable stream of vehicle readings that several services consume independently fits Kafka's partitioned, durable log, where RabbitMQ suits one-off task queues. Used the transactional outbox pattern so no event is lost or double-sent across restarts.",
+        "A real test suite and CI/CD pipeline, not mocks — integration tests run against a throwaway PostgreSQL spun up in Docker with testcontainers (against the real database migrations), and a GitHub Actions pipeline runs Ruff lint/format checks plus the full test suite on every push and pull request.",
+        "Building fundamentals independently — solving a LeetCode problem in Python every day and committing each as a documented Jupyter notebook (~25 this past month), reasoning through the data-structure and complexity trade-offs myself, with no AI assistance.",
+        "Completing Anthropic's official curriculum (Claude Code, Agent Skills, MCP), including custom Python MCP servers that connect Claude to PostgreSQL and local APIs — ahead of moving onto real client projects."
       ]
     },
     {
@@ -22,9 +22,9 @@
       "company": "BH Futures Foundation",
       "location": "Sarajevo · Hybrid",
       "date": "Sep 2025 — Present",
+      "website": "https://bhfuturesfoundation.org",
       "logo": "/logos/bhff.png",
       "initials": "BHFF",
-      "website": "https://bhfuturesfoundation.org",
       "bullets": [
         "Led the evaluation process for the scholarship program by conducting 50+ structured interviews with junior and senior scholars, generating standardized feedback reports used to drive strategic improvements for the future of the scholarship program.",
         "Successfully organized the Mostar GreenTech Ideathon as Team Lead, managing logistics and engagement for 40+ attendees and facilitating the development of 2 successful student innovation projects.",
@@ -36,9 +36,9 @@
       "company": "Hastor Foundation",
       "location": "Sarajevo · Remote",
       "date": "Oct 2021 — Present",
+      "website": "https://fondacijahastor.ba",
       "logo": "/logos/hastor.png",
       "initials": "HF",
-      "website": "https://fondacijahastor.ba",
       "bullets": [
         "Mentored 20+ scholars monthly across a 4 year tenure, logging 10+ volunteer hours/month at consistent quality.",
         "Guided scholars in identifying and designing volunteer activities rooted in local community needs.",
@@ -50,9 +50,9 @@
       "company": "HTEC",
       "location": "Mostar, BiH · On-site",
       "date": "Oct 2025 — Apr 2026",
+      "website": "https://htec.com",
       "logo": "/logos/htec.svg",
       "initials": "HTEC",
-      "website": "https://htec.com",
       "bullets": [
         "Designed 50+ manual test cases across 20+ Agile user stories, covering positive, negative and edge-case paths; tracked defects in Jira.",
         "Built a Playwright/TypeScript framework from scratch over 30+ commits and 10+ PRs using POM and custom fixtures, with clear separation of pages, helpers, and constants.",
