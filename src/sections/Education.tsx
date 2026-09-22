@@ -49,7 +49,8 @@ export default function Education() {
                             key={c}
                             className="flex items-center gap-3 text-sm text-slate-400"
                           >
-                            ...
+                            <span className="h-px w-4 bg-mint-400" />
+                            {c}
                           </li>
                         ))}
                       </ul>
