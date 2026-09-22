@@ -9,7 +9,7 @@
       "courses": [
         "Programming I & II - C++",
         "Software Development I - Angular / .NET",
-        "Databases 2 - SQL"
+        "Databases 2 - SQL "
       ]
     },
     {
@@ -17,8 +17,7 @@
       "org": "Udemy - Neil Cummings",
       "date": "2025",
       "logo": "/logos/udemy.svg",
-      "logoAlt": "Udemy logo",
-      "courses": []
+      "logoAlt": "Udemy logo"
     }
   ]
 }
