@@ -42,12 +42,14 @@ export default function Education() {
                       </span>
                     </div>
                     <div className="text-slate-400 mt-1">{e.org}</div>
-                    {e.courses.length > 0 && (
+                    {(e.courses ?? []).length > 0 && (
                       <ul className="mt-4 space-y-1.5">
-                        {e.courses.map((c) => (
-                          <li key={c} className="flex items-center gap-3 text-sm text-slate-400">
-                            <span className="h-px w-4 bg-mint-400/40 shrink-0" />
-                            {c}
+                        {(e.courses ?? []).map((c) => (
+                          <li
+                            key={c}
+                            className="flex items-center gap-3 text-sm text-slate-400"
+                          >
+                            ...
                           </li>
                         ))}
                       </ul>
