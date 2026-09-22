@@ -24,6 +24,7 @@
       "org": "Anthropic",
       "date": "September 2026",
       "logo": "/logos/claude.svg",
+      "logoAlt": "Claude Logo",
       "courses": [
         "Claude 101",
         "Introduction to Model Context Protocol",
