@@ -5,12 +5,7 @@
       "org": "Faculty of Information Technologies, University \"Džemal Bijedić\" in Mostar",
       "date": "2023 — Present",
       "logo": "/logos/fit.png",
-      "logoAlt": "Faculty of Information Technologies logo",
-      "courses": [
-        "Programming I & II · C++",
-        "Software Development I · Angular / .NET",
-        "Databases 2 · SQL"
-      ]
+      "logoAlt": "Faculty of Information Technologies logo"
     },
     {
       "title": "ASP.NET Core & Angular — Full Stack",
