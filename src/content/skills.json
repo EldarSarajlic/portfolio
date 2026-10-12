@@ -1,6 +1,29 @@
 {
-  "intro": "Backend engineering first — Python, FastAPI and PostgreSQL, with AI-assisted development using Claude and Claude agents — backed by a full QA automation toolkit across the test pyramid.",
+  "intro": "I work on both sides of quality: testing software by hand, through its APIs and with automation, and building backend services with Python, C# and PostgreSQL.",
   "groups": [
+    {
+      "title": "Manual & API Testing",
+      "items": [
+        "Test Case Design & Execution",
+        "Smoke Testing",
+        "Regression Testing",
+        "Positive / Negative / Edge-Case",
+        "REST API Testing (Postman)",
+        "Grafana k6 (load / API)",
+        "Bug Tracking & Defect Lifecycle (Jira)",
+        "Exploratory Testing"
+      ]
+    },
+    {
+      "title": "Test Automation",
+      "items": [
+        "Playwright",
+        "TypeScript",
+        "Page Object Model (POM)",
+        "Custom Fixtures",
+        "GitHub Actions CI"
+      ]
+    },
     {
       "title": "Backend & Architecture",
       "items": [
@@ -16,7 +39,16 @@
     },
     {
       "title": "Databases & Languages",
-      "items": ["PostgreSQL", "SQL Server", "SQL", "Python", "C#", "TypeScript", "C++", "JavaScript"]
+      "items": [
+        "PostgreSQL",
+        "SQL Server",
+        "SQL",
+        "Python",
+        "C#",
+        "TypeScript",
+        "C++",
+        "JavaScript"
+      ]
     },
     {
       "title": "AI-Assisted Development",
@@ -26,29 +58,6 @@
         "Model Context Protocol (MCP)",
         "LLM Integration (ChatGPT, Perplexity, Google AI)",
         "Agentic Workflows"
-      ]
-    },
-    {
-      "title": "Test Automation",
-      "items": [
-        "Playwright",
-        "TypeScript",
-        "Page Object Model (POM)",
-        "Custom Fixtures",
-        "GitHub Actions CI"
-      ]
-    },
-    {
-      "title": "Manual & API Testing",
-      "items": [
-        "Test Case Design & Execution",
-        "Smoke Testing",
-        "Regression Testing",
-        "Positive / Negative / Edge-Case",
-        "REST API Testing (Postman)",
-        "Grafana k6 (load / API)",
-        "Bug Tracking & Defect Lifecycle (Jira)",
-        "Exploratory Testing"
       ]
     },
     {
