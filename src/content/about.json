@@ -1,8 +1,20 @@
 {
   "facts": [
-    { "label": "Location", "value": "Kakanj, BiH" },
-    { "label": "Education", "value": "BSc Software Engineering (student)" },
-    { "label": "Currently", "value": "Backend Engineer Intern" },
-    { "label": "Focus", "value": "Backend Engineering · AI for logistics" }
+    {
+      "label": "Location",
+      "value": "Kakanj, BiH"
+    },
+    {
+      "label": "Education",
+      "value": "BSc Software Engineering, final year"
+    },
+    {
+      "label": "Currently",
+      "value": "Backend Engineer Intern"
+    },
+    {
+      "label": "Focus",
+      "value": "Quality Assurance · Backend Development"
+    }
   ]
 }
