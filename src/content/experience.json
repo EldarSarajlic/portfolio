@@ -35,17 +35,31 @@
       ]
     },
     {
-      "role": "Senior Scholar",
+      "role": "Senior Scholar · Web Development Lecturer",
       "company": "BH Futures Foundation",
       "location": "Sarajevo · Hybrid",
       "date": "Sep 2025 — Present",
       "website": "https://bhfuturesfoundation.org",
       "logo": "/logos/bhff.png",
       "initials": "BHFF",
-      "bullets": [
-        "Led the evaluation process for the scholarship program by conducting 50+ structured interviews with junior and senior scholars, generating standardized feedback reports used to drive strategic improvements for the future of the scholarship program.",
-        "Successfully organized the Mostar GreenTech Ideathon as Team Lead, managing logistics and engagement for 40+ attendees and facilitating the development of 2 successful student innovation projects.",
-        "Engaged in high-level professional development at the Future Leaders Summit 2025 and Adriatics Summit 2026, leveraging expert feedback to refine technical hard skills and leadership soft skills."
+      "bullets": [],
+      "positions": [
+        {
+          "role": "Senior Scholar · Web Development Lecturer",
+          "date": "Oct 2026 — Present",
+          "bullets": [
+            "Teach Angular to high school students."
+          ]
+        },
+        {
+          "role": "Junior Scholar · Human Potential Team Member",
+          "date": "Sep 2025 — Sep 2026",
+          "bullets": [
+            "Led the evaluation process by conducting 50+ structured interviews with junior and senior scholars and turning them into feedback reports that helped improve the program.",
+            "Organized the Mostar GreenTech Ideathon as Team Lead for about 35 attendees, where 2 student teams developed 2 successful projects.",
+            "Took part in the Future Leaders Summit 2025 and Adriatics Summit 2026, using expert feedback to grow both my technical and leadership skills."
+          ]
+        }
       ]
     },
     {

@@ -16,6 +16,12 @@ export interface Site {
   social: Social;
 }
 
+export interface Position {
+  role: string;
+  date: string;
+  bullets: string[];
+}
+
 export interface ExperienceItem {
   role: string;
   company: string;
@@ -25,6 +31,9 @@ export interface ExperienceItem {
   initials: string;
   website: string;
   bullets: string[];
+  /** Several roles at the same company (e.g. after a promotion), newest first.
+   *  When set, the card lists them LinkedIn-style instead of role + bullets. */
+  positions?: Position[];
 }
 
 export interface SkillGroup {

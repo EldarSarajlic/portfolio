@@ -123,6 +123,21 @@ content:
             label: Bullet points
             type: text
             list: true
+          - name: positions
+            label: Positions (optional — after a promotion, add each role at this company, newest first; the card then lists them LinkedIn-style)
+            type: object
+            list: true
+            fields:
+              - name: role
+                label: Role
+                type: string
+              - name: date
+                label: Date range
+                type: string
+              - name: bullets
+                label: Bullet points
+                type: text
+                list: true
 
   # ── Projects: the cards in "Selected work" ──
   - name: projects

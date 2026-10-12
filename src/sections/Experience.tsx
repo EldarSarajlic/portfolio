@@ -2,6 +2,19 @@ import Reveal from "../components/Reveal";
 import OrgLogo from "../components/OrgLogo";
 import { experience } from "../content";
 
+function Bullets({ items, className }: { items: string[]; className: string }) {
+  return (
+    <ul className={`${className} space-y-3 text-slate-300`}>
+      {items.map((b, bi) => (
+        <li key={bi} className="relative pl-5 leading-relaxed">
+          <span className="absolute left-0 top-2.5 w-1.5 h-1.5 rounded-full bg-mint-500" />
+          {b}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Experience() {
   return (
     <section id="experience" className="relative bg-ink-950 section-matte py-32 px-6">
@@ -22,61 +35,82 @@ export default function Experience() {
           <div className="absolute left-8 top-4 bottom-4 w-px bg-gradient-to-b from-mint-500/0 via-mint-500/40 to-mint-500/0 hidden md:block" />
 
           <div className="space-y-8">
-            {experience.map((it, i) => (
-              <Reveal key={it.company} delay={i * 0.08}>
-                <div className="relative md:pl-24">
-                  <div className="absolute left-8 top-10 -translate-x-1/2 w-3 h-3 rounded-full bg-mint-400 ring-4 ring-ink-950 z-10 hidden md:block" />
+            {experience.map((it, i) => {
+              // Several roles at one company: company becomes the title and
+              // each role is listed underneath, like a LinkedIn promotion.
+              const grouped = !!it.positions?.length;
+              return (
+                <Reveal key={it.company} delay={i * 0.08}>
+                  <div className="relative md:pl-24">
+                    <div className="absolute left-8 top-10 -translate-x-1/2 w-3 h-3 rounded-full bg-mint-400 ring-4 ring-ink-950 z-10 hidden md:block" />
 
-                  <article className="rounded-3xl border border-white/10 card-matte p-6 md:p-8 hover:border-mint-500/40 transition-colors">
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-5">
-                      <a
-                        href={it.website}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="hover:scale-105 transition-transform"
-                        aria-label={`${it.company} website`}
-                      >
-                        <OrgLogo
-                          src={it.logo}
-                          fallback={it.initials}
-                          name={it.company}
-                        />
-                      </a>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-baseline justify-between gap-2">
-                          <h3 className="font-display text-xl md:text-2xl text-white font-semibold tracking-tight">
-                            {it.role}
-                          </h3>
-                          <span className="text-mint-400 text-sm font-mono">
-                            {it.date}
-                          </span>
-                        </div>
+                    <article className="rounded-3xl border border-white/10 card-matte p-6 md:p-8 hover:border-mint-500/40 transition-colors">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-5">
                         <a
                           href={it.website}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-block mt-1 text-slate-300 hover:text-mint-400 transition-colors"
+                          className="hover:scale-105 transition-transform"
+                          aria-label={`${it.company} website`}
                         >
-                          {it.company}{" "}
-                          <span className="text-slate-500">
-                            · {it.location}
-                          </span>
+                          <OrgLogo
+                            src={it.logo}
+                            fallback={it.initials}
+                            name={it.company}
+                          />
                         </a>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-baseline justify-between gap-2">
+                            <h3 className="font-display text-xl md:text-2xl text-white font-semibold tracking-tight">
+                              {grouped ? it.company : it.role}
+                            </h3>
+                            <span className="text-mint-400 text-sm font-mono">
+                              {it.date}
+                            </span>
+                          </div>
+                          {grouped ? (
+                            <div className="mt-1 text-slate-500">{it.location}</div>
+                          ) : (
+                            <a
+                              href={it.website}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-block mt-1 text-slate-300 hover:text-mint-400 transition-colors"
+                            >
+                              {it.company}{" "}
+                              <span className="text-slate-500">
+                                · {it.location}
+                              </span>
+                            </a>
+                          )}
+                        </div>
                       </div>
-                    </div>
 
-                    <ul className="mt-6 space-y-3 text-slate-300">
-                      {it.bullets.map((b, bi) => (
-                        <li key={bi} className="relative pl-5 leading-relaxed">
-                          <span className="absolute left-0 top-2.5 w-1.5 h-1.5 rounded-full bg-mint-500" />
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                  </article>
-                </div>
-              </Reveal>
-            ))}
+                      {grouped ? (
+                        <ol className="mt-6 ml-1 space-y-6 border-l border-mint-500/30">
+                          {it.positions!.map((p) => (
+                            <li key={`${p.role}-${p.date}`} className="relative pl-6">
+                              <span className="absolute -left-[5.5px] top-2 w-2.5 h-2.5 rounded-full bg-mint-400 ring-4 ring-ink-950" />
+                              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                                <h4 className="font-display text-lg text-white font-semibold tracking-tight">
+                                  {p.role}
+                                </h4>
+                                <span className="text-mint-400 text-sm font-mono">
+                                  {p.date}
+                                </span>
+                              </div>
+                              <Bullets items={p.bullets} className="mt-3" />
+                            </li>
+                          ))}
+                        </ol>
+                      ) : (
+                        <Bullets items={it.bullets} className="mt-6" />
+                      )}
+                    </article>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </div>
