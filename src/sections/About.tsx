@@ -21,11 +21,11 @@ export default function About() {
         <div className="lg:col-span-8 space-y-8 text-lg text-slate-300 leading-relaxed">
   <Reveal delay={0.05}>
     <p>
-      I am a <span className="text-white font-medium">Software Engineering
-      student</span>. Rather than tie myself to a single stack, I focus on
-      building reliable systems end to end —{" "}
-      <span className="text-mint-400">backend engineering</span> first,{" "}
-      <span className="text-mint-400">QA automation</span> second.
+      I am a <span className="text-white font-medium">final year Software Engineering
+      student</span> who works on both sides of quality. I test software as a{" "}
+      <span className="text-mint-400">QA engineer</span> and build it as a{" "}
+      <span className="text-mint-400">backend developer</span>, and each side makes
+      me better at the other.
     </p>
   </Reveal>
 
