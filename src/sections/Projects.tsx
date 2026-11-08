@@ -46,9 +46,11 @@ export default function Projects() {
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <div className="flex flex-wrap items-center gap-2 mb-2">
-                          <span className="text-mint-400 text-xs uppercase tracking-[0.25em]">
-                            {p.subtitle}
-                          </span>
+                          {p.subtitle && (
+                            <span className="text-mint-400 text-xs uppercase tracking-[0.25em]">
+                              {p.subtitle}
+                            </span>
+                          )}
                           {p.status?.label && (
                             <span
                               className={`text-[10px] font-medium uppercase tracking-widest ${
@@ -72,9 +74,6 @@ export default function Projects() {
                     </div>
                     <p className="mt-5 text-slate-300 leading-relaxed">
                       {p.description}
-                    </p>
-                    <p className="mt-6 font-mono text-[11px] text-slate-500 tracking-wide leading-relaxed">
-                      {p.stack.join("  ·  ")}
                     </p>
                   </div>
                   <div className="md:col-span-5">

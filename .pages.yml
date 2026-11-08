@@ -155,7 +155,7 @@ content:
             label: Title
             type: string
           - name: subtitle
-            label: Subtitle (small label above title)
+            label: Subtitle (small label above title, optional)
             type: string
           - name: description
             label: Description
@@ -163,10 +163,6 @@ content:
           - name: href
             label: Link (internal route like /projects/truck-dispatcher, or a full https:// URL)
             type: string
-          - name: stack
-            label: Tech stack
-            type: string
-            list: true
           - name: highlights
             label: Highlights
             type: string

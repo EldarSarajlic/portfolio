@@ -51,7 +51,6 @@ export interface Project {
   title: string;
   subtitle: string;
   description: string;
-  stack: string[];
   highlights: string[];
   /** Either an external URL (https…) or an internal route ("/projects/…"). */
   href: string;
