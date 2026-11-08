@@ -274,10 +274,15 @@ function KakanjPin() {
     });
     mapInstance.current = map;
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-      attribution: "&copy; OpenStreetMap &copy; CARTO",
-      subdomains: "abcd",
-      maxZoom: 19,
+    // Esri Dark Gray Canvas (no API key). CARTO's dark_all started serving
+    // "API key required" tiles. Base and labels are separate Esri layers.
+    const esri = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas";
+    L.tileLayer(`${esri}/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}`, {
+      attribution: "&copy; Esri &copy; OpenStreetMap",
+      maxZoom: 16,
+    }).addTo(map);
+    L.tileLayer(`${esri}/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}`, {
+      maxZoom: 16,
     }).addTo(map);
 
     const pin = L.divIcon({

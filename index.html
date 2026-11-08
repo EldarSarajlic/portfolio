@@ -8,11 +8,6 @@
     <!-- Declare the page as dark so mobile browsers (Samsung Internet, Chrome
          "darken websites") don't force their own dark mode and wash out the mint accents -->
     <meta name="color-scheme" content="dark" />
-    <!-- Samsung Internet ignores color-scheme and darkens gradients/background fills;
-         flag it so index.css can draw those accents in ways it leaves alone -->
-    <script>
-      if (/SamsungBrowser/i.test(navigator.userAgent)) document.documentElement.classList.add("samsung");
-    </script>
 
     <!-- Google Fonts — preconnect first, then stylesheet -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

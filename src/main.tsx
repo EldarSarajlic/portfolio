@@ -11,6 +11,13 @@ const PlaywrightPage = lazy(() => import("./pages/PlaywrightPage.tsx"));
 
 const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
+// Samsung Internet ignores color-scheme and darkens gradients/background fills.
+// Flag it so index.css can draw those accents in ways it leaves alone. Lives
+// here rather than inline in index.html because the CSP blocks inline scripts.
+if (/SamsungBrowser/i.test(navigator.userAgent)) {
+  document.documentElement.classList.add("samsung");
+}
+
 // On a hard reload the browser would auto-scroll to the hash anchor after
 // React renders. Strip the hash right now (synchronously, before React mounts)
 // so the browser has nothing to scroll to. App.tsx will scroll to top instead.

@@ -156,7 +156,7 @@ body {
 /* ─── Samsung Internet dark mode ─────────────────────────────────────────── */
 /* Its forced dark mode turns gradient text and mint background fills dark   */
 /* green, but leaves solid text colours and inset box-shadows bright         */
-/* (verified on a Galaxy S25 Ultra). .samsung is set by a script in index.html. */
+/* (verified on a Galaxy S25 Ultra). .samsung is set in main.tsx. */
 html.samsung .text-gradient {
   background: none;
   color: #5ee3b3;
