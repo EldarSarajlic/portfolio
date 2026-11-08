@@ -19,12 +19,12 @@
           "role": "Python Backend Engineer Intern",
           "date": "Aug 2026 — Oct 2026",
           "bullets": [
-            "Training as a Python backend engineer at an AI-native development agency, building a REST-API foundation with FastAPI, PostgreSQL and the UV package manager on top of core web internals (HTTP/HTTPS, DNS, reverse proxies, Nginx).",
-            "Caching, proven with load tests — added a Redis cache to an API's list endpoint and measured it with a Locust before/after load-test harness: peak throughput +39% (207 → 287 req/s), tail latency under load down from 920 ms to 200 ms (p95), and database CPU dropped to ~10%.",
-            "Choosing the right message broker for the job — designed a fleet-telemetry system as event-driven microservices and chose Apache Kafka over RabbitMQ: a high-volume, replayable stream of vehicle readings that several services consume independently fits Kafka's partitioned, durable log, where RabbitMQ suits one-off task queues. Used the transactional outbox pattern so no event is lost or double-sent across restarts.",
-            "A real test suite and CI/CD pipeline, not mocks — integration tests run against a throwaway PostgreSQL spun up in Docker with testcontainers (against the real database migrations), and a GitHub Actions pipeline runs Ruff lint/format checks plus the full test suite on every push and pull request.",
-            "Building fundamentals independently — solving a LeetCode problem in Python every day and committing each as a documented Jupyter notebook (~25 this past month), reasoning through the data-structure and complexity trade-offs myself, with no AI assistance.",
-            "Completing Anthropic's official curriculum (Claude Code, Agent Skills, MCP), including custom Python MCP servers that connect Claude to PostgreSQL and local APIs — ahead of moving onto real client projects."
+            "Built a REST API foundation with FastAPI, PostgreSQL and uv, on top of core web internals (HTTP, DNS, reverse proxies, Nginx).",
+            "Added Redis caching to a list endpoint and proved it with Locust load tests: +39% throughput (207 → 287 req/s), p95 latency 920 → 200 ms, database CPU down to ~10%.",
+            "Designed a fleet-telemetry system as event-driven microservices on Kafka, using the transactional outbox pattern so no event is lost or sent twice.",
+            "Wrote integration tests against a real PostgreSQL in Docker (testcontainers) and set up GitHub Actions CI running Ruff and the full test suite.",
+            "Solved a LeetCode problem in Python every day, documented in Jupyter notebooks, without AI assistance.",
+            "Completed Anthropic's Claude Code, Agent Skills and MCP courses, building Python MCP servers that connect Claude to PostgreSQL and local APIs."
           ]
         }
       ]

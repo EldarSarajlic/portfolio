@@ -23,7 +23,7 @@ export default function About() {
     <p>
       I am a <span className="text-mint-400">backend engineer</span> and a{" "}
       <span className="text-white font-medium">final year Software Engineering
-      student</span>, building APIs and services with Python, C# and PostgreSQL.
+      student</span>, building backend services and APIs with FastAPI.
       I started out in QA, and I still test on the side, so I build with
       reliability in mind from the first line.
     </p>

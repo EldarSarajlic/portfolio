@@ -1,5 +1,5 @@
 {
-  "intro": "I build backend services and APIs with Python, C# and PostgreSQL. On the side, my QA background means I test what I build by hand, through its APIs and with automation.",
+  "intro": "I build backend services and APIs with FastAPI. On the side, my QA background means I test what I build by hand, through its APIs and with automation.",
   "groups": [
     {
       "title": "Backend & Architecture",
