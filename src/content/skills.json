@@ -1,29 +1,6 @@
 {
-  "intro": "I work on both sides of quality: testing software by hand, through its APIs and with automation, and building backend services with Python, C# and PostgreSQL.",
+  "intro": "I build backend services and APIs with Python, C# and PostgreSQL. On the side, my QA background means I test what I build by hand, through its APIs and with automation.",
   "groups": [
-    {
-      "title": "Manual & API Testing",
-      "items": [
-        "Test Case Design & Execution",
-        "Smoke Testing",
-        "Regression Testing",
-        "Positive / Negative / Edge-Case",
-        "REST API Testing (Postman)",
-        "Grafana k6 (load / API)",
-        "Bug Tracking & Defect Lifecycle (Jira)",
-        "Exploratory Testing"
-      ]
-    },
-    {
-      "title": "Test Automation",
-      "items": [
-        "Playwright",
-        "TypeScript",
-        "Page Object Model (POM)",
-        "Custom Fixtures",
-        "GitHub Actions CI"
-      ]
-    },
     {
       "title": "Backend & Architecture",
       "items": [
@@ -70,6 +47,29 @@
         "GitHub Actions",
         "Docker",
         "CI/CD"
+      ]
+    },
+    {
+      "title": "Test Automation",
+      "items": [
+        "Playwright",
+        "TypeScript",
+        "Page Object Model (POM)",
+        "Custom Fixtures",
+        "GitHub Actions CI"
+      ]
+    },
+    {
+      "title": "Manual & API Testing",
+      "items": [
+        "Test Case Design & Execution",
+        "Smoke Testing",
+        "Regression Testing",
+        "Positive / Negative / Edge-Case",
+        "REST API Testing (Postman)",
+        "Grafana k6 (load / API)",
+        "Bug Tracking & Defect Lifecycle (Jira)",
+        "Exploratory Testing"
       ]
     }
   ]

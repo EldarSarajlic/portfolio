@@ -21,11 +21,11 @@ export default function About() {
         <div className="lg:col-span-8 space-y-8 text-lg text-slate-300 leading-relaxed">
   <Reveal delay={0.05}>
     <p>
-      I am a <span className="text-white font-medium">final year Software Engineering
-      student</span> who works on both sides of quality. I test software as a{" "}
-      <span className="text-mint-400">QA engineer</span> and build it as a{" "}
-      <span className="text-mint-400">backend developer</span>, and each side makes
-      me better at the other.
+      I am a <span className="text-mint-400">backend engineer</span> and a{" "}
+      <span className="text-white font-medium">final year Software Engineering
+      student</span>, building APIs and services with Python, C# and PostgreSQL.
+      I started out in QA, and I still test on the side, so I build with
+      reliability in mind from the first line.
     </p>
   </Reveal>
 
@@ -52,7 +52,7 @@ export default function About() {
   <Reveal delay={0.25}>
     <p>
       I take an ownership driven approach to engineering, whether I’m building
-      backend services, designing end-to-end test suites, or supporting others
+      backend services, writing the tests that keep them reliable, or supporting others
       in their growth. My goal is to combine strong engineering standards with a
       collaborative mindset to build better software and stronger teams.
     </p>
