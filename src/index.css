@@ -5,6 +5,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Site is natively dark — stops mobile browsers from auto-darkening the colours */
+  color-scheme: dark;
 }
 
 @media (prefers-reduced-motion: reduce) {
