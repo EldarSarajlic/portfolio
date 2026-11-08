@@ -23,7 +23,7 @@ export default function Contact() {
           </h2>
           <p className="mt-6 text-slate-300 text-lg max-w-2xl mx-auto">
             Open to new opportunities, collaborations, and conversations — from
-            QA architecture to full-stack engineering and student-led
+            backend engineering to AI for logistics and student-led
             initiatives.
           </p>
         </Reveal>
