@@ -2,6 +2,42 @@ import Reveal from "../components/Reveal";
 import OrgLogo from "../components/OrgLogo";
 import { experience } from "../content";
 
+const MONTHS: Record<string, number> = {
+  Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+  Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+};
+
+function parseMonth(label: string): { y: number; m: number } | null {
+  const t = label.trim();
+  if (/^present$/i.test(t)) {
+    const now = new Date();
+    return { y: now.getFullYear(), m: now.getMonth() };
+  }
+  const match = t.match(/^([A-Za-z]{3})\s+(\d{4})$/);
+  if (!match) return null;
+  const m = MONTHS[match[1] as keyof typeof MONTHS];
+  if (m === undefined) return null;
+  return { y: Number(match[2]), m };
+}
+
+// Turns "Oct 2024 — Present" into "2 yrs 2 mos", counting inclusively like
+// LinkedIn. A range ending in "Present" is measured to today, so it keeps
+// growing on its own; an ended range stays fixed at its final length.
+function duration(range: string): string {
+  const parts = range.split(/\s*[—–-]\s*/);
+  if (parts.length < 2) return "";
+  const start = parseMonth(parts[0]);
+  const end = parseMonth(parts[1]);
+  if (!start || !end) return "";
+  let months = (end.y - start.y) * 12 + (end.m - start.m) + 1;
+  if (months < 1) months = 1;
+  const years = Math.floor(months / 12);
+  const rem = months % 12;
+  const yPart = years > 0 ? `${years} yr${years === 1 ? "" : "s"}` : "";
+  const mPart = rem > 0 ? `${rem} mo${rem === 1 ? "" : "s"}` : "";
+  return [yPart, mPart].filter(Boolean).join(" ");
+}
+
 function Bullets({ items, className }: { items: string[]; className: string }) {
   return (
     <ul className={`${className} space-y-3 text-slate-300`}>
@@ -39,6 +75,7 @@ export default function Experience() {
               // Several roles at one company: company becomes the title and
               // each role is listed underneath, like a LinkedIn promotion.
               const grouped = !!it.positions?.length;
+              const dur = duration(it.date);
               return (
                 <Reveal key={it.company} delay={i * 0.08}>
                   <div className="relative md:pl-24">
@@ -66,6 +103,9 @@ export default function Experience() {
                             </h3>
                             <span className="text-mint-400 text-sm font-mono">
                               {it.date}
+                              {dur && (
+                                <span className="text-slate-500"> · {dur}</span>
+                              )}
                             </span>
                           </div>
                           {grouped ? (
@@ -88,20 +128,26 @@ export default function Experience() {
 
                       {grouped ? (
                         <ol className="mt-6 ml-1 space-y-6 border-l border-mint-500/30">
-                          {it.positions!.map((p) => (
-                            <li key={`${p.role}-${p.date}`} className="relative pl-6">
-                              <span className="absolute -left-[5.5px] top-2 w-2.5 h-2.5 rounded-full bg-mint-400 ring-4 ring-ink-950" />
-                              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                                <h4 className="font-display text-lg text-white font-semibold tracking-tight">
-                                  {p.role}
-                                </h4>
-                                <span className="text-mint-400 text-sm font-mono">
-                                  {p.date}
-                                </span>
-                              </div>
-                              <Bullets items={p.bullets} className="mt-3" />
-                            </li>
-                          ))}
+                          {it.positions!.map((p) => {
+                            const pdur = duration(p.date);
+                            return (
+                              <li key={`${p.role}-${p.date}`} className="relative pl-6">
+                                <span className="absolute -left-[5.5px] top-2 w-2.5 h-2.5 rounded-full bg-mint-400 ring-4 ring-ink-950" />
+                                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                                  <h4 className="font-display text-lg text-white font-semibold tracking-tight">
+                                    {p.role}
+                                  </h4>
+                                  <span className="text-mint-400 text-sm font-mono">
+                                    {p.date}
+                                    {pdur && (
+                                      <span className="text-slate-500"> · {pdur}</span>
+                                    )}
+                                  </span>
+                                </div>
+                                <Bullets items={p.bullets} className="mt-3" />
+                              </li>
+                            );
+                          })}
                         </ol>
                       ) : (
                         <Bullets items={it.bullets} className="mt-6" />
