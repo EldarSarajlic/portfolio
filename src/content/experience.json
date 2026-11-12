@@ -77,15 +77,33 @@
     {
       "role": "Mentor Coordinator",
       "company": "Hastor Foundation",
-      "location": "Sarajevo · Remote",
-      "date": "Oct 2021 — Present",
+      "location": "Kakanj, BiH · On-site / Remote",
+      "date": "Nov 2021 — Present",
       "website": "https://fondacijahastor.ba",
       "logo": "/logos/hastor.png",
       "initials": "HF",
-      "bullets": [
-        "Mentored 20+ scholars monthly across a 4 year tenure, logging 10+ volunteer hours/month at consistent quality.",
-        "Guided scholars in identifying and designing volunteer activities rooted in local community needs.",
-        "Developed coaching, coordination and structured program-management skills through continuous hands-on work."
+      "bullets": [],
+      "positions": [
+        {
+          "role": "Mentor Coordinator",
+          "date": "Oct 2024 — Present",
+          "bullets": [
+            "Developed coaching, coordination and structured program-management skills through continuous hands-on work."
+          ]
+        },
+        {
+          "role": "Mentor",
+          "date": "Oct 2023 — Oct 2024",
+          "bullets": [
+            "Mentored 20+ scholars monthly, logging 10+ volunteer hours/month at consistent quality.",
+            "Guided scholars in identifying and designing volunteer activities rooted in local community needs."
+          ]
+        },
+        {
+          "role": "Scholar",
+          "date": "Nov 2021 — Oct 2023",
+          "bullets": []
+        }
       ]
     }
   ]
